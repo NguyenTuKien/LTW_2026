@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import './AdminDashboard.css';
+import './AdminLayout.css';
 
-function AdminDashboard() {
+function AdminLayout() {
   const location = useLocation();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
@@ -53,4 +53,4 @@ function AdminDashboard() {
   );
 }
 
-export default AdminDashboard;
+export default AdminLayout;
