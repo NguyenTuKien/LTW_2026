@@ -1,0 +1,277 @@
+.statistics {
+  padding: 20px;
+}
+
+.statistics h1 {
+  color: #dc143c;
+  margin-bottom: 30px;
+  font-size: 2rem;
+}
+
+/* Stats Cards */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 10px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 20px rgba(220, 20, 60, 0.2);
+}
+
+.stat-icon {
+  font-size: 3rem;
+  background: linear-gradient(135deg, #dc143c 0%, #b91028 100%);
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+}
+
+.stat-info h3 {
+  margin: 0;
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.stat-number {
+  margin: 5px 0 0 0;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #dc143c;
+}
+
+/* Stats Section */
+.stats-section {
+  background: white;
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.stats-section h2 {
+  color: #dc143c;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.exam-filter {
+  padding: 10px 15px;
+  border: 2px solid #dc143c;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: #dc143c;
+  background: white;
+  cursor: pointer;
+}
+
+.exam-filter:focus {
+  outline: none;
+}
+
+/* Exam Stats Table */
+.exam-stats-table {
+  overflow-x: auto;
+}
+
+.exam-stats-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.exam-stats-table th,
+.exam-stats-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.exam-stats-table th {
+  background: #dc143c;
+  color: white;
+  font-weight: 600;
+}
+
+.exam-stats-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.progress-bar-container {
+  position: relative;
+  background: #e0e0e0;
+  border-radius: 20px;
+  height: 30px;
+  min-width: 120px;
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, #dc143c 0%, #ff6b6b 100%);
+  height: 100%;
+  border-radius: 20px;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 0.85rem;
+  color: #333;
+}
+
+.score-badge {
+  background: #28a745;
+  color: white;
+  padding: 5px 12px;
+  border-radius: 15px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.score-badge.high {
+  background: #28a745;
+}
+
+.score-badge.low {
+  background: #ffc107;
+  color: #000;
+}
+
+/* Activity List */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.activity-item {
+  display: flex;
+  gap: 20px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-left: 4px solid #dc143c;
+  border-radius: 5px;
+  transition: background 0.3s;
+}
+
+.activity-item:hover {
+  background: #f0f0f0;
+}
+
+.activity-time {
+  color: #666;
+  font-size: 0.85rem;
+  min-width: 120px;
+  font-weight: 500;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-content p {
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.activity-score {
+  background: #dc143c;
+  color: white;
+  padding: 3px 10px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+/* Chart */
+.chart-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  height: 300px;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  gap: 20px;
+}
+
+.chart-bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.chart-bar {
+  width: 100%;
+  max-width: 80px;
+  background: linear-gradient(180deg, #dc143c 0%, #ff6b6b 100%);
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 10px;
+  transition: height 0.3s ease;
+  position: relative;
+}
+
+.chart-value {
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.chart-label {
+  margin-top: 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .stats-cards {
+    grid-template-columns: 1fr;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .activity-item {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .chart-container {
+    height: 250px;
+  }
+}
