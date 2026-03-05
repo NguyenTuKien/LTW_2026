@@ -5,7 +5,7 @@ import './Sidebar.css';
 const NAV_ITEMS = [
   { path: '/admin', icon: 'dashboard', label: 'Tổng quan' },
   { path: '/admin/exams', icon: 'assignment', label: 'Quản lý Kỳ thi' },
-  { path: '/admin/students', icon: 'group', label: 'Quản lý sinh viên' },
+  { path: '/admin/students', icon: 'person_search', label: 'Tra cứu sinh viên' },
   { path: '/admin/statistics', icon: 'analytics', label: 'Báo cáo thống kê' },
   { path: '/admin/question-bank', icon: 'library_books', label: 'Ngân hàng đề' },
 ];

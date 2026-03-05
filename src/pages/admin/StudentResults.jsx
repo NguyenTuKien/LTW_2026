@@ -1,4 +1,5 @@
 ﻿import { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/layout/Sidebar';
 import Navbar from '../../components/layout/Navbar';
 import './StudentResults.css';
@@ -6,70 +7,71 @@ import { studentsData } from '../../data/adminStudentResultsData';
 
 const formatDateTime = (isoDate) => {
   const date = new Date(isoDate);
+  return date.toLocaleDateString('vi-VN', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+};
+
+const formatFullDateTime = (isoDate) => {
+  const date = new Date(isoDate);
   return `${date.toLocaleDateString('vi-VN')} ${date.toLocaleTimeString('vi-VN', {
     hour: '2-digit',
     minute: '2-digit',
-  })}`;
+  })} ${date.getHours() < 12 ? 'AM' : 'PM'}`;
 };
+
+const getInitials = (name) =>
+  name.split(' ').slice(-2).map((w) => w[0]?.toUpperCase() || '').join('');
 
 function StudentResults() {
   const [keyword, setKeyword] = useState('');
-  const [selectedStudentId, setSelectedStudentId] = useState(studentsData[0].id);
-  const [selectedExamId, setSelectedExamId] = useState(studentsData[0].exams[0].id);
+  const [searchedId, setSearchedId] = useState(studentsData[0]?.id || '');
+  const [selectedExamId, setSelectedExamId] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const filteredStudents = useMemo(() => {
-    const trimmedKeyword = keyword.trim().toLowerCase();
-    if (!trimmedKeyword) {
-      return studentsData;
-    }
-    return studentsData.filter(
-      (student) =>
-        student.name.toLowerCase().includes(trimmedKeyword) ||
-        student.id.toLowerCase().includes(trimmedKeyword)
-    );
-  }, [keyword]);
+  const activeStudent = useMemo(() => {
+    if (!searchedId) return studentsData[0] || null;
+    return studentsData.find(
+      (s) => s.id.toLowerCase() === searchedId.toLowerCase()
+    ) || null;
+  }, [searchedId]);
 
-  const activeStudent =
-    filteredStudents.find((student) => student.id === selectedStudentId) || filteredStudents[0];
-
-  const activeExam =
-    activeStudent?.exams.find((exam) => exam.id === selectedExamId) || activeStudent?.exams[0];
-
-  const studentSummary = useMemo(() => {
-    if (!activeStudent) {
-      return null;
-    }
-
-    const totalExams = activeStudent.exams.length;
-    const completeCount = activeStudent.exams.filter(
-      (exam) => exam.status === 'Hoàn thành'
-    ).length;
-    const avgScore =
-      activeStudent.exams.reduce((sum, exam) => sum + exam.score, 0) / Math.max(totalExams, 1);
-
-    return {
-      totalExams,
-      completeCount,
-      completeRate: Number(((completeCount / Math.max(totalExams, 1)) * 100).toFixed(1)),
-      avgScore: Number(avgScore.toFixed(2)),
-    };
-  }, [activeStudent]);
+  const activeExam = useMemo(() => {
+    if (!activeStudent || !selectedExamId) return null;
+    return activeStudent.exams.find((e) => e.id === selectedExamId) || null;
+  }, [activeStudent, selectedExamId]);
 
   const handleSearch = () => {
-    if (!filteredStudents.length) {
-      return;
+    const trimmed = keyword.trim();
+    if (!trimmed) return;
+    // search by ID or name
+    const found = studentsData.find(
+      (s) =>
+        s.id.toLowerCase() === trimmed.toLowerCase() ||
+        s.name.toLowerCase().includes(trimmed.toLowerCase())
+    );
+    if (found) {
+      setSearchedId(found.id);
+      setSelectedExamId(null);
+    } else {
+      setSearchedId('__NOT_FOUND__');
+      setSelectedExamId(null);
     }
-    setSelectedStudentId(filteredStudents[0].id);
-    setSelectedExamId(filteredStudents[0].exams[0].id);
   };
 
-  const handleSelectStudent = (studentId) => {
-    const student = studentsData.find((item) => item.id === studentId);
-    setSelectedStudentId(studentId);
-    if (student?.exams?.length) {
-      setSelectedExamId(student.exams[0].id);
-    }
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') handleSearch();
+  };
+
+  const handleViewDetail = (examId) => {
+    setSelectedExamId((prev) => (prev === examId ? null : examId));
+  };
+
+  const handleCloseDetail = () => {
+    setSelectedExamId(null);
   };
 
   return (
@@ -81,143 +83,220 @@ function StudentResults() {
         />
         <div className="main-content">
           <Navbar onOpenSidebar={() => setSidebarOpen(true)} />
-          <div className="student-results-page">
-            <div className="student-results-wrapper">
-              <header className="student-results-header">
+          <div className="sr-page">
+            <div className="sr-wrapper">
+              {/* ─── Page Header ─── */}
+              <div className="sr-page-header">
                 <div>
-                  <h1>Tra cứu kết quả từng sinh viên</h1>
-                  <p>Tìm theo tên hoặc MSSV, xem lịch sử thi và chi tiết câu trả lời.</p>
+                  <h1>Tra cứu Kết quả Sinh viên chi tiết</h1>
+                  <p>Tìm kiếm và xem lịch sử, chi tiết bài thi của từng sinh viên.</p>
                 </div>
-                <button type="button" onClick={() => window.print()}>
-                  Xuất báo cáo / In
-                </button>
-              </header>
+                <div className="sr-header-actions">
+                  <button
+                    type="button"
+                    className="sr-btn-outline"
+                    onClick={() => window.print()}
+                  >
+                    <span className="material-symbols-outlined">picture_as_pdf</span>
+                    Xuất báo cáo (PDF)
+                  </button>
+                  <button type="button" className="sr-btn-accent">
+                    <span className="material-symbols-outlined">add</span>
+                    Thêm Ghi chú
+                  </button>
+                </div>
+              </div>
 
-              <section className="search-panel">
+              {/* ─── Search Panel ─── */}
+              <div className="sr-search-panel">
+                <span className="material-symbols-outlined search-icon">search</span>
                 <input
                   type="text"
                   value={keyword}
-                  onChange={(event) => setKeyword(event.target.value)}
-                  placeholder="Nhập tên sinh viên hoặc MSSV..."
+                  onChange={(e) => setKeyword(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Nhập mã sinh viên (VD: B19DCCN123)..."
                 />
-                <button type="button" onClick={handleSearch}>
+                <button type="button" className="sr-search-btn" onClick={handleSearch}>
                   Tìm kiếm
                 </button>
-              </section>
+                <div className="sr-search-tools">
+                  <button type="button" className="sr-icon-btn" title="Bộ lọc nâng cao">
+                    <span className="material-symbols-outlined">tune</span>
+                  </button>
+                  <button type="button" className="sr-icon-btn" title="Lịch sử tìm kiếm">
+                    <span className="material-symbols-outlined">history</span>
+                  </button>
+                  <button type="button" className="sr-icon-btn" title="Quét mã">
+                    <span className="material-symbols-outlined">qr_code_scanner</span>
+                  </button>
+                </div>
+              </div>
 
-              {!filteredStudents.length ? (
-                <div className="empty-state">Không tìm thấy sinh viên phù hợp.</div>
+              {/* ─── Content ─── */}
+              {!activeStudent ? (
+                <div className="sr-empty-state">
+                  <span className="material-symbols-outlined">person_search</span>
+                  <p>Không tìm thấy sinh viên phù hợp. Vui lòng kiểm tra lại MSSV.</p>
+                </div>
               ) : (
                 <>
-                  <section className="students-list">
-                    {filteredStudents.map((student) => (
-                      <button
-                        key={student.id}
-                        type="button"
-                        className={student.id === activeStudent.id ? 'active' : ''}
-                        onClick={() => handleSelectStudent(student.id)}
-                      >
-                        <strong>{student.name}</strong>
-                        <span>{student.id}</span>
-                        <span>{student.className}</span>
+                  {/* ─── Student Profile Card ─── */}
+                  <div className="sr-profile-card">
+                    <div className="sr-avatar">
+                      {getInitials(activeStudent.name)}
+                    </div>
+                    <div className="sr-profile-info">
+                      <div className="sr-profile-name-row">
+                        <h2>{activeStudent.name}</h2>
+                        <span className="sr-status-badge active">Đang học</span>
+                      </div>
+                      <div className="sr-profile-details">
+                        <div className="sr-profile-detail-item">
+                          <span className="material-symbols-outlined">badge</span>
+                          <span>{activeStudent.id}</span>
+                        </div>
+                        <div className="sr-profile-detail-item">
+                          <span className="material-symbols-outlined">school</span>
+                          <span>{activeStudent.className}</span>
+                        </div>
+                        <div className="sr-profile-detail-item">
+                          <span className="material-symbols-outlined">mail</span>
+                          <span>{activeStudent.email}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ─── Exam History Table ─── */}
+                  <div className="sr-exam-history">
+                    <div className="sr-exam-history-header">
+                      <h3>Lịch sử Bài Thi</h3>
+                      <button type="button" className="sr-link-btn">
+                        Xem tất cả
                       </button>
-                    ))}
-                  </section>
-
-                  <section className="student-profile">
-                    <h2>
-                      {activeStudent.name} - {activeStudent.id}
-                    </h2>
-                    <p>Lớp: {activeStudent.className}</p>
-                    <p>Email: {activeStudent.email}</p>
-                  </section>
-
-                  {studentSummary && (
-                    <section className="summary-grid">
-                      <article>
-                        <span>Tổng kỳ thi</span>
-                        <strong>{studentSummary.totalExams}</strong>
-                      </article>
-                      <article>
-                        <span>Đã hoàn thành</span>
-                        <strong>{studentSummary.completeCount}</strong>
-                      </article>
-                      <article>
-                        <span>Tỷ lệ hoàn thành</span>
-                        <strong>{studentSummary.completeRate}%</strong>
-                      </article>
-                      <article>
-                        <span>Điểm trung bình</span>
-                        <strong>{studentSummary.avgScore}/10</strong>
-                      </article>
-                    </section>
-                  )}
-
-                  <section className="exam-history">
-                    <h3>Lịch sử kỳ thi</h3>
-                    <table>
+                    </div>
+                    <table className="sr-exam-table">
                       <thead>
                         <tr>
                           <th>Tên kỳ thi</th>
-                          <th>Điểm</th>
+                          <th>Điểm số</th>
                           <th>Trạng thái</th>
-                          <th>Thời gian tham gia</th>
+                          <th>Ngày tham gia</th>
                           <th>Hành động</th>
                         </tr>
                       </thead>
                       <tbody>
                         {activeStudent.exams.map((exam) => (
                           <tr key={exam.id}>
-                            <td>{exam.name}</td>
-                            <td>{exam.score}/10</td>
                             <td>
-                              <span className={exam.status === 'Hoàn thành' ? 'status pass' : 'status fail'}>
+                              <div className="sr-exam-name">{exam.name}</div>
+                              <div className="sr-exam-code">
+                                Mã thi: {exam.examCode || exam.id}
+                              </div>
+                            </td>
+                            <td>
+                              <span className="sr-score">
+                                {exam.score}
+                                <span className="sr-score-total">/10</span>
+                              </span>
+                            </td>
+                            <td>
+                              <span
+                                className={`sr-exam-badge ${
+                                  exam.status === 'Hoàn thành' ? 'pass' : 'fail'
+                                }`}
+                              >
                                 {exam.status}
                               </span>
                             </td>
                             <td>{formatDateTime(exam.joinedAt)}</td>
                             <td>
-                              <button type="button" onClick={() => setSelectedExamId(exam.id)}>
-                                Xem chi tiết
+                              <button
+                                type="button"
+                                className="sr-detail-btn"
+                                onClick={() => handleViewDetail(exam.id)}
+                              >
+                                <span className="material-symbols-outlined">
+                                  {selectedExamId === exam.id
+                                    ? 'visibility_off'
+                                    : 'visibility'}
+                                </span>
+                                {selectedExamId === exam.id ? 'Ẩn' : 'Chi tiết'}
                               </button>
                             </td>
                           </tr>
                         ))}
                       </tbody>
                     </table>
-                  </section>
+                  </div>
 
+                  {/* ─── Exam Detail Panel ─── */}
                   {activeExam && (
-                    <section className="exam-detail">
-                      <h3>{activeExam.name}</h3>
-                      <p>
-                        Điểm: <strong>{activeExam.score}/10</strong> - Đúng {activeExam.correctCount}/
-                        {activeExam.totalQuestions} câu - Thời gian làm: {activeExam.durationMinutes} phút
-                      </p>
-                      <div className="detail-list">
+                    <div className="sr-exam-detail">
+                      <div className="sr-detail-header">
+                        <div className="sr-detail-header-left">
+                          <h3>Chi tiết bài thi: {activeExam.name}</h3>
+                          <div className="sr-detail-meta">
+                            Tổng điểm: <strong>{activeExam.score}/10</strong> •
+                            Hoàn thành lúc: {formatFullDateTime(activeExam.joinedAt)}
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          className="sr-close-detail"
+                          onClick={handleCloseDetail}
+                        >
+                          <span className="material-symbols-outlined">close</span>
+                          Đóng chi tiết
+                        </button>
+                      </div>
+
+                      <div className="sr-questions-list">
                         {activeExam.details.map((item, index) => {
                           const isCorrect = item.studentAnswer === item.correctAnswer;
+                          const pointPerQuestion = (10 / activeExam.totalQuestions).toFixed(1);
                           return (
-                            <article key={`${activeExam.id}-${index}`} className={isCorrect ? 'correct' : 'wrong'}>
-                              <h4>
-                                Câu {index + 1}: {item.question}
-                              </h4>
-                              <p>
-                                <span>Sinh viên chọn:</span> {item.studentAnswer}
-                              </p>
-                              <p>
-                                <span>Đáp án đúng:</span> {item.correctAnswer}
-                              </p>
+                            <div className="sr-question-item" key={`${activeExam.id}-${index}`}>
+                              <div className="sr-question-header">
+                                <div className="sr-q-number">{index + 1}</div>
+                                <div className="sr-q-text">{item.question}</div>
+                                <div className="sr-q-points">{pointPerQuestion} Điểm</div>
+                              </div>
+
+                              <div className="sr-answers-row">
+                                <div className={`sr-answer-box ${isCorrect ? 'correct' : 'wrong'}`}>
+                                  <div className="sr-answer-label">Sinh viên chọn</div>
+                                  <div className="sr-answer-text">
+                                    {item.studentAnswer || '(Không trả lời)'}
+                                  </div>
+                                  <span className="material-symbols-outlined sr-answer-icon">
+                                    {isCorrect ? 'check_circle' : 'cancel'}
+                                  </span>
+                                </div>
+                                <div className="sr-answer-box correct">
+                                  <div className="sr-answer-label">Đáp án đúng</div>
+                                  <div className="sr-answer-text">{item.correctAnswer}</div>
+                                  <span className="material-symbols-outlined sr-answer-icon">
+                                    check_circle
+                                  </span>
+                                </div>
+                              </div>
+
                               {item.explanation && (
-                                <p>
-                                  <span>Giải thích:</span> {item.explanation}
-                                </p>
+                                <div className="sr-explanation">
+                                  <div className="sr-explanation-title">
+                                    <span className="material-symbols-outlined">lightbulb</span>
+                                    Giải thích / Hướng dẫn
+                                  </div>
+                                  <p>{item.explanation}</p>
+                                </div>
                               )}
-                            </article>
+                            </div>
                           );
                         })}
                       </div>
-                    </section>
+                    </div>
                   )}
                 </>
               )}
@@ -230,4 +309,3 @@ function StudentResults() {
 }
 
 export default StudentResults;
-

@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useExams } from '../../contexts/ExamContext';
 import './DashboardPanel.css';
 
@@ -171,6 +172,7 @@ const getUserInitials = (name) =>
     .join('');
 
 const DashboardPanel = ({ searchTerm = '' }) => {
+  const navigate = useNavigate();
   const { exams, setExams, addExam: ctxAddExam, updateExam: ctxUpdateExam, deleteExam: ctxDeleteExam } = useExams();
   const [users, setUsers] = useState(initialUsers);
   const attempts = initialAttempts;
@@ -552,14 +554,23 @@ const DashboardPanel = ({ searchTerm = '' }) => {
         <article className="dashboard-card">
           <div id="user-management" className="dashboard-anchor" />
           <div className="dashboard-card-header">
-            <h2>Quản lý sinh viên</h2>
-            <button
-              className="dashboard-btn dashboard-btn-primary-light"
-              onClick={openAddUserModal}
-            >
-              <span className="material-symbols-outlined">person_add</span>
-              Thêm sinh viên
-            </button>
+            <h2>Tra cứu sinh viên</h2>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                className="dashboard-btn dashboard-btn-secondary"
+                onClick={() => navigate('/admin/students')}
+              >
+                <span className="material-symbols-outlined">person_search</span>
+                Tra cứu
+              </button>
+              <button
+                className="dashboard-btn dashboard-btn-primary-light"
+                onClick={openAddUserModal}
+              >
+                <span className="material-symbols-outlined">person_add</span>
+                Thêm sinh viên
+              </button>
+            </div>
           </div>
           <div className="dashboard-table-wrap">
             <table className="dashboard-table dashboard-table-users">

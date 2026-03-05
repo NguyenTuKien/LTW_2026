@@ -249,10 +249,12 @@ const QuestionBankPanel = () => {
           <h1>Ngân hàng đề thi</h1>
           <p>Quản lý và sử dụng bộ câu hỏi mẫu cho các kỳ thi</p>
         </div>
-        <button className="btn btn-primary" onClick={openCreate}>
-          <span className="material-symbols-outlined">add</span>
-          Tạo bộ đề mới
-        </button>
+        <div className="qbank-heading-actions">
+          <button className="qbank-btn-create" onClick={openCreate}>
+            <span className="material-symbols-outlined">add</span>
+            Tạo bộ đề mới
+          </button>
+        </div>
       </div>
 
       {/* Stats */}
@@ -287,8 +289,14 @@ const QuestionBankPanel = () => {
       {/* Set list */}
       <div className="qbank-set-list">
         {filteredExams.length === 0 && (
-          <div style={{ textAlign: 'center', padding: '2rem', color: '#94a3b8' }}>
-            Không tìm thấy kết quả phù hợp.
+          <div className="qbank-empty-state">
+            <span className="material-symbols-outlined">library_books</span>
+            <h3>Chưa có bộ đề nào</h3>
+            <p>Bắt đầu bằng cách tạo bộ đề mới để quản lý câu hỏi thi.</p>
+            <button className="qbank-btn-create" onClick={openCreate}>
+              <span className="material-symbols-outlined">add</span>
+              Tạo bộ đề mới
+            </button>
           </div>
         )}
         {filteredExams.map((exam, idx) => {

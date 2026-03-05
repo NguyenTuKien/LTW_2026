@@ -7,6 +7,7 @@
     exams: [
       {
         id: 'oop-mid',
+        examCode: 'OOP_MID_01',
         name: 'Lập trình hướng đối tượng (Giữa kỳ)',
         score: 8.67,
         joinedAt: '2026-03-05T09:46:00',
@@ -199,6 +200,7 @@
       },
       {
         id: 'db-final',
+        examCode: 'DB_FIN_02',
         name: 'Cơ sở Dữ liệu (Cuối kỳ)',
         score: 4.0,
         joinedAt: '2025-12-20T09:45:00',
@@ -271,6 +273,7 @@
       },
       {
         id: 'web-mid',
+        examCode: 'WEB_MID_01',
         name: 'Lập trình Web (Giữa kỳ)',
         score: 9.0,
         joinedAt: '2026-02-10T14:15:00',
@@ -351,6 +354,7 @@
     exams: [
       {
         id: 'oop-mid',
+        examCode: 'OOP_MID_01',
         name: 'Lập trình hướng đối tượng (Giữa kỳ)',
         score: 8,
         joinedAt: '2026-03-05T09:46:00',
