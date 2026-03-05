@@ -1,0 +1,51 @@
+:root {
+  /* Colors */
+  --primary: #f20d0d;
+  --background-light: #f8f5f5;
+  --background-dark: #221010;
+  --surface-light: #ffffff;
+  --surface-dark: #331818;
+  --text-main-light: #181111;
+  --text-main-dark: #f5f0f0;
+  --text-muted-light: #8a6060;
+  --text-muted-dark: #d1b3b3;
+  --border-light: #e6dbdb;
+  --border-dark: #4a2525;
+  
+  /* Font */
+  --font-display: 'Lexend', sans-serif;
+  
+  /* Spacing */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-12: 3rem;
+  
+  /* Border Radius */
+  --radius-default: 0.25rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-display);
+  background-color: var(--background-light);
+  color: var(--text-main-light);
+  min-height: 100vh;
+}
+
+.dark body {
+  background-color: var(--background-dark);
+  color: var(--text-main-dark);
+}
