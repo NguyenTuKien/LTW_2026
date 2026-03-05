@@ -1,6 +1,6 @@
 import React from 'react';
 import CreateExam from '../pages/admin/CreateExam';
-import './AppAdmin.css';
+import './App.css';
 
 function AppAdmin() {
   return (
