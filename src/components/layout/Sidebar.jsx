@@ -1,74 +1,80 @@
 ﻿import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 
-const Sidebar = ({ activeTab, onNavigateTab }) => {
-  const handleClick = (event, tabId) => {
-    event.preventDefault();
-    if (onNavigateTab && tabId) {
-      onNavigateTab(tabId);
+const NAV_ITEMS = [
+  { path: '/admin', icon: 'dashboard', label: 'Tổng quan' },
+  { path: '/admin/exams', icon: 'assignment', label: 'Quản lý Kỳ thi' },
+  { path: '/admin/students', icon: 'group', label: 'Quản lý sinh viên' },
+  { path: '/admin/statistics', icon: 'analytics', label: 'Báo cáo thống kê' },
+  { path: '/admin/question-bank', icon: 'library_books', label: 'Ngân hàng đề' },
+];
+
+const Sidebar = ({ sidebarOpen, onCloseSidebar }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isActive = (path) => {
+    if (path === '/admin') return location.pathname === '/admin';
+    return location.pathname.startsWith(path);
+  };
+
+  const handleClick = (path) => {
+    if (!isActive(path)) {
+      navigate(path);
     }
+    if (onCloseSidebar) onCloseSidebar();
   };
 
   return (
-    <aside className="sidebar">
-      <div className="sidebar-header">
-        <div className="sidebar-logo">
-          <span className="material-symbols-outlined">school</span>
+    <>
+      {sidebarOpen && (
+        <button
+          className="b-sidebar-overlay"
+          type="button"
+          onClick={onCloseSidebar}
+          aria-label="Đóng sidebar"
+        />
+      )}
+      <aside className={`b-dashboard-sidebar ${sidebarOpen ? 'open' : ''}`}>
+        <div className="b-sidebar-header">
+          <div className="b-sidebar-logo">
+            <span className="material-symbols-outlined">school</span>
+          </div>
+          <h2 className="b-sidebar-title">PTIT Admin</h2>
         </div>
-        <h2 className="sidebar-title">PTIT Admin</h2>
-      </div>
-      <nav className="sidebar-nav">
-        <a className="sidebar-nav-link" href="#" onClick={(event) => handleClick(event)}>
-          <span className="material-symbols-outlined">dashboard</span>
-          Tổng quan
-        </a>
-        <a
-          className={`sidebar-nav-link ${activeTab === 'create-exam' ? 'active' : ''}`}
-          href="#"
-          onClick={(event) => handleClick(event, 'create-exam')}
-        >
-          <span className="material-symbols-outlined">assignment</span>
-          Quản lý Kỳ thi
-        </a>
-        <a
-          className={`sidebar-nav-link ${activeTab === 'student-results' ? 'active' : ''}`}
-          href="#"
-          onClick={(event) => handleClick(event, 'student-results')}
-        >
-          <span className="material-symbols-outlined">group</span>
-          Xem kết quả từng sinh viên
-        </a>
-        <a className="sidebar-nav-link" href="#" onClick={(event) => handleClick(event)}>
-          <span className="material-symbols-outlined">analytics</span>
-          Báo cáo Thống kê
-        </a>
-        <a className="sidebar-nav-link" href="#" onClick={(event) => handleClick(event)}>
-          <span className="material-symbols-outlined">library_books</span>
-          Ngân hàng Đề
-        </a>
-        <div className="sidebar-section-header">HỆ THỐNG</div>
-        <a className="sidebar-nav-link" href="#" onClick={(event) => handleClick(event)}>
-          <span className="material-symbols-outlined">shield_person</span>
-          Phân quyền
-        </a>
-        <a className="sidebar-nav-link" href="#" onClick={(event) => handleClick(event)}>
-          <span className="material-symbols-outlined">settings</span>
-          Cài đặt
-        </a>
 
-        <div className="sidebar-notification">
-          <div className="sidebar-notification-icon">
-            <span className="material-symbols-outlined">campaign</span>
-          </div>
-          <div className="sidebar-notification-content">
-            <h4 className="sidebar-notification-title">Thông báo Hệ thống</h4>
-            <p className="sidebar-notification-text">
-              Bảo trì server tự động lúc 23:00. Vui lòng hoàn tất thao tác trước thời điểm này.
-            </p>
-          </div>
+        <nav className="b-sidebar-nav">
+          {NAV_ITEMS.map((item) => (
+            <button
+              key={item.path}
+              className={`b-sidebar-link ${isActive(item.path) ? 'active' : ''}`}
+              type="button"
+              onClick={() => handleClick(item.path)}
+            >
+              <span className="material-symbols-outlined">{item.icon}</span>
+              {item.label}
+            </button>
+          ))}
+
+          <div className="b-sidebar-section-title">Hệ thống</div>
+          <button className="b-sidebar-link" type="button">
+            <span className="material-symbols-outlined">shield_person</span>
+            Phân quyền
+          </button>
+          <button className="b-sidebar-link" type="button">
+            <span className="material-symbols-outlined">settings</span>
+            Cài đặt
+          </button>
+        </nav>
+
+        <div className="b-sidebar-notice">
+          <h4>Thông báo hệ thống</h4>
+          <p>Bảo trì server dự kiến 02:00 AM Chủ nhật. Vui lòng hoàn tất báo cáo trước thời gian này.</p>
+          <button type="button">Xem chi tiết</button>
         </div>
-      </nav>
-    </aside>
+      </aside>
+    </>
   );
 };
 

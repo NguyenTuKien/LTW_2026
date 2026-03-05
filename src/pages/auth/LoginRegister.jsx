@@ -4,70 +4,14 @@ import { login, register } from '../../utils/auth';
 import '../../styles/loginRegister.css';
 
 // ─── SVG Icons ───────────────────────────────────────────────────────────────
-const IconUser = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-    fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="8" r="4" />
-    <path d="M20 21a8 8 0 1 0-16 0" />
-  </svg>
-);
-
-const IconLock = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-    fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="3" y="11" width="18" height="11" rx="2" />
-    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-  </svg>
-);
-
-const IconMail = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-    fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <rect width="20" height="16" x="2" y="4" rx="2" />
-    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-  </svg>
-);
-
-const IconEye = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-    fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-    <circle cx="12" cy="12" r="3" />
-  </svg>
-);
-
-const IconEyeOff = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-    fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
-    <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
-    <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
-    <line x1="2" x2="22" y1="2" y2="22" />
-  </svg>
-);
-
-const IconArrow = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-    fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M5 12h14M12 5l7 7-7 7" />
-  </svg>
-);
-
-const IconAlert = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
-    fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="10" />
-    <line x1="12" y1="8" x2="12" y2="12" />
-    <line x1="12" y1="16" x2="12.01" y2="16" />
-  </svg>
-);
-
-const IconCheck = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"
-    fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20 6 9 17l-5-5" />
-  </svg>
-);
+const IconUser = () => <ion-icon name="person" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconLock = () => <ion-icon name="lock-closed" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconMail = () => <ion-icon name="mail" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconEye = () => <ion-icon name="eye" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconEyeOff = () => <ion-icon name="eye-off" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconArrow = () => <ion-icon name="arrow-forward" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconAlert = () => <ion-icon name="alert-circle" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconCheck = () => <ion-icon name="checkmark" style={{ fontSize: 'inherit' }}></ion-icon>;
 
 // ─── Login Form ───────────────────────────────────────────────────────────────
 function LoginForm({ onSwitchToRegister }) {

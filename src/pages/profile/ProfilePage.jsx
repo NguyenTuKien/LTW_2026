@@ -3,50 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, getUserAvatar, updateUserProfile } from '../../utils/auth';
 import '../../styles/profilePage.css';
 
-// ─── SVG Icons ─────────────────────────────────────────────────────────────────
-
-const IconCamera = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-    <circle cx="12" cy="13" r="4" />
-  </svg>
-);
-
-const IconArrowLeft = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <line x1="19" y1="12" x2="5" y2="12" />
-    <polyline points="12 19 5 12 12 5" />
-  </svg>
-);
-
-const IconSave = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
-    <polyline points="17 21 17 13 7 13 7 21" />
-    <polyline points="7 3 7 8 15 8" />
-  </svg>
-);
-
-const IconUser = () => (
-  <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="8" r="4" />
-    <path d="M20 21a8 8 0 1 0-16 0" />
-  </svg>
-);
-
-const Logo = () => (
-  <svg width="28" height="28" viewBox="0 0 24 24" fill="none"
-    stroke="#e53e3e" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
-    <path d="M6 12v5c3 3 9 3 12 0v-5" />
-  </svg>
-);
-
-// ─── Profile Page ──────────────────────────────────────────────────────────────
+const IconCamera = () => <ion-icon name="camera" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconArrowLeft = () => <ion-icon name="arrow-back" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconSave = () => <ion-icon name="save" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconUser = () => <ion-icon name="person-circle" style={{ fontSize: '3rem' }}></ion-icon>;
+const Logo = () => <img src="/ptit-logo.png" alt="PTIT Logo" style={{ height: '32px', width: 'auto' }} />;
 
 export default function ProfilePage() {
   const navigate = useNavigate();

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Sidebar from '../../components/layout/Sidebar';
 import Navbar from '../../components/layout/Navbar';
-import ExamForm from '../../components/admin/ExamForm';
+import QuestionBankPanel from '../../components/admin/QuestionBankPanel';
 
-const CreateExam = () => {
+const QuestionBank = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
@@ -15,11 +15,11 @@ const CreateExam = () => {
         />
         <div className="main-content">
           <Navbar onOpenSidebar={() => setSidebarOpen(true)} />
-          <ExamForm />
+          <QuestionBankPanel />
         </div>
       </div>
     </div>
   );
 };
 
-export default CreateExam;
+export default QuestionBank;

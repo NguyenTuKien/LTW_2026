@@ -1,63 +1,104 @@
-﻿import React, { useState, useEffect, useRef } from 'react';
+﻿import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, logout, getUserAvatar } from '../../utils/auth';
+import { studentsData } from '../../data/adminStudentResultsData';
 import './Navbar.css';
 
-// ─── SVG Icons ─────────────────────────────────────────────────────────────────
+const IconUser = () => <ion-icon name="person-circle" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconLogout = () => <ion-icon name="log-out" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconAccount = () => <ion-icon name="person" style={{ fontSize: 'inherit' }}></ion-icon>;
+const IconSettings = () => <ion-icon name="settings" style={{ fontSize: 'inherit' }}></ion-icon>;
 
-const IconUser = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="8" r="4" />
-    <path d="M20 21a8 8 0 1 0-16 0" />
-  </svg>
-);
+// ── Search data ─────────────────────────────────────────────────────────────────
+const ADMIN_PAGES = [
+  { label: 'Tổng quan', path: '/admin', icon: 'dashboard' },
+  { label: 'Quản lý Kỳ thi', path: '/admin/exams', icon: 'assignment' },
+  { label: 'Quản lý sinh viên', path: '/admin/students', icon: 'group' },
+  { label: 'Báo cáo thống kê', path: '/admin/statistics', icon: 'analytics' },
+  { label: 'Ngân hàng đề', path: '/admin/question-bank', icon: 'library_books' },
+];
 
-const IconLogout = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-    <polyline points="16 17 21 12 16 7" />
-    <line x1="21" y1="12" x2="9" y2="12" />
-  </svg>
-);
-
-const IconAccount = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="8" r="4" />
-    <path d="M20 21a8 8 0 1 0-16 0" />
-  </svg>
-);
-
-const IconSettings = () => (
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-    stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <circle cx="12" cy="12" r="3" />
-    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1.08-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1.08 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1.08 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9c.26.604.852.997 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1.08z" />
-  </svg>
-);
-
-const Navbar = () => {
+const Navbar = ({ onOpenSidebar }) => {
   const navigate = useNavigate();
   const user = getCurrentUser();
   const avatarUrl = getUserAvatar();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchOpen, setSearchOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const profileMenuRef = useRef(null);
+  const searchRef = useRef(null);
+  const searchInputRef = useRef(null);
 
   const username = user?.username || 'Admin';
   const displayName = username.charAt(0).toUpperCase() + username.slice(1);
   const roleName = user?.role === 'admin' ? 'Quản trị viên' : 'Sinh viên';
 
-  // Close dropdown on outside click
+  // ── Search results ──────────────────────────────────────────────────────────
+  const searchResults = useMemo(() => {
+    const q = searchTerm.trim().toLowerCase();
+    if (!q) return { pages: [], students: [], exams: [] };
+
+    const pages = ADMIN_PAGES.filter((p) => p.label.toLowerCase().includes(q));
+
+    const studentSet = new Map();
+    const examSet = new Map();
+
+    studentsData.forEach((s) => {
+      const nameMatch = s.name.toLowerCase().includes(q);
+      const idMatch = s.id.toLowerCase().includes(q);
+      if (nameMatch || idMatch) {
+        studentSet.set(s.id, { id: s.id, name: s.name, className: s.className });
+      }
+      s.exams.forEach((e) => {
+        if (e.name.toLowerCase().includes(q)) {
+          examSet.set(e.id, { id: e.id, name: e.name, studentName: s.name, studentId: s.id });
+        }
+      });
+    });
+
+    return {
+      pages,
+      students: [...studentSet.values()].slice(0, 5),
+      exams: [...examSet.values()].slice(0, 5),
+    };
+  }, [searchTerm]);
+
+  const hasResults =
+    searchResults.pages.length > 0 ||
+    searchResults.students.length > 0 ||
+    searchResults.exams.length > 0;
+
+  // ── Close on outside click ──────────────────────────────────────────────────
   useEffect(() => {
     function handleClick(e) {
       if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
         setProfileMenuOpen(false);
       }
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSearchOpen(false);
+      }
     }
     document.addEventListener('mousedown', handleClick);
     return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  // ── Keyboard shortcuts ──────────────────────────────────────────────────────
+  useEffect(() => {
+    function handleKeyDown(e) {
+      // Ctrl+K to focus search
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        searchInputRef.current?.focus();
+        setSearchOpen(true);
+      }
+      // Escape to close search
+      if (e.key === 'Escape') {
+        setSearchOpen(false);
+        searchInputRef.current?.blur();
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
   }, []);
 
   const handleLogout = () => {
@@ -65,72 +106,181 @@ const Navbar = () => {
     navigate('/login');
   };
 
+  const handleSearchInput = (e) => {
+    setSearchTerm(e.target.value);
+    setSearchOpen(true);
+  };
+
+  const handleSearchFocus = () => {
+    if (searchTerm.trim()) setSearchOpen(true);
+  };
+
+  const navigateAndClose = (path) => {
+    navigate(path);
+    setSearchOpen(false);
+    setSearchTerm('');
+  };
+
   return (
-    <header className="navbar">
-      <div className="navbar-search">
-        <span className="material-symbols-outlined navbar-search-icon">search</span>
-        <input className="navbar-search-input" placeholder="Tìm kiếm kỳ thi, sinh viên, báo cáo..." type="text" />
-      </div>
-      <div className="navbar-actions">
-        <button className="navbar-btn navbar-btn-primary">
-          <span className="material-symbols-outlined">add</span>
-          Tạo Kỳ thi
-        </button>
-        <button className="navbar-btn navbar-btn-secondary">
-          <span className="material-symbols-outlined">person_add</span>
-          Thêm SV
-        </button>
-        <button className="navbar-notification">
-          <span className="material-symbols-outlined">notifications</span>
-          <span className="navbar-notification-badge">17</span>
-        </button>
+    <header className="b-dashboard-header">
+      <button className="b-mobile-menu" type="button" onClick={onOpenSidebar}>
+        <span className="material-symbols-outlined">menu</span>
+      </button>
 
-        {/* Profile menu */}
-        <div className="navbar-profile" ref={profileMenuRef}>
-          <button
-            className="navbar-profile-btn"
-            onClick={() => setProfileMenuOpen((v) => !v)}
-            aria-expanded={profileMenuOpen}
-            aria-label="Tài khoản"
-          >
-            <div className="navbar-profile-avatar-circle">
-              {avatarUrl ? (
-                <img src={avatarUrl} alt="Avatar" className="navbar-avatar-img" />
-              ) : (
-                <IconUser />
-              )}
-            </div>
-          </button>
-
-          {profileMenuOpen && (
-            <div className="navbar-dropdown">
-              <div className="navbar-dropdown-user">
-                <div className="navbar-dropdown-avatar">
-                  {avatarUrl ? (
-                    <img src={avatarUrl} alt="Avatar" className="navbar-dropdown-avatar-img" />
-                  ) : (
-                    <IconUser />
-                  )}
-                </div>
-                <div>
-                  <div className="navbar-dropdown-name">{displayName}</div>
-                  <div className="navbar-dropdown-role">{roleName}</div>
-                </div>
-              </div>
-              <div className="navbar-dropdown-divider" />
-              <button className="navbar-dropdown-item" onClick={() => { setProfileMenuOpen(false); navigate('/profile'); }}>
-                <IconAccount /> Tài khoản
-              </button>
-              <button className="navbar-dropdown-item navbar-dropdown-item--disabled" disabled>
-                <IconSettings /> Cài đặt
-              </button>
-              <div className="navbar-dropdown-divider" />
-              <button className="navbar-dropdown-logout" onClick={handleLogout}>
-                <IconLogout /> Đăng xuất
-              </button>
-            </div>
-          )}
+      <div className="b-dashboard-search-wrapper" ref={searchRef}>
+        <div className="b-dashboard-search">
+          <span className="material-symbols-outlined">search</span>
+          <input
+            ref={searchInputRef}
+            type="text"
+            placeholder="Tìm kiếm kỳ thi, sinh viên, báo cáo..."
+            value={searchTerm}
+            onChange={handleSearchInput}
+            onFocus={handleSearchFocus}
+          />
+          <span className="b-search-shortcut">Ctrl+K</span>
         </div>
+
+        {searchOpen && searchTerm.trim() && (
+          <div className="b-search-dropdown">
+            {!hasResults ? (
+              <div className="b-search-empty">
+                <span className="material-symbols-outlined">search_off</span>
+                Không tìm thấy kết quả cho "{searchTerm}"
+              </div>
+            ) : (
+              <>
+                {searchResults.pages.length > 0 && (
+                  <div className="b-search-group">
+                    <div className="b-search-group-title">
+                      <span className="material-symbols-outlined">web</span>
+                      Trang
+                    </div>
+                    {searchResults.pages.map((page) => (
+                      <button
+                        key={page.path}
+                        className="b-search-item"
+                        type="button"
+                        onClick={() => navigateAndClose(page.path)}
+                      >
+                        <span className="material-symbols-outlined b-search-item-icon">{page.icon}</span>
+                        <span className="b-search-item-label">{page.label}</span>
+                        <span className="material-symbols-outlined b-search-item-arrow">arrow_forward</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {searchResults.students.length > 0 && (
+                  <div className="b-search-group">
+                    <div className="b-search-group-title">
+                      <span className="material-symbols-outlined">group</span>
+                      Sinh viên
+                    </div>
+                    {searchResults.students.map((s) => (
+                      <button
+                        key={s.id}
+                        className="b-search-item"
+                        type="button"
+                        onClick={() => navigateAndClose('/admin/students')}
+                      >
+                        <span className="material-symbols-outlined b-search-item-icon">person</span>
+                        <div className="b-search-item-info">
+                          <span className="b-search-item-label">{s.name}</span>
+                          <span className="b-search-item-sub">{s.id} · {s.className}</span>
+                        </div>
+                        <span className="material-symbols-outlined b-search-item-arrow">arrow_forward</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {searchResults.exams.length > 0 && (
+                  <div className="b-search-group">
+                    <div className="b-search-group-title">
+                      <span className="material-symbols-outlined">assignment</span>
+                      Kỳ thi
+                    </div>
+                    {searchResults.exams.map((e) => (
+                      <button
+                        key={e.id}
+                        className="b-search-item"
+                        type="button"
+                        onClick={() => navigateAndClose('/admin/students')}
+                      >
+                        <span className="material-symbols-outlined b-search-item-icon">quiz</span>
+                        <div className="b-search-item-info">
+                          <span className="b-search-item-label">{e.name}</span>
+                          <span className="b-search-item-sub">SV: {e.studentName}</span>
+                        </div>
+                        <span className="material-symbols-outlined b-search-item-arrow">arrow_forward</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className="b-dashboard-header-actions" ref={profileMenuRef}>
+        <button className="b-header-notification" type="button" aria-label="Thông báo">
+          <span className="material-symbols-outlined">notifications</span>
+          <span className="b-header-notification-dot" />
+        </button>
+
+        <button
+          className="b-header-profile"
+          type="button"
+          onClick={() => setProfileMenuOpen((v) => !v)}
+          aria-expanded={profileMenuOpen}
+          aria-label="Tài khoản"
+        >
+          <div className="b-header-avatar">
+            {avatarUrl ? (
+              <img src={avatarUrl} alt="Avatar" className="b-header-avatar-img" />
+            ) : (
+              displayName.charAt(0)
+            )}
+          </div>
+          <div>
+            <div className="b-header-name">{displayName}</div>
+            <div className="b-header-role">{roleName}</div>
+          </div>
+        </button>
+
+        {profileMenuOpen && (
+          <div className="b-header-dropdown">
+            <div className="b-header-dropdown-user">
+              <div className="b-header-dropdown-avatar">
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt="Avatar" className="b-header-dropdown-avatar-img" />
+                ) : (
+                  <IconUser />
+                )}
+              </div>
+              <div>
+                <div className="b-header-dropdown-name">{displayName}</div>
+                <div className="b-header-dropdown-role">{roleName}</div>
+              </div>
+            </div>
+            <div className="b-header-dropdown-divider" />
+            <button
+              className="b-header-dropdown-item"
+              onClick={() => { setProfileMenuOpen(false); navigate('/profile'); }}
+            >
+              <IconAccount /> Tài khoản
+            </button>
+            <button className="b-header-dropdown-item b-header-dropdown-item--disabled" disabled>
+              <IconSettings /> Cài đặt
+            </button>
+            <div className="b-header-dropdown-divider" />
+            <button className="b-header-dropdown-logout" onClick={handleLogout}>
+              <IconLogout /> Đăng xuất
+            </button>
+          </div>
+        )}
       </div>
     </header>
   );

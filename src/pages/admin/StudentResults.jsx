@@ -12,10 +12,11 @@ const formatDateTime = (isoDate) => {
   })}`;
 };
 
-function StudentResults({ activeTab, onNavigateTab }) {
+function StudentResults() {
   const [keyword, setKeyword] = useState('');
   const [selectedStudentId, setSelectedStudentId] = useState(studentsData[0].id);
   const [selectedExamId, setSelectedExamId] = useState(studentsData[0].exams[0].id);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const filteredStudents = useMemo(() => {
     const trimmedKeyword = keyword.trim().toLowerCase();
@@ -74,9 +75,12 @@ function StudentResults({ activeTab, onNavigateTab }) {
   return (
     <div className="app-admin">
       <div className="layout-container">
-        <Sidebar activeTab={activeTab} onNavigateTab={onNavigateTab} />
+        <Sidebar
+          sidebarOpen={sidebarOpen}
+          onCloseSidebar={() => setSidebarOpen(false)}
+        />
         <div className="main-content">
-          <Navbar />
+          <Navbar onOpenSidebar={() => setSidebarOpen(true)} />
           <div className="student-results-page">
             <div className="student-results-wrapper">
               <header className="student-results-header">

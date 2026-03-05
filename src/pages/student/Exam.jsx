@@ -135,9 +135,7 @@ const Exam = () => {
       <header className="exam-header">
         <div className="exam-header-left">
           <div className="exam-logo">
-            <svg fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L2 22h20L12 2zm0 3.5l7.5 15h-15L12 5.5zM12 8l-3.5 7h7L12 8z"></path>
-            </svg>
+            <img src="/ptit-logo.png" alt="PTIT Logo" style={{ height: '32px', width: 'auto' }} />
           </div>
           <h1 className="exam-header-title">Hệ thống thi trực tuyến PTIT</h1>
         </div>

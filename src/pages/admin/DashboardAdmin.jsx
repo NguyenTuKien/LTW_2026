@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Sidebar from '../../components/layout/Sidebar';
+import Navbar from '../../components/layout/Navbar';
 import DashboardPanel from '../../components/admin/DashboardPanel';
-import AdminLayoutShell from '../../components/admin/AdminLayoutShell';
 
-const DashboardAdmin = ({ onNavigate }) => {
+const DashboardAdmin = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <AdminLayoutShell activeMenu="overview" onNavigate={onNavigate}>
-      {(searchTerm) => <DashboardPanel searchTerm={searchTerm} />}
-    </AdminLayoutShell>
+    <div className="app-admin">
+      <div className="layout-container">
+        <Sidebar
+          sidebarOpen={sidebarOpen}
+          onCloseSidebar={() => setSidebarOpen(false)}
+        />
+        <div className="main-content">
+          <Navbar onOpenSidebar={() => setSidebarOpen(true)} />
+          <DashboardPanel />
+        </div>
+      </div>
+    </div>
   );
 };
 

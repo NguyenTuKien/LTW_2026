@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Sidebar from '../../components/layout/Sidebar';
+import Navbar from '../../components/layout/Navbar';
 import StatisticsPanel from '../../components/admin/StatisticsPanel';
-import AdminLayoutShell from '../../components/admin/AdminLayoutShell';
 
-const StatisticsAdmin = ({ onNavigate }) => {
+const StatisticsAdmin = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
-    <AdminLayoutShell activeMenu="statistics" onNavigate={onNavigate}>
-      {(searchTerm) => <StatisticsPanel headerSearchTerm={searchTerm} />}
-    </AdminLayoutShell>
+    <div className="app-admin">
+      <div className="layout-container">
+        <Sidebar
+          sidebarOpen={sidebarOpen}
+          onCloseSidebar={() => setSidebarOpen(false)}
+        />
+        <div className="main-content">
+          <Navbar onOpenSidebar={() => setSidebarOpen(true)} />
+          <StatisticsPanel />
+        </div>
+      </div>
+    </div>
   );
 };
 

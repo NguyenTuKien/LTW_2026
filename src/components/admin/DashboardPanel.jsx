@@ -1,63 +1,8 @@
 import React, { useMemo, useState } from 'react';
+import { useExams } from '../../contexts/ExamContext';
 import './DashboardPanel.css';
 
-const initialExams = [
-  {
-    id: 1,
-    code: 'IT201-CPP',
-    title: 'Giữa kỳ Lập trình Web',
-    subject: 'C++',
-    type: 'Thời gian cụ thể',
-    status: 'Đang diễn ra',
-    participants: 420,
-    durationMinutes: 60,
-    avgScore: 7.1,
-  },
-  {
-    id: 2,
-    code: 'IT205-JAVA',
-    title: 'Cuối kỳ Cơ sở dữ liệu',
-    subject: 'Java',
-    type: 'Thời gian cụ thể',
-    status: 'Sắp diễn ra',
-    participants: 580,
-    durationMinutes: 90,
-    avgScore: 0,
-  },
-  {
-    id: 5,
-    code: 'IT206-CSDL',
-    title: 'Thi nhanh CSDL',
-    subject: 'CSDL',
-    type: 'Tự do',
-    status: 'Đang diễn ra',
-    participants: 260,
-    durationMinutes: 30,
-    avgScore: 6.5,
-  },
-  {
-    id: 3,
-    code: 'IT203-CTDL',
-    title: 'Luyện tập Cấu trúc dữ liệu',
-    subject: 'CTDL',
-    type: 'Thời gian cụ thể',
-    status: 'Đã hoàn thành',
-    participants: 520,
-    durationMinutes: 45,
-    avgScore: 7.8,
-  },
-  {
-    id: 4,
-    code: 'IT202-PY',
-    title: 'Quiz Python',
-    subject: 'Python',
-    type: 'Tự do',
-    status: 'Đang diễn ra',
-    participants: 610,
-    durationMinutes: 30,
-    avgScore: 6.9,
-  },
-];
+
 
 const initialUsers = [
   {
@@ -226,7 +171,7 @@ const getUserInitials = (name) =>
     .join('');
 
 const DashboardPanel = ({ searchTerm = '' }) => {
-  const [exams, setExams] = useState(initialExams);
+  const { exams, setExams, addExam: ctxAddExam, updateExam: ctxUpdateExam, deleteExam: ctxDeleteExam } = useExams();
   const [users, setUsers] = useState(initialUsers);
   const attempts = initialAttempts;
   const activities = initialActivities;
@@ -402,29 +347,11 @@ const DashboardPanel = ({ searchTerm = '' }) => {
       return;
     }
 
+    const payload = toExamPayload(form);
     if (examModal.mode === 'add') {
-      const nextId = getNextId(exams);
-      const payload = toExamPayload(form);
-      setExams((prev) => [
-        {
-          id: nextId,
-          ...payload,
-          avgScore: 0,
-        },
-        ...prev,
-      ]);
+      ctxAddExam(payload);
     } else {
-      const payload = toExamPayload(form);
-      setExams((prev) =>
-        prev.map((exam) =>
-          exam.id !== examModal.id
-            ? exam
-            : {
-                ...exam,
-                ...payload,
-              },
-        ),
-      );
+      ctxUpdateExam(examModal.id, payload);
     }
 
     closeExamModal();
@@ -473,7 +400,7 @@ const DashboardPanel = ({ searchTerm = '' }) => {
 
   const deleteExam = (id) =>
     confirmAndRun('Bạn có chắc chắn muốn xóa kỳ thi này?', () => {
-      setExams((prev) => prev.filter((exam) => exam.id !== id));
+      ctxDeleteExam(id);
     });
 
   const deleteUser = (id) =>

@@ -1,6 +1,7 @@
 import React from 'react';
 import '../../routes/App.css';
-import '../../pages/admin/DashboardAdmin.css';
+import '../layout/Sidebar.css';
+import '../layout/Navbar.css';
 
 const AdminLayoutShell = ({ activeMenu = 'overview', children, onNavigate }) => {
   const [searchTerm, setSearchTerm] = React.useState('');

@@ -1,0 +1,1030 @@
+export const EXAMS = [
+  {
+    id: 'dsa-practice-1',
+    title: 'Cấu trúc dữ liệu và Giải thuật - Bài luyện tập 1',
+    duration: 60,
+    questions: [
+      {
+        id: 'dsa-practice-1-q1',
+        text: 'Độ phức tạp của Binary Search là gì?',
+        options: [
+          { label: 'A', text: 'O(n)' },
+          { label: 'B', text: 'O(log n)' },
+          { label: 'C', text: 'O(n log n)' },
+          { label: 'D', text: 'O(1)' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'dsa-practice-1-q2',
+        text: 'Cấu trúc dữ liệu nào hoạt động theo nguyên tắc LIFO?',
+        options: [
+          { label: 'A', text: 'Queue' },
+          { label: 'B', text: 'Tree' },
+          { label: 'C', text: 'Stack' },
+          { label: 'D', text: 'Graph' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'dsa-practice-1-q3',
+        text: 'Cấu trúc dữ liệu nào hoạt động theo nguyên tắc FIFO?',
+        options: [
+          { label: 'A', text: 'Stack' },
+          { label: 'B', text: 'Queue' },
+          { label: 'C', text: 'Heap' },
+          { label: 'D', text: 'Tree' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'dsa-practice-1-q4',
+        text: 'Độ phức tạp trung bình của Quick Sort là?',
+        options: [
+          { label: 'A', text: 'O(n log n)' },
+          { label: 'B', text: 'O(n^2)' },
+          { label: 'C', text: 'O(n)' },
+          { label: 'D', text: 'O(log n)' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'dsa-practice-1-q5',
+        text: 'Thuật toán nào luôn có độ phức tạp O(n log n)?',
+        options: [
+          { label: 'A', text: 'Merge Sort' },
+          { label: 'B', text: 'Bubble Sort' },
+          { label: 'C', text: 'Insertion Sort' },
+          { label: 'D', text: 'Selection Sort' },
+        ],
+        correctAnswer: 'A',
+      },
+
+      {
+        id: 'dsa-practice-1-q6',
+        text: 'Cấu trúc dữ liệu dùng để cài đặt đệ quy là?',
+        options: [
+          { label: 'A', text: 'Queue' },
+          { label: 'B', text: 'Heap' },
+          { label: 'C', text: 'Stack' },
+          { label: 'D', text: 'Graph' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'dsa-practice-1-q7',
+        text: 'Duyệt toàn bộ cây nhị phân có n node có độ phức tạp?',
+        options: [
+          { label: 'A', text: 'O(n)' },
+          { label: 'B', text: 'O(log n)' },
+          { label: 'C', text: 'O(n^2)' },
+          { label: 'D', text: 'O(1)' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'dsa-practice-1-q8',
+        text: 'Linked List khác Array ở điểm nào?',
+        options: [
+          { label: 'A', text: 'Truy cập ngẫu nhiên nhanh' },
+          { label: 'B', text: 'Dùng con trỏ liên kết node' },
+          { label: 'C', text: 'Luôn liên tục trong bộ nhớ' },
+          { label: 'D', text: 'Không thể thêm/xóa' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'dsa-practice-1-q9',
+        text: 'Heap thường được dùng để cài đặt?',
+        options: [
+          { label: 'A', text: 'Priority Queue' },
+          { label: 'B', text: 'Stack' },
+          { label: 'C', text: 'Linked List' },
+          { label: 'D', text: 'Array' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'dsa-practice-1-q10',
+        text: 'Độ phức tạp trung bình tìm kiếm của Hash Table là?',
+        options: [
+          { label: 'A', text: 'O(n)' },
+          { label: 'B', text: 'O(log n)' },
+          { label: 'C', text: 'O(1)' },
+          { label: 'D', text: 'O(n log n)' },
+        ],
+        correctAnswer: 'C',
+      },
+
+      {
+        id: 'dsa-practice-1-q11',
+        text: 'Thuật toán tìm đường đi ngắn nhất trên đồ thị không trọng số là?',
+        options: [
+          { label: 'A', text: 'DFS' },
+          { label: 'B', text: 'BFS' },
+          { label: 'C', text: 'Dijkstra' },
+          { label: 'D', text: 'Prim' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'dsa-practice-1-q12',
+        text: 'Dijkstra áp dụng cho đồ thị?',
+        options: [
+          { label: 'A', text: 'Có trọng số âm' },
+          { label: 'B', text: 'Không trọng số' },
+          { label: 'C', text: 'Có trọng số không âm' },
+          { label: 'D', text: 'Đồ thị đầy đủ' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'dsa-practice-1-q13',
+        text: 'Điều kiện để dừng đệ quy là?',
+        options: [
+          { label: 'A', text: 'Vòng lặp' },
+          { label: 'B', text: 'Điều kiện cơ sở' },
+          { label: 'C', text: 'Biến static' },
+          { label: 'D', text: 'Hàm main' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'dsa-practice-1-q14',
+        text: 'Độ phức tạp xấu nhất của Bubble Sort?',
+        options: [
+          { label: 'A', text: 'O(n)' },
+          { label: 'B', text: 'O(n log n)' },
+          { label: 'C', text: 'O(n^2)' },
+          { label: 'D', text: 'O(log n)' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'dsa-practice-1-q15',
+        text: 'Trong BST:?',
+        options: [
+          { label: 'A', text: 'Trái > gốc > phải' },
+          { label: 'B', text: 'Phải < gốc' },
+          { label: 'C', text: 'Trái < gốc < phải' },
+          { label: 'D', text: 'Không quy tắc' },
+        ],
+        correctAnswer: 'C',
+      },
+
+      {
+        id: 'dsa-practice-1-q16',
+        text: 'Thuật toán tìm cây khung nhỏ nhất?',
+        options: [
+          { label: 'A', text: 'Prim' },
+          { label: 'B', text: 'Binary Search' },
+          { label: 'C', text: 'DFS' },
+          { label: 'D', text: 'Quick Sort' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'dsa-practice-1-q17',
+        text: 'Biểu diễn đồ thị thưa nên dùng?',
+        options: [
+          { label: 'A', text: 'Ma trận kề' },
+          { label: 'B', text: 'Danh sách kề' },
+          { label: 'C', text: 'Array' },
+          { label: 'D', text: 'Heap' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'dsa-practice-1-q18',
+        text: 'Best case của Insertion Sort?',
+        options: [
+          { label: 'A', text: 'O(n)' },
+          { label: 'B', text: 'O(n^2)' },
+          { label: 'C', text: 'O(log n)' },
+          { label: 'D', text: 'O(n log n)' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'dsa-practice-1-q19',
+        text: 'Stack overflow xảy ra khi?',
+        options: [
+          { label: 'A', text: 'Thiếu RAM' },
+          { label: 'B', text: 'Quá nhiều lời gọi đệ quy' },
+          { label: 'C', text: 'Sai cú pháp' },
+          { label: 'D', text: 'Tràn mảng' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'dsa-practice-1-q20',
+        text: 'Truy cập ngẫu nhiên nhanh nhất?',
+        options: [
+          { label: 'A', text: 'Array' },
+          { label: 'B', text: 'Linked List' },
+          { label: 'C', text: 'Queue' },
+          { label: 'D', text: 'Stack' },
+        ],
+        correctAnswer: 'A',
+      },
+
+      {
+        id: 'dsa-practice-1-q21',
+        text: 'Selection Sort có độ phức tạp?',
+        options: [
+          { label: 'A', text: 'O(n)' },
+          { label: 'B', text: 'O(n^2)' },
+          { label: 'C', text: 'O(log n)' },
+          { label: 'D', text: 'O(n log n)' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'dsa-practice-1-q22',
+        text: 'AVL là?',
+        options: [
+          { label: 'A', text: 'Cây thường' },
+          { label: 'B', text: 'Cây cân bằng' },
+          { label: 'C', text: 'Cây đa phân' },
+          { label: 'D', text: 'Heap' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'dsa-practice-1-q23',
+        text: 'DFS dùng cấu trúc?',
+        options: [
+          { label: 'A', text: 'Queue' },
+          { label: 'B', text: 'Stack' },
+          { label: 'C', text: 'Heap' },
+          { label: 'D', text: 'Array' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'dsa-practice-1-q24',
+        text: 'Merge Sort thuộc loại?',
+        options: [
+          { label: 'A', text: 'Chia để trị' },
+          { label: 'B', text: 'Tham lam' },
+          { label: 'C', text: 'Brute force' },
+          { label: 'D', text: 'Quy hoạch động' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'dsa-practice-1-q25',
+        text: 'Độ phức tạp BFS?',
+        options: [
+          { label: 'A', text: 'O(V + E)' },
+          { label: 'B', text: 'O(n^2)' },
+          { label: 'C', text: 'O(log n)' },
+          { label: 'D', text: 'O(1)' },
+        ],
+        correctAnswer: 'A',
+      },
+
+      {
+        id: 'dsa-practice-1-q26',
+        text: 'Linear Search có độ phức tạp?',
+        options: [
+          { label: 'A', text: 'O(log n)' },
+          { label: 'B', text: 'O(n)' },
+          { label: 'C', text: 'O(n log n)' },
+          { label: 'D', text: 'O(1)' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'dsa-practice-1-q27',
+        text: 'Điều kiện áp dụng Binary Search?',
+        options: [
+          { label: 'A', text: 'Mảng bất kỳ' },
+          { label: 'B', text: 'Danh sách liên kết' },
+          { label: 'C', text: 'Mảng đã sắp xếp' },
+          { label: 'D', text: 'Đồ thị' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'dsa-practice-1-q28',
+        text: 'Undo/Redo nên dùng?',
+        options: [
+          { label: 'A', text: 'Queue' },
+          { label: 'B', text: 'Tree' },
+          { label: 'C', text: 'Stack' },
+          { label: 'D', text: 'Graph' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'dsa-practice-1-q29',
+        text: 'Floyd dùng để?',
+        options: [
+          { label: 'A', text: 'MST' },
+          { label: 'B', text: 'All-pairs shortest path' },
+          { label: 'C', text: 'Sắp xếp' },
+          { label: 'D', text: 'Tìm kiếm' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'dsa-practice-1-q30',
+        text: 'Quick Sort phụ thuộc vào?',
+        options: [
+          { label: 'A', text: 'Hệ điều hành' },
+          { label: 'B', text: 'Kiểu dữ liệu' },
+          { label: 'C', text: 'Cách chọn pivot' },
+          { label: 'D', text: 'RAM' },
+        ],
+        correctAnswer: 'C',
+      },
+    ],
+  },
+  {
+    id: 'network-final',
+    title: 'Mạng máy tính - Thi cuối kỳ',
+    duration: 90,
+    questions: [
+      {
+        id: 'network-final-q1',
+        text: 'Mô hình OSI có bao nhiêu tầng?',
+        options: [
+          { label: 'A', text: '5' },
+          { label: 'B', text: '7' },
+          { label: 'C', text: '4' },
+          { label: 'D', text: '6' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'network-final-q2',
+        text: 'Giao thức HTTP hoạt động ở tầng nào?',
+        options: [
+          { label: 'A', text: 'Application' },
+          { label: 'B', text: 'Transport' },
+          { label: 'C', text: 'Network' },
+          { label: 'D', text: 'Data Link' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q3',
+        text: 'Địa chỉ IP phiên bản 4 có độ dài bao nhiêu bit?',
+        options: [
+          { label: 'A', text: '64 bit' },
+          { label: 'B', text: '32 bit' },
+          { label: 'C', text: '128 bit' },
+          { label: 'D', text: '16 bit' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'network-final-q4',
+        text: 'Giao thức nào đảm bảo truyền tin tin cậy?',
+        options: [
+          { label: 'A', text: 'UDP' },
+          { label: 'B', text: 'IP' },
+          { label: 'C', text: 'TCP' },
+          { label: 'D', text: 'ARP' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'network-final-q5',
+        text: 'Thiết bị hoạt động ở tầng Data Link?',
+        options: [
+          { label: 'A', text: 'Router' },
+          { label: 'B', text: 'Switch' },
+          { label: 'C', text: 'Hub' },
+          { label: 'D', text: 'Gateway' },
+        ],
+        correctAnswer: 'B',
+      },
+
+      {
+        id: 'network-final-q6',
+        text: 'DNS dùng để làm gì?',
+        options: [
+          { label: 'A', text: 'Phân giải tên miền' },
+          { label: 'B', text: 'Mã hóa dữ liệu' },
+          { label: 'C', text: 'Chia subnet' },
+          { label: 'D', text: 'Định tuyến' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q7',
+        text: 'Giao thức dùng gửi email?',
+        options: [
+          { label: 'A', text: 'FTP' },
+          { label: 'B', text: 'SMTP' },
+          { label: 'C', text: 'SNMP' },
+          { label: 'D', text: 'SSH' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'network-final-q8',
+        text: 'Địa chỉ MAC thuộc tầng nào?',
+        options: [
+          { label: 'A', text: 'Physical' },
+          { label: 'B', text: 'Transport' },
+          { label: 'C', text: 'Network' },
+          { label: 'D', text: 'Data Link' },
+        ],
+        correctAnswer: 'D',
+      },
+      {
+        id: 'network-final-q9',
+        text: 'Giao thức không kết nối là?',
+        options: [
+          { label: 'A', text: 'TCP' },
+          { label: 'B', text: 'UDP' },
+          { label: 'C', text: 'HTTP' },
+          { label: 'D', text: 'FTP' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'network-final-q10',
+        text: 'Thiết bị định tuyến hoạt động ở tầng?',
+        options: [
+          { label: 'A', text: 'Application' },
+          { label: 'B', text: 'Data Link' },
+          { label: 'C', text: 'Network' },
+          { label: 'D', text: 'Physical' },
+        ],
+        correctAnswer: 'C',
+      },
+
+      {
+        id: 'network-final-q11',
+        text: 'Cổng mặc định của HTTP là?',
+        options: [
+          { label: 'A', text: '21' },
+          { label: 'B', text: '25' },
+          { label: 'C', text: '80' },
+          { label: 'D', text: '443' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'network-final-q12',
+        text: 'Cổng mặc định của HTTPS?',
+        options: [
+          { label: 'A', text: '443' },
+          { label: 'B', text: '80' },
+          { label: 'C', text: '21' },
+          { label: 'D', text: '110' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q13',
+        text: 'IPv6 có độ dài?',
+        options: [
+          { label: 'A', text: '32 bit' },
+          { label: 'B', text: '64 bit' },
+          { label: 'C', text: '128 bit' },
+          { label: 'D', text: '256 bit' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'network-final-q14',
+        text: 'ARP dùng để?',
+        options: [
+          { label: 'A', text: 'Tìm MAC từ IP' },
+          { label: 'B', text: 'Tìm IP từ MAC' },
+          { label: 'C', text: 'Định tuyến' },
+          { label: 'D', text: 'Mã hóa' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q15',
+        text: 'Giao thức truyền file?',
+        options: [
+          { label: 'A', text: 'FTP' },
+          { label: 'B', text: 'SMTP' },
+          { label: 'C', text: 'SNMP' },
+          { label: 'D', text: 'POP3' },
+        ],
+        correctAnswer: 'A',
+      },
+
+      {
+        id: 'network-final-q16',
+        text: 'Mô hình TCP/IP có mấy tầng?',
+        options: [
+          { label: 'A', text: '4' },
+          { label: 'B', text: '5' },
+          { label: 'C', text: '7' },
+          { label: 'D', text: '6' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q17',
+        text: 'Subnet mask dùng để?',
+        options: [
+          { label: 'A', text: 'Chia mạng' },
+          { label: 'B', text: 'Mã hóa' },
+          { label: 'C', text: 'Gửi mail' },
+          { label: 'D', text: 'Nén dữ liệu' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q18',
+        text: 'Ping sử dụng giao thức?',
+        options: [
+          { label: 'A', text: 'TCP' },
+          { label: 'B', text: 'ICMP' },
+          { label: 'C', text: 'UDP' },
+          { label: 'D', text: 'ARP' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'network-final-q19',
+        text: 'Thiết bị khuếch đại tín hiệu?',
+        options: [
+          { label: 'A', text: 'Router' },
+          { label: 'B', text: 'Switch' },
+          { label: 'C', text: 'Repeater' },
+          { label: 'D', text: 'Firewall' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'network-final-q20',
+        text: 'Firewall dùng để?',
+        options: [
+          { label: 'A', text: 'Chia subnet' },
+          { label: 'B', text: 'Bảo mật mạng' },
+          { label: 'C', text: 'Cấp IP' },
+          { label: 'D', text: 'Lưu trữ file' },
+        ],
+        correctAnswer: 'B',
+      },
+
+      {
+        id: 'network-final-q21',
+        text: 'DHCP dùng để?',
+        options: [
+          { label: 'A', text: 'Cấp IP tự động' },
+          { label: 'B', text: 'Mã hóa' },
+          { label: 'C', text: 'Định tuyến' },
+          { label: 'D', text: 'Gửi mail' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q22',
+        text: 'Topologi hình sao có đặc điểm?',
+        options: [
+          { label: 'A', text: 'Mọi node nối trung tâm' },
+          { label: 'B', text: 'Nối vòng tròn' },
+          { label: 'C', text: 'Chung một đường bus' },
+          { label: 'D', text: 'Không trung tâm' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q23',
+        text: 'Telnet dùng để?',
+        options: [
+          { label: 'A', text: 'Truy cập từ xa' },
+          { label: 'B', text: 'Truyền file' },
+          { label: 'C', text: 'Gửi mail' },
+          { label: 'D', text: 'Phân giải tên' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q24',
+        text: 'HTTPS sử dụng cơ chế bảo mật nào?',
+        options: [
+          { label: 'A', text: 'SSL/TLS' },
+          { label: 'B', text: 'ARP' },
+          { label: 'C', text: 'ICMP' },
+          { label: 'D', text: 'DNS' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q25',
+        text: 'Cổng của FTP?',
+        options: [
+          { label: 'A', text: '25' },
+          { label: 'B', text: '21' },
+          { label: 'C', text: '80' },
+          { label: 'D', text: '110' },
+        ],
+        correctAnswer: 'B',
+      },
+
+      {
+        id: 'network-final-q26',
+        text: 'POP3 dùng để?',
+        options: [
+          { label: 'A', text: 'Gửi mail' },
+          { label: 'B', text: 'Nhận mail' },
+          { label: 'C', text: 'Định tuyến' },
+          { label: 'D', text: 'Cấp IP' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'network-final-q27',
+        text: 'Switch khác Hub ở điểm?',
+        options: [
+          { label: 'A', text: 'Chuyển tiếp theo MAC' },
+          { label: 'B', text: 'Không thông minh' },
+          { label: 'C', text: 'Phát toàn mạng' },
+          { label: 'D', text: 'Chỉ tầng vật lý' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q28',
+        text: 'ICMP dùng để?',
+        options: [
+          { label: 'A', text: 'Báo lỗi và kiểm tra' },
+          { label: 'B', text: 'Truyền file' },
+          { label: 'C', text: 'Gửi mail' },
+          { label: 'D', text: 'Mã hóa' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q29',
+        text: 'NAT dùng để?',
+        options: [
+          { label: 'A', text: 'Chuyển địa chỉ IP' },
+          { label: 'B', text: 'Mã hóa dữ liệu' },
+          { label: 'C', text: 'Cấp MAC' },
+          { label: 'D', text: 'Gửi mail' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'network-final-q30',
+        text: 'Giao thức bảo mật thay thế Telnet?',
+        options: [
+          { label: 'A', text: 'FTP' },
+          { label: 'B', text: 'SMTP' },
+          { label: 'C', text: 'SSH' },
+          { label: 'D', text: 'SNMP' },
+        ],
+        correctAnswer: 'C',
+      },
+    ],
+  },
+  {
+    id: 'software-engineering-test',
+    title: 'Công nghệ phần mềm - Bài kiểm tra',
+    duration: 75,
+    questions: [
+      {
+        id: 'software-engineering-test-q1',
+        text: 'SDLC là viết tắt của?',
+        options: [
+          { label: 'A', text: 'Software Development Life Cycle' },
+          { label: 'B', text: 'System Design Level Code' },
+          { label: 'C', text: 'Software Debugging Logic Control' },
+          { label: 'D', text: 'System Development Link Code' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'software-engineering-test-q2',
+        text: 'Mô hình phát triển phần mềm tuyến tính cổ điển?',
+        options: [
+          { label: 'A', text: 'Agile' },
+          { label: 'B', text: 'Spiral' },
+          { label: 'C', text: 'Waterfall' },
+          { label: 'D', text: 'Prototype' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'software-engineering-test-q3',
+        text: 'Agile nhấn mạnh điều gì?',
+        options: [
+          { label: 'A', text: 'Tài liệu chi tiết trước' },
+          { label: 'B', text: 'Linh hoạt và phản hồi nhanh' },
+          { label: 'C', text: 'Kế hoạch cố định' },
+          { label: 'D', text: 'Không cần khách hàng' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'software-engineering-test-q4',
+        text: 'Use Case dùng để mô tả?',
+        options: [
+          { label: 'A', text: 'Cấu trúc database' },
+          { label: 'B', text: 'Thuật toán' },
+          { label: 'C', text: 'Tương tác người dùng - hệ thống' },
+          { label: 'D', text: 'Mã nguồn' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'software-engineering-test-q5',
+        text: 'UML là?',
+        options: [
+          { label: 'A', text: 'Ngôn ngữ lập trình' },
+          { label: 'B', text: 'Ngôn ngữ mô hình hóa thống nhất' },
+          { label: 'C', text: 'Hệ quản trị CSDL' },
+          { label: 'D', text: 'Framework' },
+        ],
+        correctAnswer: 'B',
+      },
+
+      {
+        id: 'software-engineering-test-q6',
+        text: 'Biểu đồ mô tả cấu trúc lớp?',
+        options: [
+          { label: 'A', text: 'Sequence Diagram' },
+          { label: 'B', text: 'Activity Diagram' },
+          { label: 'C', text: 'Class Diagram' },
+          { label: 'D', text: 'Use Case Diagram' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'software-engineering-test-q7',
+        text: 'Kiểm thử hộp đen dựa trên?',
+        options: [
+          { label: 'A', text: 'Cấu trúc mã nguồn' },
+          { label: 'B', text: 'Yêu cầu chức năng' },
+          { label: 'C', text: 'Biến cục bộ' },
+          { label: 'D', text: 'Thuật toán nội bộ' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'software-engineering-test-q8',
+        text: 'Kiểm thử hộp trắng tập trung vào?',
+        options: [
+          { label: 'A', text: 'Luồng điều khiển' },
+          { label: 'B', text: 'Giao diện người dùng' },
+          { label: 'C', text: 'Yêu cầu khách hàng' },
+          { label: 'D', text: 'Use Case' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'software-engineering-test-q9',
+        text: 'Mô hình Spiral kết hợp?',
+        options: [
+          { label: 'A', text: 'Waterfall và quản lý rủi ro' },
+          { label: 'B', text: 'Agile và DevOps' },
+          { label: 'C', text: 'Prototype và Scrum' },
+          { label: 'D', text: 'XP và Kanban' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'software-engineering-test-q10',
+        text: 'Requirement là?',
+        options: [
+          { label: 'A', text: 'Lỗi phần mềm' },
+          { label: 'B', text: 'Yêu cầu hệ thống' },
+          { label: 'C', text: 'Thiết kế CSDL' },
+          { label: 'D', text: 'Mã nguồn' },
+        ],
+        correctAnswer: 'B',
+      },
+
+      {
+        id: 'software-engineering-test-q11',
+        text: 'Functional requirement mô tả?',
+        options: [
+          { label: 'A', text: 'Hiệu năng hệ thống' },
+          { label: 'B', text: 'Bảo mật' },
+          { label: 'C', text: 'Chức năng hệ thống' },
+          { label: 'D', text: 'Khả năng mở rộng' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'software-engineering-test-q12',
+        text: 'Non-functional requirement liên quan?',
+        options: [
+          { label: 'A', text: 'Use Case' },
+          { label: 'B', text: 'Hiệu suất, bảo mật' },
+          { label: 'C', text: 'Thuật toán' },
+          { label: 'D', text: 'Biến toàn cục' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'software-engineering-test-q13',
+        text: 'Scrum là phương pháp?',
+        options: [
+          { label: 'A', text: 'Waterfall' },
+          { label: 'B', text: 'Agile' },
+          { label: 'C', text: 'Spiral' },
+          { label: 'D', text: 'RAD' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'software-engineering-test-q14',
+        text: 'Sprint trong Scrum thường kéo dài?',
+        options: [
+          { label: 'A', text: '1-4 tuần' },
+          { label: 'B', text: '6 tháng' },
+          { label: 'C', text: '1 năm' },
+          { label: 'D', text: '1 ngày' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'software-engineering-test-q15',
+        text: 'Version Control dùng để?',
+        options: [
+          { label: 'A', text: 'Thiết kế UI' },
+          { label: 'B', text: 'Quản lý mã nguồn' },
+          { label: 'C', text: 'Test tự động' },
+          { label: 'D', text: 'Triển khai server' },
+        ],
+        correctAnswer: 'B',
+      },
+
+      {
+        id: 'software-engineering-test-q16',
+        text: 'Git là?',
+        options: [
+          { label: 'A', text: 'Framework' },
+          { label: 'B', text: 'CSDL' },
+          { label: 'C', text: 'Hệ thống quản lý phiên bản' },
+          { label: 'D', text: 'IDE' },
+        ],
+        correctAnswer: 'C',
+      },
+      {
+        id: 'software-engineering-test-q17',
+        text: 'CI/CD là?',
+        options: [
+          { label: 'A', text: 'Continuous Integration / Continuous Deployment' },
+          { label: 'B', text: 'Code Internal Debug' },
+          { label: 'C', text: 'Central Input Data' },
+          { label: 'D', text: 'Control Integrated Design' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'software-engineering-test-q18',
+        text: 'Refactoring nhằm mục đích?',
+        options: [
+          { label: 'A', text: 'Thêm tính năng' },
+          { label: 'B', text: 'Cải thiện cấu trúc mã' },
+          { label: 'C', text: 'Xóa database' },
+          { label: 'D', text: 'Triển khai server' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'software-engineering-test-q19',
+        text: 'Design Pattern giúp?',
+        options: [
+          { label: 'A', text: 'Tăng bug' },
+          { label: 'B', text: 'Giải quyết vấn đề thiết kế lặp lại' },
+          { label: 'C', text: 'Giảm bảo mật' },
+          { label: 'D', text: 'Xóa requirement' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'software-engineering-test-q20',
+        text: 'MVC gồm?',
+        options: [
+          { label: 'A', text: 'Model-View-Controller' },
+          { label: 'B', text: 'Main-Variable-Class' },
+          { label: 'C', text: 'Module-Vector-Code' },
+          { label: 'D', text: 'Map-View-Control' },
+        ],
+        correctAnswer: 'A',
+      },
+
+      {
+        id: 'software-engineering-test-q21',
+        text: 'Unit Test kiểm tra?',
+        options: [
+          { label: 'A', text: 'Toàn hệ thống' },
+          { label: 'B', text: 'Từng module nhỏ' },
+          { label: 'C', text: 'Server production' },
+          { label: 'D', text: 'Database thật' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'software-engineering-test-q22',
+        text: 'Integration Test dùng để?',
+        options: [
+          { label: 'A', text: 'Kiểm tra từng hàm' },
+          { label: 'B', text: 'Kiểm tra tích hợp module' },
+          { label: 'C', text: 'Thiết kế UI' },
+          { label: 'D', text: 'Viết tài liệu' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'software-engineering-test-q23',
+        text: 'Maintenance phase là?',
+        options: [
+          { label: 'A', text: 'Phân tích yêu cầu' },
+          { label: 'B', text: 'Bảo trì và nâng cấp' },
+          { label: 'C', text: 'Thiết kế' },
+          { label: 'D', text: 'Triển khai lần đầu' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'software-engineering-test-q24',
+        text: 'Prototype model phù hợp khi?',
+        options: [
+          { label: 'A', text: 'Yêu cầu chưa rõ' },
+          { label: 'B', text: 'Yêu cầu cố định' },
+          { label: 'C', text: 'Không có khách hàng' },
+          { label: 'D', text: 'Không cần test' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'software-engineering-test-q25',
+        text: 'Waterfall có nhược điểm?',
+        options: [
+          { label: 'A', text: 'Khó thay đổi yêu cầu' },
+          { label: 'B', text: 'Linh hoạt cao' },
+          { label: 'C', text: 'Phản hồi nhanh' },
+          { label: 'D', text: 'Không có tài liệu' },
+        ],
+        correctAnswer: 'A',
+      },
+
+      {
+        id: 'software-engineering-test-q26',
+        text: 'Stakeholder là?',
+        options: [
+          { label: 'A', text: 'Người liên quan dự án' },
+          { label: 'B', text: 'Chỉ lập trình viên' },
+          { label: 'C', text: 'Chỉ khách hàng' },
+          { label: 'D', text: 'Chỉ tester' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'software-engineering-test-q27',
+        text: 'Risk management nhằm?',
+        options: [
+          { label: 'A', text: 'Xóa bug' },
+          { label: 'B', text: 'Quản lý rủi ro dự án' },
+          { label: 'C', text: 'Tăng chi phí' },
+          { label: 'D', text: 'Giảm tài liệu' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'software-engineering-test-q28',
+        text: 'DevOps kết hợp?',
+        options: [
+          { label: 'A', text: 'Development và Operations' },
+          { label: 'B', text: 'Design và Output' },
+          { label: 'C', text: 'Device và Object' },
+          { label: 'D', text: 'Data và Option' },
+        ],
+        correctAnswer: 'A',
+      },
+      {
+        id: 'software-engineering-test-q29',
+        text: 'Code Review giúp?',
+        options: [
+          { label: 'A', text: 'Tăng bug' },
+          { label: 'B', text: 'Cải thiện chất lượng mã' },
+          { label: 'C', text: 'Xóa test case' },
+          { label: 'D', text: 'Giảm bảo mật' },
+        ],
+        correctAnswer: 'B',
+      },
+      {
+        id: 'software-engineering-test-q30',
+        text: 'Phân tích yêu cầu thuộc giai đoạn?',
+        options: [
+          { label: 'A', text: 'Requirement Analysis' },
+          { label: 'B', text: 'Coding' },
+          { label: 'C', text: 'Testing' },
+          { label: 'D', text: 'Maintenance' },
+        ],
+        correctAnswer: 'A',
+      },
+    ],
+  },
+];
+
+export const EXAMS_BY_ID = Object.fromEntries(EXAMS.map((e) => [e.id, e]));

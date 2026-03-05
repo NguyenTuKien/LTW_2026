@@ -1,9 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import LoginRegister from '../pages/auth/LoginRegister';
+import DashboardAdmin from '../pages/admin/DashboardAdmin';
 import CreateExam from '../pages/admin/CreateExam';
+import StudentResults from '../pages/admin/StudentResults';
+import StatisticsAdmin from '../pages/admin/StatisticsAdmin';
+import QuestionBank from '../pages/admin/QuestionBank';
 import StudentDashboard from '../pages/student/StudentDashboard';
 import ProfilePage from '../pages/profile/ProfilePage';
+import { ExamProvider } from '../contexts/ExamContext';
 import { getCurrentUser, isAuthenticated } from '../utils/auth';
 import './App.css';
 
@@ -36,6 +41,16 @@ function StudentRoute({ children }) {
   return children;
 }
 
+// ── Admin layout with shared ExamProvider ──────────────────────────────────────
+
+function AdminLayout({ children }) {
+  return (
+    <ExamProvider>
+      <AdminRoute>{children}</AdminRoute>
+    </ExamProvider>
+  );
+}
+
 // ── Router ─────────────────────────────────────────────────────────────────────
 
 function AppRouter() {
@@ -55,13 +70,53 @@ function AppRouter() {
           }
         />
 
-        {/* Admin dashboard – admin only */}
+        {/* Admin – Tổng quan (Dashboard) */}
         <Route
           path="/admin"
           element={
-            <AdminRoute>
+            <AdminLayout>
+              <DashboardAdmin />
+            </AdminLayout>
+          }
+        />
+
+        {/* Admin – Quản lý Kỳ thi */}
+        <Route
+          path="/admin/exams"
+          element={
+            <AdminLayout>
               <CreateExam />
+            </AdminLayout>
+          }
+        />
+
+        {/* Admin – Quản lý sinh viên */}
+        <Route
+          path="/admin/students"
+          element={
+            <AdminRoute>
+              <StudentResults />
             </AdminRoute>
+          }
+        />
+
+        {/* Admin – Báo cáo thống kê */}
+        <Route
+          path="/admin/statistics"
+          element={
+            <AdminRoute>
+              <StatisticsAdmin />
+            </AdminRoute>
+          }
+        />
+
+        {/* Admin – Ngân hàng đề */}
+        <Route
+          path="/admin/question-bank"
+          element={
+            <AdminLayout>
+              <QuestionBank />
+            </AdminLayout>
           }
         />
 

@@ -1,0 +1,402 @@
+/* ═══════════════════════════════════════════════════════
+   QuestionBankPanel  —  Ngân hàng đề
+   ═══════════════════════════════════════════════════════ */
+
+.qbank-page {
+  padding: 1.5rem 2rem 3rem;
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+/* ── Heading ─────────────────────────────────────────── */
+.qbank-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.qbank-heading-left h1 {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.25rem;
+}
+.qbank-heading-left p {
+  color: #64748b;
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+/* ── Stats row ───────────────────────────────────────── */
+.qbank-stats-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+.qbank-stat-card {
+  flex: 1;
+  min-width: 180px;
+  padding: 1.1rem 1.3rem;
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  transition: transform .2s, box-shadow .2s;
+}
+.qbank-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,.08);
+}
+.qbank-stat-label {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: .35rem;
+}
+.qbank-stat-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+.qbank-stat-value.accent-blue { color: #3b82f6; }
+.qbank-stat-value.accent-purple { color: #8b5cf6; }
+.qbank-stat-value.accent-green { color: #10b981; }
+
+/* ── Search ──────────────────────────────────────────── */
+.qbank-search-bar {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: .65rem 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  transition: border-color .2s, box-shadow .2s;
+}
+.qbank-search-bar:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59,130,246,.12);
+}
+.qbank-search-bar .material-symbols-outlined {
+  color: #94a3b8;
+  font-size: 1.25rem;
+}
+.qbank-search-bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: .92rem;
+  background: transparent;
+  color: #1e293b;
+}
+.qbank-search-bar input::placeholder { color: #94a3b8; }
+
+/* ── Exam Set Card ───────────────────────────────────── */
+.qbank-set-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.qbank-set-card {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid #e2e8f0;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,.04);
+  transition: box-shadow .2s;
+}
+.qbank-set-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,.08);
+}
+.qbank-set-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.15rem 1.4rem;
+  cursor: pointer;
+  user-select: none;
+  gap: 1rem;
+}
+.qbank-set-header:hover {
+  background: #f8fafc;
+}
+.qbank-set-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+.qbank-set-icon {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+.qbank-set-icon.accent-0 { background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); color: #2563eb; }
+.qbank-set-icon.accent-1 { background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%); color: #7c3aed; }
+.qbank-set-icon.accent-2 { background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); color: #059669; }
+.qbank-set-icon .material-symbols-outlined { font-size: 1.45rem; }
+
+.qbank-set-text h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.qbank-set-meta {
+  display: flex;
+  gap: .75rem;
+  margin-top: .25rem;
+}
+.qbank-set-meta span {
+  font-size: 0.82rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: .25rem;
+}
+.qbank-set-meta .material-symbols-outlined { font-size: 1rem; }
+
+.qbank-set-actions {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  flex-shrink: 0;
+}
+.qbank-expand-btn {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: #f1f5f9;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s, transform .25s;
+  color: #475569;
+}
+.qbank-expand-btn:hover { background: #e2e8f0; }
+.qbank-expand-btn.expanded { transform: rotate(180deg); }
+
+/* ── Questions inside a set ──────────────────────────── */
+.qbank-questions {
+  border-top: 1px solid #f1f5f9;
+  padding: 0 1.4rem 1.4rem;
+  animation: qbankSlideIn .25s ease;
+}
+@keyframes qbankSlideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.qbank-questions-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0 .75rem;
+}
+.qbank-questions-head h4 {
+  margin: 0;
+  font-size: .92rem;
+  font-weight: 600;
+  color: #475569;
+}
+.qbank-q-count {
+  font-size: .82rem;
+  color: #94a3b8;
+}
+
+.qbank-question-item {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: .85rem 1.1rem;
+  margin-bottom: .6rem;
+  border: 1px solid #f1f5f9;
+  transition: border-color .15s;
+}
+.qbank-question-item:hover {
+  border-color: #cbd5e1;
+}
+.qbank-question-item:last-child { margin-bottom: 0; }
+
+.qbank-q-row {
+  display: flex;
+  gap: .6rem;
+  align-items: flex-start;
+}
+.qbank-q-number {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0f2fe;
+  color: #0284c7;
+  font-size: .78rem;
+  font-weight: 700;
+  border-radius: 8px;
+  margin-top: 1px;
+}
+.qbank-q-text {
+  flex: 1;
+  color: #334155;
+  font-size: .9rem;
+  line-height: 1.45;
+}
+
+.qbank-q-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .35rem .75rem;
+  margin-top: .5rem;
+  padding-left: 2.4rem;
+}
+.qbank-q-opt {
+  font-size: .82rem;
+  color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: .3rem;
+  padding: .25rem .5rem;
+  border-radius: 6px;
+}
+.qbank-q-opt.correct {
+  background: #dcfce7;
+  color: #15803d;
+  font-weight: 600;
+}
+.qbank-q-opt .material-symbols-outlined {
+  font-size: .95rem;
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 768px) {
+  .qbank-page { padding: 1rem; }
+  .qbank-heading { flex-direction: column; }
+  .qbank-q-options { grid-template-columns: 1fr; }
+  .qbank-set-meta { flex-wrap: wrap; }
+}
+
+/* ═══════════════════════════════════════════════════════
+   NEW —  Question Bank Editing Interface
+   ═══════════════════════════════════════════════════════ */
+
+/* Add edit/delete buttons inside set card header */
+.qbank-set-actions {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.icon-btn.qbank-action {
+  width: 34px;
+  height: 34px;
+  background: transparent;
+  color: #94a3b8;
+  opacity: 0;
+  transition: all .2s;
+}
+.qbank-set-header:hover .icon-btn.qbank-action {
+  opacity: 1;
+}
+
+/* Edit UI Layout */
+.qbank-edit-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+}
+.qbank-edit-questions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+/* Custom Radio for Correct Options */
+.option-edit-wrap {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .5rem;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  transition: all .2s;
+}
+.option-edit-wrap.is-correct {
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+.option-edit-wrap.is-correct .opt-input {
+  border-color: #4ade80;
+  background: #fff;
+  font-weight: 500;
+  color: #15803d;
+}
+
+.correct-radio {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  width: 22px;
+  height: 22px;
+}
+.correct-radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+.correct-radio .radio-custom {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid #cbd5e1;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.correct-radio input:checked ~ .radio-custom {
+  border-color: #22c55e;
+  background: #22c55e;
+}
+.correct-radio input:checked ~ .radio-custom::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+.correct-radio:hover .radio-custom {
+  border-color: #22c55e;
+}
+
+.opt-label-text {
+  font-weight: 600;
+  color: #64748b;
+  width: 20px;
+}
+.opt-input {
+  flex: 1;
+  padding: .6rem .85rem;
+  box-shadow: 0 1px 2px rgba(0,0,0,.02);
+}
+
+@media (max-width: 768px) {
+  .qbank-edit-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .qbank-set-header .icon-btn.qbank-action { opacity: 1; }
+}
