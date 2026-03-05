@@ -143,7 +143,7 @@ const ExamForm = () => {
               <div className="questions-header">
                 <h1 className="questions-title">Danh sách câu hỏi</h1>
                 <div className="questions-actions">
-                  <button className="btn btn-secondary">
+                  <button className="btn btn-secondary" href>
                     <span className="material-symbols-outlined">download</span>
                     Tải file mẫu
                   </button>
