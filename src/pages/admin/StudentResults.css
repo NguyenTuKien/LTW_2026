@@ -12,7 +12,7 @@
 }
 
 .sr-wrapper {
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -71,28 +71,32 @@
   font-size: 1.1rem;
 }
 
-.sr-btn-accent {
+/* ── Back Button ─────────────────────────────────────── */
+.sr-back-btn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 9px 16px;
-  border-radius: 10px;
-  border: none;
-  background: #ef4444;
-  color: #fff;
-  font-size: 0.88rem;
+  padding: 10px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  color: #374151;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
+  align-self: flex-start;
 }
 
-.sr-btn-accent:hover {
-  background: #dc2626;
-  box-shadow: 0 2px 8px rgba(239,68,68,0.3);
+.sr-back-btn:hover {
+  background: #f3f4f6;
+  border-color: #d1d5db;
+  color: #111827;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
 }
 
-.sr-btn-accent .material-symbols-outlined {
-  font-size: 1.1rem;
+.sr-back-btn .material-symbols-outlined {
+  font-size: 1.15rem;
 }
 
 /* ── Search Panel ────────────────────────────────────── */
@@ -133,24 +137,28 @@
   color: #9ca3af;
 }
 
-.sr-search-btn {
-  display: inline-flex;
+.sr-clear-btn {
+  display: flex;
   align-items: center;
-  gap: 4px;
-  padding: 9px 20px;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   border: none;
-  border-radius: 10px;
-  background: #ef4444;
-  color: #fff;
-  font-size: 0.9rem;
-  font-weight: 700;
+  border-radius: 8px;
+  background: #f3f4f6;
+  color: #6b7280;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.15s;
   flex-shrink: 0;
 }
 
-.sr-search-btn:hover {
-  background: #dc2626;
+.sr-clear-btn:hover {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.sr-clear-btn .material-symbols-outlined {
+  font-size: 1rem;
 }
 
 .sr-search-tools {
@@ -180,6 +188,160 @@
   border-color: #d1d5db;
 }
 
+/* ── Student List ────────────────────────────────────── */
+.sr-student-list {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px 28px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.sr-student-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.sr-student-list-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.sr-student-list-header h3 .material-symbols-outlined {
+  font-size: 1.3rem;
+  color: #ef4444;
+}
+
+.sr-student-count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+.sr-table-wrap {
+  overflow-x: auto;
+}
+
+.sr-student-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sr-student-table thead th {
+  text-align: left;
+  padding: 12px 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 2px solid #f3f4f6;
+  white-space: nowrap;
+}
+
+.sr-student-table tbody tr {
+  transition: all 0.15s;
+  cursor: pointer;
+}
+
+.sr-student-table tbody tr:hover {
+  background: linear-gradient(90deg, #fef2f2 0%, #fff7ed 100%);
+}
+
+.sr-student-table tbody td {
+  padding: 14px 14px;
+  font-size: 0.9rem;
+  color: #374151;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+}
+
+.sr-student-code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-weight: 600;
+  color: #2563eb;
+  font-size: 0.88rem;
+  background: #eff6ff;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.sr-student-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sr-mini-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fecaca 0%, #fde68a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #991b1b;
+  flex-shrink: 0;
+}
+
+.sr-email-text {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.sr-exam-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #f0fdf4;
+  color: #15803d;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 1px solid #bbf7d0;
+}
+
+.sr-view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #fff;
+  color: #374151;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.sr-view-btn:hover {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+  box-shadow: 0 2px 8px rgba(239,68,68,0.25);
+}
+
+.sr-view-btn .material-symbols-outlined {
+  font-size: 1rem;
+}
+
 /* ── Empty State ─────────────────────────────────────── */
 .sr-empty-state {
   text-align: center;
@@ -198,50 +360,7 @@
   margin: 0;
 }
 
-/* ── Student Profile Card ────────────────────────────── */
-.sr-profile-card {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 28px 32px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-}
-
-.sr-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: #6b7280;
-}
-
-.sr-profile-info {
-  flex: 1;
-}
-
-.sr-profile-name-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
-}
-
-.sr-profile-name-row h2 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #111827;
-  margin: 0;
-}
-
+/* ── Status Badge ────────────────────────────────────── */
 .sr-status-badge {
   display: inline-flex;
   align-items: center;
@@ -250,6 +369,7 @@
   border-radius: 999px;
   font-size: 0.78rem;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .sr-status-badge.active {
@@ -268,6 +388,64 @@
 .sr-status-badge.inactive {
   background: #fee2e2;
   color: #991b1b;
+}
+
+.sr-status-badge.inactive::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ef4444;
+}
+
+/* ── Student Profile Card ────────────────────────────── */
+.sr-profile-card {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 28px 32px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  animation: sr-fadeIn 0.3s ease;
+}
+
+@keyframes sr-fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.sr-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fecaca 0%, #fde68a 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #991b1b;
+}
+
+.sr-profile-info {
+  flex: 1;
+}
+
+.sr-profile-name-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.sr-profile-name-row h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
 }
 
 .sr-profile-details {
@@ -301,6 +479,7 @@
   border-radius: 16px;
   padding: 24px 28px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  animation: sr-fadeIn 0.3s ease;
 }
 
 .sr-exam-history-header {
@@ -315,22 +494,6 @@
   font-weight: 700;
   color: #111827;
   margin: 0;
-}
-
-.sr-link-btn {
-  border: none;
-  background: none;
-  color: #ef4444;
-  font-size: 0.88rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-  transition: color 0.15s;
-}
-
-.sr-link-btn:hover {
-  color: #dc2626;
-  text-decoration: underline;
 }
 
 .sr-exam-table {
@@ -682,11 +845,13 @@
     grid-template-columns: 1fr;
   }
 
-  .sr-exam-table {
+  .sr-exam-table,
+  .sr-student-table {
     min-width: 700px;
   }
 
-  .sr-exam-history {
+  .sr-exam-history,
+  .sr-student-list {
     overflow-x: auto;
   }
 
@@ -706,7 +871,8 @@
   .sr-search-panel,
   .sr-detail-btn,
   .sr-close-detail,
-  .sr-link-btn {
+  .sr-back-btn,
+  .sr-view-btn {
     display: none;
   }
 

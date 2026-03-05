@@ -1,7 +1,7 @@
 ﻿import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, logout, getUserAvatar } from '../../utils/auth';
-import { studentsData } from '../../data/adminStudentResultsData';
+import { useStudents } from '../../contexts/StudentContext';
 import './Navbar.css';
 
 const IconUser = () => <ion-icon name="person-circle" style={{ fontSize: 'inherit' }}></ion-icon>;
@@ -34,6 +34,8 @@ const Navbar = ({ onOpenSidebar }) => {
   const roleName = user?.role === 'admin' ? 'Quản trị viên' : 'Sinh viên';
 
   // ── Search results ──────────────────────────────────────────────────────────
+  const { students } = useStudents();
+
   const searchResults = useMemo(() => {
     const q = searchTerm.trim().toLowerCase();
     if (!q) return { pages: [], students: [], exams: [] };
@@ -43,15 +45,15 @@ const Navbar = ({ onOpenSidebar }) => {
     const studentSet = new Map();
     const examSet = new Map();
 
-    studentsData.forEach((s) => {
-      const nameMatch = s.name.toLowerCase().includes(q);
-      const idMatch = s.id.toLowerCase().includes(q);
-      if (nameMatch || idMatch) {
-        studentSet.set(s.id, { id: s.id, name: s.name, className: s.className });
+    students.forEach((s) => {
+      const nameMatch = s.fullName.toLowerCase().includes(q);
+      const codeMatch = s.studentCode.toLowerCase().includes(q);
+      if (nameMatch || codeMatch) {
+        studentSet.set(s.id, { id: s.id, studentCode: s.studentCode, name: s.fullName, className: s.className });
       }
-      s.exams.forEach((e) => {
+      (s.exams || []).forEach((e) => {
         if (e.name.toLowerCase().includes(q)) {
-          examSet.set(e.id, { id: e.id, name: e.name, studentName: s.name, studentId: s.id });
+          examSet.set(e.id, { id: e.id, name: e.name, studentName: s.fullName, studentCode: s.studentCode });
         }
       });
     });
@@ -61,7 +63,7 @@ const Navbar = ({ onOpenSidebar }) => {
       students: [...studentSet.values()].slice(0, 5),
       exams: [...examSet.values()].slice(0, 5),
     };
-  }, [searchTerm]);
+  }, [searchTerm, students]);
 
   const hasResults =
     searchResults.pages.length > 0 ||
@@ -187,7 +189,7 @@ const Navbar = ({ onOpenSidebar }) => {
                         <span className="material-symbols-outlined b-search-item-icon">person</span>
                         <div className="b-search-item-info">
                           <span className="b-search-item-label">{s.name}</span>
-                          <span className="b-search-item-sub">{s.id} · {s.className}</span>
+                          <span className="b-search-item-sub">{s.studentCode} · {s.className}</span>
                         </div>
                         <span className="material-symbols-outlined b-search-item-arrow">arrow_forward</span>
                       </button>

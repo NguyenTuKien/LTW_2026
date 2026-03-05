@@ -9,6 +9,7 @@ import QuestionBank from '../pages/admin/QuestionBank';
 import StudentDashboard from '../pages/student/StudentDashboard';
 import ProfilePage from '../pages/profile/ProfilePage';
 import { ExamProvider } from '../contexts/ExamContext';
+import { StudentProvider } from '../contexts/StudentContext';
 import { getCurrentUser, isAuthenticated } from '../utils/auth';
 import './App.css';
 
@@ -46,7 +47,9 @@ function StudentRoute({ children }) {
 function AdminLayout({ children }) {
   return (
     <ExamProvider>
-      <AdminRoute>{children}</AdminRoute>
+      <StudentProvider>
+        <AdminRoute>{children}</AdminRoute>
+      </StudentProvider>
     </ExamProvider>
   );
 }
@@ -94,9 +97,9 @@ function AppRouter() {
         <Route
           path="/admin/students"
           element={
-            <AdminRoute>
+            <AdminLayout>
               <StudentResults />
-            </AdminRoute>
+            </AdminLayout>
           }
         />
 
@@ -104,9 +107,9 @@ function AppRouter() {
         <Route
           path="/admin/statistics"
           element={
-            <AdminRoute>
+            <AdminLayout>
               <StatisticsAdmin />
-            </AdminRoute>
+            </AdminLayout>
           }
         />
 

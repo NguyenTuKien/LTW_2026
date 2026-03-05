@@ -1,44 +1,12 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useExams } from '../../contexts/ExamContext';
+import { useStudents } from '../../contexts/StudentContext';
 import './DashboardPanel.css';
 
 
 
-const initialUsers = [
-  {
-    id: 1,
-    studentCode: 'B20DCCN101',
-    fullName: 'Nguyễn Văn Hùng',
-    email: 'hungnv101@ptit.edu.vn',
-    className: 'D20CQCN01-B',
-    status: 'Hoạt động',
-  },
-  {
-    id: 2,
-    studentCode: 'B20DCCN102',
-    fullName: 'Trần Thu Trang',
-    email: 'trangtt102@ptit.edu.vn',
-    className: 'D20CQCN02-B',
-    status: 'Hoạt động',
-  },
-  {
-    id: 3,
-    studentCode: 'B20DCCN103',
-    fullName: 'Lê Minh Khoa',
-    email: 'khoalm103@ptit.edu.vn',
-    className: 'D20CQCN03-B',
-    status: 'Khóa',
-  },
-  {
-    id: 4,
-    studentCode: 'B20DCCN104',
-    fullName: 'Phạm Ngọc Ánh',
-    email: 'anhpn104@ptit.edu.vn',
-    className: 'D20CQCN04-B',
-    status: 'Hoạt động',
-  },
-];
+
 
 const initialAttempts = [
   { id: 1, examId: 1, userId: 1, score: 8.2, status: 'Đã hoàn thành' },
@@ -174,7 +142,7 @@ const getUserInitials = (name) =>
 const DashboardPanel = ({ searchTerm = '' }) => {
   const navigate = useNavigate();
   const { exams, setExams, addExam: ctxAddExam, updateExam: ctxUpdateExam, deleteExam: ctxDeleteExam } = useExams();
-  const [users, setUsers] = useState(initialUsers);
+  const { students: users, addStudent, updateStudent, deleteStudent } = useStudents();
   const attempts = initialAttempts;
   const activities = initialActivities;
   const supports = initialSupports;
@@ -368,28 +336,11 @@ const DashboardPanel = ({ searchTerm = '' }) => {
       return;
     }
 
+    const payload = toUserPayload(form);
     if (userModal.mode === 'add') {
-      const nextId = getNextId(users);
-      const payload = toUserPayload(form);
-      setUsers((prev) => [
-        {
-          id: nextId,
-          ...payload,
-        },
-        ...prev,
-      ]);
+      addStudent(payload);
     } else {
-      const payload = toUserPayload(form);
-      setUsers((prev) =>
-        prev.map((user) =>
-          user.id !== userModal.id
-            ? user
-            : {
-                ...user,
-                ...payload,
-              },
-        ),
-      );
+      updateStudent(userModal.id, payload);
     }
 
     closeUserModal();
@@ -407,7 +358,7 @@ const DashboardPanel = ({ searchTerm = '' }) => {
 
   const deleteUser = (id) =>
     confirmAndRun('Bạn có chắc chắn muốn xóa tài khoản sinh viên này?', () => {
-      setUsers((prev) => prev.filter((user) => user.id !== id));
+      deleteStudent(id);
     });
 
   return (
