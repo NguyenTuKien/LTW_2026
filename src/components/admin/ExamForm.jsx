@@ -3,7 +3,14 @@ import * as XLSX from 'xlsx';
 import './ExamForm.css';
 
 const ExamForm = () => {
-  const [activeTab, setActiveTab] = useState(2);
+  const [activeTab, setActiveTab] = useState(1);
+  const [examInfo, setExamInfo] = useState({
+    name: '',
+    description: '',
+    type: 'Tự do',
+    startTime: '',
+    endTime: ''
+  });
   const fileInputRef = useRef(null);
   const [questions, setQuestions] = useState([
     {
@@ -31,6 +38,11 @@ const ExamForm = () => {
       isEditMode: true
     }
   ]);
+
+  const handleInputInfoChange = (e) => {
+    const { name, value } = e.target;
+    setExamInfo(prev => ({ ...prev, [name]: value }));
+  };
 
   const handleTabClick = (tabNumber) => {
     setActiveTab(tabNumber);
@@ -152,6 +164,19 @@ const ExamForm = () => {
     fileInputRef.current?.click();
   };
 
+  const handleComplete = () => {
+    if (activeTab === 3){
+      alert('Kỳ thi đã được hoàn tất và xuất bản!');
+    }
+    else {
+      setActiveTab(prev => prev + 1);
+    }
+  }
+
+  const handleReturn = () => {
+    setActiveTab(prev => prev - 1);
+  }
+
   return (
     <>
       {/* Hidden file input for Excel upload */}
@@ -209,16 +234,34 @@ const ExamForm = () => {
               <div className="exam-form-fields">
                 <div className="exam-form-group">
                   <label className="exam-form-label">Tên kỳ thi</label>
-                  <input className="exam-form-input" placeholder="Nhập tên kỳ thi..." type="text" />
+                  <input
+                    className="exam-form-input"
+                    placeholder="Nhập tên kỳ thi..."
+                    type="text"
+                    name="name"
+                    value={examInfo.name}
+                    onChange={handleInputInfoChange}
+                  />
                 </div>
                 <div className="exam-form-group">
                   <label className="exam-form-label">Mô tả</label>
-                  <textarea className="exam-form-textarea" placeholder="Nhập mô tả kỳ thi..."></textarea>
+                  <textarea
+                    className="exam-form-textarea"
+                    placeholder="Nhập mô tả kỳ thi..."
+                    name="description"
+                    value={examInfo.description}
+                    onChange={handleInputInfoChange}
+                  ></textarea>
                 </div>
                 <div className="exam-form-grid">
                   <div className="exam-form-group">
                     <label className="exam-form-label">Loại kỳ thi</label>
-                    <select className="exam-form-select">
+                    <select
+                      className="exam-form-select"
+                      name="type"
+                      value={examInfo.type}
+                      onChange={handleInputInfoChange}
+                    >
                       <option>Tự do</option>
                       <option>Thời gian cụ thể</option>
                     </select>
@@ -226,11 +269,23 @@ const ExamForm = () => {
                   <div className="exam-form-grid-double">
                     <div className="exam-form-group">
                       <label className="exam-form-label">Thời gian bắt đầu</label>
-                      <input className="exam-form-input" type="datetime-local" />
+                      <input
+                        className="exam-form-input"
+                        type="datetime-local"
+                        name="startTime"
+                        value={examInfo.startTime}
+                        onChange={handleInputInfoChange}
+                      />
                     </div>
                     <div className="exam-form-group">
                       <label className="exam-form-label">Thời gian kết thúc</label>
-                      <input className="exam-form-input" type="datetime-local" />
+                      <input
+                        className="exam-form-input"
+                        type="datetime-local"
+                        name="endTime"
+                        value={examInfo.endTime}
+                        onChange={handleInputInfoChange}
+                      />
                     </div>
                   </div>
                 </div>
@@ -352,7 +407,74 @@ const ExamForm = () => {
           {activeTab === 3 && (
             <div className="exam-content-card">
               <h2 className="exam-content-title">Thiết lập &amp; Xuất bản</h2>
-              <p>Nội dung thiết lập sẽ được thêm vào đây.</p>
+
+              {/* Thông tin kỳ thi */}
+              <div className="exam-form-fields">
+                <h3 className="exam-content-subtitle">Thông tin chung</h3>
+                <div className="review-info-grid">
+                  <div className="review-info-item">
+                    <span className="review-info-label">Tên kỳ thi:</span>
+                    <span className="review-info-value">{examInfo.name || <em>Chưa nhập</em>}</span>
+                  </div>
+                  <div className="review-info-item">
+                    <span className="review-info-label">Mô tả:</span>
+                    <span className="review-info-value">{examInfo.description || <em>Chưa nhập</em>}</span>
+                  </div>
+                  <div className="review-info-item">
+                    <span className="review-info-label">Loại kỳ thi:</span>
+                    <span className="review-info-value">{examInfo.type}</span>
+                  </div>
+                  <div className="review-info-item">
+                    <span className="review-info-label">Thời gian bắt đầu:</span>
+                    <span className="review-info-value">{examInfo.startTime ? new Date(examInfo.startTime).toLocaleString('vi-VN') : <em>Chưa nhập</em>}</span>
+                  </div>
+                  <div className="review-info-item">
+                    <span className="review-info-label">Thời gian kết thúc:</span>
+                    <span className="review-info-value">{examInfo.endTime ? new Date(examInfo.endTime).toLocaleString('vi-VN') : <em>Chưa nhập</em>}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Danh sách câu hỏi */}
+              <div className="exam-form-fields" style={{ marginTop: '1.5rem' }}>
+                <h3 className="exam-content-subtitle">Danh sách câu hỏi ({questions.length} câu)</h3>
+                {questions.length === 0 ? (
+                  <p><em>Chưa có câu hỏi nào.</em></p>
+                ) : (
+                  questions.map((question, index) => (
+                    <div key={question.id} className="question-card" style={{ marginBottom: '1rem' }}>
+                      <div className="question-header">
+                        <div className="question-header-left">
+                          <h3 className="question-number">Câu hỏi {index + 1}</h3>
+                          <span className="question-badge">{question.type}</span>
+                        </div>
+                      </div>
+                      <div className="question-content">
+                        <p className="question-text">{question.content || <em>Chưa nhập nội dung</em>}</p>
+                      </div>
+                      <div className="options-grid">
+                        {question.options.map((option) => (
+                          <label
+                            key={option.id}
+                            className={`option-view ${option.isCorrect ? 'correct' : ''}`}
+                          >
+                            <input
+                              name={`review_q${question.id}`}
+                              type="radio"
+                              checked={option.isCorrect}
+                              readOnly
+                            />
+                            <span className="option-text">{option.text || `Đáp án ${option.id}`}</span>
+                            {option.isCorrect && (
+                              <span className="material-symbols-outlined option-check-icon">check_circle</span>
+                            )}
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -360,15 +482,15 @@ const ExamForm = () => {
 
       {/* Fixed Bottom Action Bar */}
       <div className="exam-action-bar">
-        <button className="btn-back">
-          <span className="material-symbols-outlined">arrow_back</span>
+        <button className="btn-back" onClick={handleReturn} disabled={activeTab === 1}  >
+          <span className="material-symbols-outlined" >arrow_back</span>
           Quay lại
         </button>
         <div className="exam-action-bar-right">
-          <button className="btn-draft">
+          <button className="btn-draft" onClick={() => alert('Đã lưu bản nháp!')}>
             Lưu bản nháp
           </button>
-          <button className="btn-complete">
+          <button className="btn-complete" onClick={handleComplete}>
             Tiếp tục / Hoàn tất
           </button>
         </div>

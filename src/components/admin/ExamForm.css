@@ -127,6 +127,38 @@
   margin-bottom: 1.5rem;
 }
 
+.exam-content-subtitle {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--primary-color, #4f46e5);
+}
+
+.review-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: var(--bg-secondary, #f9fafb);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+.review-info-item {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.review-info-label {
+  font-weight: 600;
+  min-width: 160px;
+  color: var(--text-secondary, #6b7280);
+}
+
+.review-info-value {
+  color: var(--text-primary, #111827);
+}
+
 .exam-form-fields {
   display: flex;
   flex-direction: column;
