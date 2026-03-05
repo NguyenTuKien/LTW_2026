@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import * as XLSX from 'xlsx';
 import './ExamForm.css';
 
 const ExamForm = () => {
   const [activeTab, setActiveTab] = useState(2);
+  const fileInputRef = useRef(null);
   const [questions, setQuestions] = useState([
     {
       id: 1,
@@ -60,8 +62,107 @@ const ExamForm = () => {
     ));
   };
 
+  // Parse Excel file to questions
+  const parseExcelToQuestions = (data) => {
+    const parsedQuestions = [];
+    
+    // Skip header row, start from index 1
+    for (let i = 1; i < data.length; i++) {
+      const row = data[i];
+      
+      // Skip empty rows
+      if (!row[0]) continue;
+      
+      const question = {
+        id: questions.length + parsedQuestions.length + 1,
+        type: 'Trắc nghiệm',
+        content: row[0] || '', // Column A: Question content
+        options: [
+          { id: 'A', text: row[1] || '', isCorrect: (row[5] || '').toUpperCase() === 'A' },
+          { id: 'B', text: row[2] || '', isCorrect: (row[5] || '').toUpperCase() === 'B' },
+          { id: 'C', text: row[3] || '', isCorrect: (row[5] || '').toUpperCase() === 'C' },
+          { id: 'D', text: row[4] || '', isCorrect: (row[5] || '').toUpperCase() === 'D' }
+        ],
+        isEditMode: false
+      };
+      
+      parsedQuestions.push(question);
+    }
+    
+    return parsedQuestions;
+  };
+
+  // Handle Excel file upload
+  const handleExcelUpload = (event) => {
+    const file = event.target.files[0];
+    
+    if (!file) return;
+    
+    // Check file type
+    const validTypes = [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-excel'
+    ];
+    
+    if (!validTypes.includes(file.type)) {
+      alert('Vui lòng chọn file Excel (.xlsx hoặc .xls)');
+      return;
+    }
+    
+    const reader = new FileReader();
+    
+    reader.onload = (e) => {
+      try {
+        const data = new Uint8Array(e.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        
+        // Get first sheet
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        
+        // Convert to JSON
+        const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        
+        // Parse to questions
+        const newQuestions = parseExcelToQuestions(jsonData);
+        
+        if (newQuestions.length === 0) {
+          alert('Không tìm thấy câu hỏi nào trong file Excel');
+          return;
+        }
+        
+        // Add to existing questions
+        setQuestions([...questions, ...newQuestions]);
+        
+        alert(`Đã nhập thành công ${newQuestions.length} câu hỏi từ Excel`);
+      } catch (error) {
+        console.error('Error parsing Excel:', error);
+        alert('Có lỗi khi đọc file Excel. Vui lòng kiểm tra định dạng file.');
+      }
+    };
+    
+    reader.readAsArrayBuffer(file);
+    
+    // Reset input
+    event.target.value = '';
+  };
+
+  // Trigger file input
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
   return (
     <>
+      {/* Hidden file input for Excel upload */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".xlsx,.xls"
+        style={{ display: 'none' }}
+        onChange={handleExcelUpload}
+      />
+      
       <div className="exam-form-container">
         <div className="exam-form-wrapper">
           <div className="exam-form-header">
@@ -143,11 +244,11 @@ const ExamForm = () => {
               <div className="questions-header">
                 <h1 className="questions-title">Danh sách câu hỏi</h1>
                 <div className="questions-actions">
-                  <button className="btn btn-secondary" href>
+                  <a className="btn btn-secondary" href="/Form.xlsx" download>
                     <span className="material-symbols-outlined">download</span>
                     Tải file mẫu
-                  </button>
-                  <button className="btn btn-primary-light">
+                  </a>
+                  <button className="btn btn-primary-light" onClick={handleImportClick}>
                     <span className="material-symbols-outlined">upload_file</span>
                     Nhập từ Excel
                   </button>
