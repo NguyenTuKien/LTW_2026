@@ -1,214 +1,191 @@
-import { useState } from 'react';
-import './Statistics.css';
+import React, { useState, useEffect } from 'react';
+import Navbar from '../../components/layout/Navbar';
+import Sidebar from '../../components/layout/Sidebar';
+import Card from '../../components/common/Card';
+import { mockStatistics } from '../../utils/mockData';
 
-function Statistics() {
-  const [selectedExam, setSelectedExam] = useState('all');
+const Statistics = () => {
+  const [statistics, setStatistics] = useState(null);
+  const [selectedPeriod, setSelectedPeriod] = useState('month');
 
-  const overallStats = {
-    totalUsers: 245,
-    totalExams: 12,
-    activeExams: 5,
-    completedExams: 7
-  };
+  useEffect(() => {
+    // TODO: Replace with actual API call
+    setStatistics(mockStatistics);
+  }, [selectedPeriod]);
 
-  const examStats = [
-    {
-      id: 1,
-      name: 'Kỳ thi Toán học',
-      participants: 89,
-      completed: 76,
-      completionRate: 85.4,
-      avgScore: 7.8,
-      maxScore: 9.5,
-      minScore: 4.2
-    },
-    {
-      id: 2,
-      name: 'Kỳ thi Tiếng Anh',
-      participants: 102,
-      completed: 95,
-      completionRate: 93.1,
-      avgScore: 8.2,
-      maxScore: 9.8,
-      minScore: 5.5
-    },
-    {
-      id: 3,
-      name: 'Kỳ thi Lập trình Web',
-      participants: 54,
-      completed: 42,
-      completionRate: 77.8,
-      avgScore: 7.5,
-      maxScore: 9.2,
-      minScore: 3.8
-    }
-  ];
-
-  const recentActivity = [
-    { time: '10 phút trước', action: 'Nguyễn Văn A hoàn thành kỳ thi Toán học', score: 8.5 },
-    { time: '25 phút trước', action: 'Trần Thị B hoàn thành kỳ thi Tiếng Anh', score: 9.0 },
-    { time: '1 giờ trước', action: 'Lê Văn C bắt đầu kỳ thi Lập trình Web', score: null },
-    { time: '2 giờ trước', action: 'Phạm Thị D hoàn thành kỳ thi Toán học', score: 7.2 },
-    { time: '3 giờ trước', action: 'Hoàng Văn E hoàn thành kỳ thi Tiếng Anh', score: 8.8 }
-  ];
+  if (!statistics) {
+    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  }
 
   return (
-    <div className="statistics">
-      <h1>Thống kê & Báo cáo</h1>
-
-      {/* Overall Statistics Cards */}
-      <div className="stats-cards">
-        <div className="stat-card">
-          <div className="stat-icon">👥</div>
-          <div className="stat-info">
-            <h3>Tổng người dùng</h3>
-            <p className="stat-number">{overallStats.totalUsers}</p>
+    <div className="min-h-screen bg-gray-100">
+      <Navbar user={{ name: 'Admin User' }} isAdmin={true} />
+      
+      <div className="flex">
+        <Sidebar isAdmin={true} />
+        
+        <main className="flex-1 p-8">
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">
+              Statistics & Analytics
+            </h1>
+            <p className="text-gray-600">
+              Detailed insights into exam performance
+            </p>
           </div>
-        </div>
 
-        <div className="stat-card">
-          <div className="stat-icon">📝</div>
-          <div className="stat-info">
-            <h3>Tổng số kỳ thi</h3>
-            <p className="stat-number">{overallStats.totalExams}</p>
-          </div>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-icon">✅</div>
-          <div className="stat-info">
-            <h3>Kỳ thi đang hoạt động</h3>
-            <p className="stat-number">{overallStats.activeExams}</p>
-          </div>
-        </div>
-
-        <div className="stat-card">
-          <div className="stat-icon">🎯</div>
-          <div className="stat-info">
-            <h3>Kỳ thi hoàn thành</h3>
-            <p className="stat-number">{overallStats.completedExams}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Exam Statistics Table */}
-      <div className="stats-section">
-        <div className="section-header">
-          <h2>Chi tiết thống kê theo kỳ thi</h2>
-          <select 
-            value={selectedExam} 
-            onChange={(e) => setSelectedExam(e.target.value)}
-            className="exam-filter"
-          >
-            <option value="all">Tất cả kỳ thi</option>
-            {examStats.map(exam => (
-              <option key={exam.id} value={exam.id}>{exam.name}</option>
+          {/* Period Filter */}
+          <div className="mb-6 flex gap-2">
+            {['week', 'month', 'year'].map((period) => (
+              <button
+                key={period}
+                onClick={() => setSelectedPeriod(period)}
+                className={`px-4 py-2 rounded capitalize ${
+                  selectedPeriod === period
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-white text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                {period}
+              </button>
             ))}
-          </select>
-        </div>
+          </div>
 
-        <div className="exam-stats-table">
-          <table>
-            <thead>
-              <tr>
-                <th>Tên kỳ thi</th>
-                <th>Số người tham gia</th>
-                <th>Đã hoàn thành</th>
-                <th>Tỷ lệ hoàn thành</th>
-                <th>Điểm TB</th>
-                <th>Điểm cao nhất</th>
-                <th>Điểm thấp nhất</th>
-              </tr>
-            </thead>
-            <tbody>
-              {examStats
-                .filter(exam => selectedExam === 'all' || exam.id == selectedExam)
-                .map(exam => (
-                  <tr key={exam.id}>
-                    <td><strong>{exam.name}</strong></td>
-                    <td>{exam.participants}</td>
-                    <td>{exam.completed}</td>
-                    <td>
-                      <div className="progress-bar-container">
-                        <div 
-                          className="progress-bar" 
-                          style={{width: `${exam.completionRate}%`}}
-                        ></div>
-                        <span className="progress-text">{exam.completionRate}%</span>
-                      </div>
-                    </td>
-                    <td>
-                      <span className="score-badge">{exam.avgScore}/10</span>
-                    </td>
-                    <td>
-                      <span className="score-badge high">{exam.maxScore}/10</span>
-                    </td>
-                    <td>
-                      <span className="score-badge low">{exam.minScore}/10</span>
-                    </td>
-                  </tr>
+          {/* Overview Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <Card>
+              <h3 className="text-lg font-semibold mb-2">Total Submissions</h3>
+              <p className="text-4xl font-bold text-blue-600">
+                {statistics.totalSubmissions}
+              </p>
+              <p className="text-sm text-gray-600 mt-2">
+                +{statistics.submissionsGrowth}% from last {selectedPeriod}
+              </p>
+            </Card>
+
+            <Card>
+              <h3 className="text-lg font-semibold mb-2">Average Score</h3>
+              <p className="text-4xl font-bold text-green-600">
+                {statistics.averageScore}%
+              </p>
+              <p className="text-sm text-gray-600 mt-2">
+                {statistics.scoreChange > 0 ? '+' : ''}{statistics.scoreChange}% from last {selectedPeriod}
+              </p>
+            </Card>
+
+            <Card>
+              <h3 className="text-lg font-semibold mb-2">Pass Rate</h3>
+              <p className="text-4xl font-bold text-purple-600">
+                {statistics.passRate}%
+              </p>
+              <p className="text-sm text-gray-600 mt-2">
+                {statistics.passRateChange > 0 ? '+' : ''}{statistics.passRateChange}% from last {selectedPeriod}
+              </p>
+            </Card>
+          </div>
+
+          {/* Subject Performance */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <Card>
+              <h2 className="text-xl font-bold mb-4">Performance by Subject</h2>
+              <div className="space-y-4">
+                {statistics.subjectPerformance.map((subject) => (
+                  <div key={subject.name}>
+                    <div className="flex justify-between mb-1">
+                      <span className="font-semibold">{subject.name}</span>
+                      <span className="text-gray-600">{subject.average}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div
+                        className="bg-blue-500 h-2 rounded-full"
+                        style={{ width: `${subject.average}%` }}
+                      />
+                    </div>
+                  </div>
                 ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Recent Activity */}
-      <div className="stats-section">
-        <h2>Hoạt động gần đây</h2>
-        <div className="activity-list">
-          {recentActivity.map((activity, index) => (
-            <div key={index} className="activity-item">
-              <div className="activity-time">{activity.time}</div>
-              <div className="activity-content">
-                <p>{activity.action}</p>
-                {activity.score && (
-                  <span className="activity-score">Điểm: {activity.score}/10</span>
-                )}
               </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            </Card>
 
-      {/* Score Distribution Chart (Visual representation) */}
-      <div className="stats-section">
-        <h2>Phân bố điểm số</h2>
-        <div className="chart-container">
-          <div className="chart-bar-group">
-            <div className="chart-label">0-2</div>
-            <div className="chart-bar" style={{height: '15%'}}>
-              <span className="chart-value">8</span>
-            </div>
+            <Card>
+              <h2 className="text-xl font-bold mb-4">Top Performing Students</h2>
+              <div className="space-y-3">
+                {statistics.topStudents.map((student, index) => (
+                  <div
+                    key={student.id}
+                    className="flex items-center justify-between border-b pb-2"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
+                          index === 0
+                            ? 'bg-yellow-400 text-yellow-900'
+                            : index === 1
+                            ? 'bg-gray-300 text-gray-700'
+                            : index === 2
+                            ? 'bg-orange-300 text-orange-900'
+                            : 'bg-blue-100 text-blue-700'
+                        }`}
+                      >
+                        {index + 1}
+                      </div>
+                      <span className="font-semibold">{student.name}</span>
+                    </div>
+                    <span className="text-green-600 font-bold">
+                      {student.averageScore}%
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </Card>
           </div>
-          <div className="chart-bar-group">
-            <div className="chart-label">2-4</div>
-            <div className="chart-bar" style={{height: '25%'}}>
-              <span className="chart-value">15</span>
+
+          {/* Recent Trends */}
+          <Card>
+            <h2 className="text-xl font-bold mb-4">Exam Difficulty Analysis</h2>
+            <div className="space-y-4">
+              {statistics.examDifficulty.map((exam) => (
+                <div key={exam.id}>
+                  <div className="flex justify-between mb-2">
+                    <span className="font-semibold">{exam.title}</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-600">
+                        Avg: {exam.averageScore}%
+                      </span>
+                      <span
+                        className={`px-2 py-1 rounded text-xs ${
+                          exam.difficulty === 'easy'
+                            ? 'bg-green-100 text-green-800'
+                            : exam.difficulty === 'medium'
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : 'bg-red-100 text-red-800'
+                        }`}
+                      >
+                        {exam.difficulty}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 text-sm">
+                    <div>
+                      <span className="text-gray-600">Attempts: </span>
+                      <span className="font-semibold">{exam.attempts}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600">Pass Rate: </span>
+                      <span className="font-semibold">{exam.passRate}%</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-600">Avg Time: </span>
+                      <span className="font-semibold">{exam.avgTime} min</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
-          </div>
-          <div className="chart-bar-group">
-            <div className="chart-label">4-6</div>
-            <div className="chart-bar" style={{height: '45%'}}>
-              <span className="chart-value">32</span>
-            </div>
-          </div>
-          <div className="chart-bar-group">
-            <div className="chart-label">6-8</div>
-            <div className="chart-bar" style={{height: '75%'}}>
-              <span className="chart-value">56</span>
-            </div>
-          </div>
-          <div className="chart-bar-group">
-            <div className="chart-label">8-10</div>
-            <div className="chart-bar" style={{height: '90%'}}>
-              <span className="chart-value">68</span>
-            </div>
-          </div>
-        </div>
+          </Card>
+        </main>
       </div>
     </div>
   );
-}
+};
 
 export default Statistics;
