@@ -1,4 +1,4 @@
-import React from 'react';
+﻿import React from 'react';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -6,7 +6,7 @@ const Navbar = () => {
     <header className="navbar">
       <div className="navbar-search">
         <span className="material-symbols-outlined navbar-search-icon">search</span>
-        <input className="navbar-search-input" placeholder="Tìm kiếm tv, sinh viên, báo cáo..." type="text" />
+        <input className="navbar-search-input" placeholder="Tìm kiếm kỳ thi, sinh viên, báo cáo..." type="text" />
       </div>
       <div className="navbar-actions">
         <button className="navbar-btn navbar-btn-primary">
