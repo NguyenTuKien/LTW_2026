@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { EXAMS_BY_ID } from '../../data/examQuestionsData';
 import { getCurrentUser } from '../../utils/auth';
-import './Exam.css';
+import '../../styles/student/Exam.css';
 
 const Exam = () => {
   const { examId } = useParams();

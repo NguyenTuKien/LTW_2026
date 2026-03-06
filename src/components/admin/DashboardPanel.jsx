@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useExams } from '../../contexts/ExamContext';
 import { useStudents } from '../../contexts/StudentContext';
-import './DashboardPanel.css';
+import '../../styles/admin/DashboardPanel.css';
 
 
 

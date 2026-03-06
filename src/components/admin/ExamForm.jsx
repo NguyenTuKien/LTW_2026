@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo } from 'react';
 import * as XLSX from 'xlsx';
 import { useExams } from '../../contexts/ExamContext';
-import './ExamForm.css';
+import '../../styles/admin/ExamForm.css';
 
 /* ════════════════════════════════════════════════════════
    Constants & helpers

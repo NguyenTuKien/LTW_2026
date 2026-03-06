@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getCurrentUser } from '../../utils/auth';
-import './ExamInfo.css';
+import '../../styles/student/ExamInfo.css';
 
 // Exam data mapping (matching MOCK_EXAMS in Dashboard)
 const EXAM_INFO_DATA = {

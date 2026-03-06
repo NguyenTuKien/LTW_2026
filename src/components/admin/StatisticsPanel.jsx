@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import './StatisticsPanel.css';
+import '../../styles/admin/StatisticsPanel.css';
 
 const PAGE_SIZE = 4;
 

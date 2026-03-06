@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/layout/Sidebar';
 import Navbar from '../../components/layout/Navbar';
 import { useStudents } from '../../contexts/StudentContext';
-import './StudentResults.css';
+import '../../styles/admin/StudentResults.css';
 
 const formatDateTime = (isoDate) => {
   const date = new Date(isoDate);

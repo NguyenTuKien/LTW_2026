@@ -2,8 +2,8 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { examResult as defaultExamResult } from '../../data/studentExamResultData';
 import { getCurrentUser, logout, getUserAvatar } from '../../utils/auth';
-import '../../styles/studentDashboard.css';
-import './Result.css';
+import '../../styles/student/studentDashboard.css';
+import '../../styles/student/Result.css';
 
 function Result() {
   const navigate = useNavigate();

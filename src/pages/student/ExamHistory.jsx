@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, logout, getUserAvatar } from '../../utils/auth';
 import { EXAM_HISTORY } from '../../data/examHistoryData';
 import { examResult as defaultExamResult } from '../../data/studentExamResultData';
-import '../../styles/studentDashboard.css';
-import './ExamHistory.css';
+import '../../styles/student/studentDashboard.css';
+import '../../styles/student/ExamHistory.css';
 
 const CATEGORY_MAP = {
   PRACTICE: { label: 'Luyện tập', className: 'practice' },

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, logout, getUserAvatar } from '../../utils/auth';
-import '../../styles/studentDashboard.css';
+import '../../styles/student/studentDashboard.css';
 
 // ─── Mock Data ─────────────────────────────────────────────────────────────────
 

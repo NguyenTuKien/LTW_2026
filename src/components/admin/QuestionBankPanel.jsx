@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useExams } from '../../contexts/ExamContext';
-import './QuestionBankPanel.css';
+import '../../styles/admin/QuestionBankPanel.css';
 
 const QuestionBankPanel = () => {
   const { bankExams, addBankExam, updateBankExam, deleteBankExam } = useExams();
