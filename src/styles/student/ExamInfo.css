@@ -701,3 +701,70 @@
     display: none;
   }
 }
+
+@media (max-width: 480px) {
+  .ei-main {
+    padding: 14px 12px 40px;
+  }
+
+  .ei-hero {
+    padding: 20px 18px;
+    margin-bottom: 20px;
+  }
+
+  .ei-hero-title {
+    font-size: 1.15rem;
+  }
+
+  .ei-hero-desc {
+    font-size: 0.85rem;
+  }
+
+  .ei-card {
+    padding: 16px;
+    border-radius: 12px;
+  }
+
+  .ei-card-title {
+    font-size: 0.95rem;
+    margin: 0 0 16px;
+    padding-bottom: 12px;
+  }
+
+  .ei-info-item {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .ei-info-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
+  }
+
+  .ei-rules-list li {
+    padding: 12px 14px 12px 38px;
+    font-size: 0.82rem;
+  }
+
+  .ei-btn-start {
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+
+  .ei-header {
+    height: 52px;
+    padding: 0 12px;
+  }
+
+  .ei-guide-item {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .ei-guide-number {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+}

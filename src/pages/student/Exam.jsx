@@ -18,6 +18,7 @@ const Exam = () => {
   const [timeLeft, setTimeLeft] = useState(examData ? examData.duration * 60 : 0);
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   // Submit handler
   const handleSubmit = useCallback(() => {
@@ -88,6 +89,7 @@ const Exam = () => {
 
   const handleJumpToQuestion = (index) => {
     setCurrentIndex(index);
+    setSidebarOpen(false);
   };
 
   const handleAnswerSelect = (optionLabel) => {
@@ -142,6 +144,9 @@ const Exam = () => {
     <div className="exam-container">
       <header className="exam-header">
         <div className="exam-header-left">
+          <button className="exam-sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>
+            <span className="material-symbols-outlined">{sidebarOpen ? 'close' : 'menu'}</span>
+          </button>
           <div className="exam-logo">
             <img src="/ptit-logo.png" alt="PTIT Logo" style={{ height: '32px', width: 'auto' }} />
           </div>
@@ -162,7 +167,8 @@ const Exam = () => {
       </header>
 
       <div className="exam-content">
-        <aside className="exam-sidebar">
+        {sidebarOpen && <button className="exam-sidebar-overlay" onClick={() => setSidebarOpen(false)} />}
+        <aside className={`exam-sidebar${sidebarOpen ? ' mobile-open' : ''}`}>
           <div className="sidebar-profile">
             <div
               className="profile-avatar"

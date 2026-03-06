@@ -17,8 +17,13 @@
 }
 
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(204, 0, 0, 0); }
-  50% { box-shadow: 0 0 12px 2px rgba(204, 0, 0, 0.15); }
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(204, 0, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 12px 2px rgba(204, 0, 0, 0.15);
+  }
 }
 
 @keyframes countUp {
@@ -40,7 +45,7 @@
   flex-direction: column;
   gap: 2rem;
   background: rgba(248, 250, 252, 0.5);
-  font-family: 'Inter', 'Lexend', sans-serif;
+  font-family: "Inter", "Lexend", sans-serif;
 }
 
 /* ─── Entrance animations (staggered per section) ─── */
@@ -73,10 +78,18 @@
 .dashboard-stat-card {
   animation: fadeSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.dashboard-stat-card:nth-child(1) { animation-delay: 0.2s; }
-.dashboard-stat-card:nth-child(2) { animation-delay: 0.3s; }
-.dashboard-stat-card:nth-child(3) { animation-delay: 0.4s; }
-.dashboard-stat-card:nth-child(4) { animation-delay: 0.5s; }
+.dashboard-stat-card:nth-child(1) {
+  animation-delay: 0.2s;
+}
+.dashboard-stat-card:nth-child(2) {
+  animation-delay: 0.3s;
+}
+.dashboard-stat-card:nth-child(3) {
+  animation-delay: 0.4s;
+}
+.dashboard-stat-card:nth-child(4) {
+  animation-delay: 0.5s;
+}
 
 /* Number counter pop */
 .dashboard-stat-value {
@@ -135,7 +148,10 @@
   gap: 0.4rem;
   height: 2.375rem;
   cursor: pointer;
-  transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .dashboard-btn:hover {
@@ -181,33 +197,44 @@
   min-height: 8.6rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
   position: relative;
-  transition: box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 0.35s ease;
+  transition:
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease;
   cursor: default;
 }
 
 .dashboard-stat-card:hover {
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(204, 0, 0, 0.08);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(204, 0, 0, 0.08);
   border-color: rgba(204, 0, 0, 0.2);
 }
 
 .dashboard-stat-card.accent-blue:hover {
-  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.12), 0 0 0 1px rgba(59, 130, 246, 0.15);
+  box-shadow:
+    0 12px 28px rgba(59, 130, 246, 0.12),
+    0 0 0 1px rgba(59, 130, 246, 0.15);
   border-color: rgba(59, 130, 246, 0.3);
 }
 
 .dashboard-stat-card.accent-purple:hover {
-  box-shadow: 0 12px 28px rgba(168, 85, 247, 0.12), 0 0 0 1px rgba(168, 85, 247, 0.15);
+  box-shadow:
+    0 12px 28px rgba(168, 85, 247, 0.12),
+    0 0 0 1px rgba(168, 85, 247, 0.15);
   border-color: rgba(168, 85, 247, 0.3);
 }
 
 .dashboard-stat-card.accent-green:hover {
-  box-shadow: 0 12px 28px rgba(16, 185, 129, 0.12), 0 0 0 1px rgba(16, 185, 129, 0.15);
+  box-shadow:
+    0 12px 28px rgba(16, 185, 129, 0.12),
+    0 0 0 1px rgba(16, 185, 129, 0.15);
   border-color: rgba(16, 185, 129, 0.3);
 }
 
 .dashboard-stat-card.accent-red:hover {
-  box-shadow: 0 12px 28px rgba(204, 0, 0, 0.12), 0 0 0 1px rgba(204, 0, 0, 0.15);
+  box-shadow:
+    0 12px 28px rgba(204, 0, 0, 0.12),
+    0 0 0 1px rgba(204, 0, 0, 0.15);
   border-color: rgba(204, 0, 0, 0.3);
 }
 
@@ -217,7 +244,7 @@
 }
 
 .dashboard-stat-card::after {
-  content: '';
+  content: "";
   position: absolute;
   left: 1px;
   right: 1px;
@@ -343,8 +370,9 @@
   border-radius: 0.75rem;
   padding: 1.25rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
-  transition: box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 0.35s ease;
+  transition:
+    box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease;
 }
 
 .dashboard-card:hover {
@@ -482,14 +510,26 @@
   border-top-right-radius: 0.5rem;
   animation: barGrow 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   animation-delay: 0.6s;
-  transition: filter 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    filter 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.dashboard-bar-item:nth-child(1) .dashboard-bar-fill { animation-delay: 0.6s; }
-.dashboard-bar-item:nth-child(2) .dashboard-bar-fill { animation-delay: 0.75s; }
-.dashboard-bar-item:nth-child(3) .dashboard-bar-fill { animation-delay: 0.9s; }
-.dashboard-bar-item:nth-child(4) .dashboard-bar-fill { animation-delay: 1.05s; }
-.dashboard-bar-item:nth-child(5) .dashboard-bar-fill { animation-delay: 1.2s; }
+.dashboard-bar-item:nth-child(1) .dashboard-bar-fill {
+  animation-delay: 0.6s;
+}
+.dashboard-bar-item:nth-child(2) .dashboard-bar-fill {
+  animation-delay: 0.75s;
+}
+.dashboard-bar-item:nth-child(3) .dashboard-bar-fill {
+  animation-delay: 0.9s;
+}
+.dashboard-bar-item:nth-child(4) .dashboard-bar-fill {
+  animation-delay: 1.05s;
+}
+.dashboard-bar-item:nth-child(5) .dashboard-bar-fill {
+  animation-delay: 1.2s;
+}
 
 /* Bar hover glow */
 .dashboard-bar-item:hover .dashboard-bar-fill {
@@ -585,7 +625,10 @@
   font-size: 0.875rem;
   color: #334155;
   cursor: pointer;
-  transition: background 0.2s, transform 0.2s, border-color 0.2s;
+  transition:
+    background 0.2s,
+    transform 0.2s,
+    border-color 0.2s;
 }
 
 .dashboard-row-actions button:hover {
@@ -658,7 +701,9 @@
   justify-content: space-between;
   gap: 0.8rem;
   align-items: flex-start;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .dashboard-list-item:hover {
@@ -873,5 +918,61 @@
     height: auto;
     padding-top: 0.35rem;
     padding-bottom: 0.35rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-title {
+    font-size: 1.35rem;
+    line-height: 1.65rem;
+  }
+
+  .dashboard-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .dashboard-top-actions {
+    width: 100%;
+  }
+
+  .dashboard-top-actions .dashboard-btn {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .dashboard-stat-card {
+    min-height: auto;
+    padding: 1rem;
+  }
+
+  .dashboard-stat-value {
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+  }
+
+  .dashboard-stat-label {
+    font-size: 0.85rem;
+  }
+
+  .dashboard-card-header h2,
+  .dashboard-chart-card .dashboard-card-header > div h2 {
+    font-size: 1.1rem;
+  }
+
+  .dashboard-card-header > div p {
+    font-size: 0.85rem;
+  }
+
+  .dashboard-management-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-modal {
+    width: min(100%, calc(100vw - 2rem));
+    padding: 0.85rem;
+  }
+
+  .dashboard-form-grid {
+    grid-template-columns: 1fr;
   }
 }

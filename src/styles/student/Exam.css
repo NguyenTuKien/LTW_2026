@@ -764,6 +764,10 @@
     width: auto;
   }
 
+  .exam-header-left {
+    gap: 0.5rem;
+  }
+
   .exam-main {
     padding: 1.5rem;
   }
@@ -778,5 +782,148 @@
 
   .option-text {
     font-size: 1rem;
+  }
+
+  /* Hide sidebar on mobile - use drawer pattern */
+  .exam-sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.15);
+    width: 18rem;
+  }
+
+  .exam-sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .exam-sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 99;
+  }
+
+  .exam-sidebar-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.5rem;
+    border: 1px solid #f5f0f0;
+    background: #fff;
+    color: #da251d;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .exam-submit-btn {
+    padding: 0 1rem;
+    font-size: 0.8rem;
+  }
+
+  .timer-display {
+    font-size: 0.95rem;
+  }
+
+  .exam-timer {
+    padding: 0.4rem 0.75rem;
+  }
+
+  .nav-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .next-btn {
+    padding: 0.6rem 1.25rem;
+  }
+
+  .option-item {
+    padding: 1rem;
+  }
+
+  .option-label {
+    width: 1.75rem;
+    height: 1.75rem;
+    font-size: 0.8rem;
+  }
+
+  .exam-modal-stats {
+    gap: 16px;
+  }
+
+  .modal-stat-value {
+    font-size: 1.5rem;
+  }
+}
+
+/* Hide toggle button on desktop */
+.exam-sidebar-toggle {
+  display: none;
+}
+
+.exam-sidebar-overlay {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .exam-header {
+    padding: 0.5rem 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .exam-main {
+    padding: 1rem;
+  }
+
+  .exam-title {
+    font-size: 0.9rem;
+    padding: 0 0.5rem;
+  }
+
+  .question-number-title {
+    font-size: 1.25rem;
+  }
+
+  .question-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .question-text p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+
+  .option-item {
+    padding: 0.85rem;
+    gap: 0.75rem;
+  }
+
+  .option-text {
+    font-size: 0.9rem;
+  }
+
+  .navigation-buttons {
+    margin-top: 2rem;
+  }
+
+  .nav-btn {
+    padding: 0.5rem 0.85rem;
+    font-size: 0.85rem;
+    gap: 0.3rem;
+  }
+
+  .exam-modal {
+    padding: 24px;
+  }
+
+  .exam-modal h3 {
+    font-size: 1.1rem;
   }
 }

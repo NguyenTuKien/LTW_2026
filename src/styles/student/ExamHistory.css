@@ -595,4 +595,42 @@
   .eh-stats {
     grid-template-columns: 1fr;
   }
+
+  .eh-main {
+    padding: 14px 10px 36px;
+  }
+
+  .eh-page-header h1 {
+    font-size: 20px;
+  }
+
+  .eh-stat-card {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .eh-stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    font-size: 18px;
+  }
+
+  .eh-stat-value {
+    font-size: 20px;
+  }
+
+  .eh-filter-tabs {
+    flex-wrap: wrap;
+  }
+
+  .eh-filter-tab {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  .eh-view-btn {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
 }

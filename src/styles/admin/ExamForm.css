@@ -954,3 +954,94 @@
   font-size: .78rem;
   color: #94a3b8;
 }
+
+/* ═══════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .exam-form-container {
+    padding: 1rem 0.75rem 5rem;
+  }
+
+  .exam-list-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .exam-list-table {
+    min-width: 700px;
+  }
+
+  .exam-list-table-wrap {
+    border-radius: 10px;
+  }
+
+  .exam-modal {
+    padding: 1.25rem;
+  }
+
+  .exam-modal-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .exam-modal-bank {
+    max-width: calc(100vw - 2rem);
+  }
+
+  .exam-bank-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .exam-action-bar {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .exam-action-bar .btn-back {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .exam-action-bar-right {
+    width: 100%;
+  }
+
+  .exam-form-grid-double {
+    grid-template-columns: 1fr;
+  }
+
+  .questions-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .exam-form-title {
+    font-size: 1.2rem;
+  }
+
+  .exam-content-card {
+    padding: 1rem;
+  }
+
+  .question-card {
+    padding: 1rem;
+  }
+
+  .exam-tab {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .exam-tab-text {
+    font-size: 0.78rem;
+  }
+
+  .exam-row-actions {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}

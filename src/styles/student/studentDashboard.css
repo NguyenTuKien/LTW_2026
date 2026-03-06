@@ -955,3 +955,67 @@
 
   .sd-sidebar { grid-template-columns: 1fr; }
 }
+
+@media (max-width: 480px) {
+  .sd-main {
+    padding: 16px 12px 32px;
+  }
+
+  .sd-welcome-title {
+    font-size: 1.2rem;
+  }
+
+  .sd-stat-card {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+
+  .sd-stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .sd-stat-value {
+    font-size: 1.5rem;
+  }
+
+  .sd-category-tabs {
+    flex-wrap: wrap;
+  }
+
+  .sd-cat-btn {
+    font-size: 0.78rem;
+    padding: 5px 10px;
+  }
+
+  .sd-status-btn {
+    font-size: 0.78rem;
+    padding: 7px 10px;
+  }
+
+  .sd-sidebar-card {
+    padding: 16px;
+  }
+
+  .sd-sidebar-title {
+    font-size: 0.88rem;
+  }
+
+  .sd-navbar-inner {
+    gap: 12px;
+    padding: 0 12px;
+  }
+
+  .exam-card {
+    padding: 14px;
+  }
+
+  .exam-card-title {
+    font-size: 0.88rem;
+  }
+
+  .exam-card-meta {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+}

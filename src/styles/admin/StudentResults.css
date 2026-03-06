@@ -858,6 +858,78 @@
   .sr-exam-detail {
     padding: 18px;
   }
+
+  .sr-student-list {
+    padding: 16px;
+  }
+
+  .sr-exam-history {
+    padding: 16px;
+  }
+
+  .sr-header-actions {
+    width: 100%;
+  }
+
+  .sr-header-actions .sr-btn-outline {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .sr-question-item {
+    padding: 14px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sr-page {
+    padding: 10px 8px;
+  }
+
+  .sr-page-header h1 {
+    font-size: 1.25rem;
+  }
+
+  .sr-avatar {
+    width: 60px;
+    height: 60px;
+    font-size: 1.4rem;
+  }
+
+  .sr-profile-name-row h2 {
+    font-size: 1.2rem;
+  }
+
+  .sr-profile-details {
+    gap: 12px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sr-question-header {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .sr-answer-box {
+    padding: 10px 12px;
+  }
+
+  .sr-detail-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .sr-exam-history-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .sr-back-btn {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
 }
 
 /* ── Print ───────────────────────────────────────────── */
