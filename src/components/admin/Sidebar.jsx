@@ -39,7 +39,7 @@ const Sidebar = ({ sidebarOpen, onCloseSidebar }) => {
       <aside className={`b-dashboard-sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="b-sidebar-header">
           <div className="b-sidebar-logo">
-            <span className="material-symbols-outlined">school</span>
+            <img src="/ptit-logo.png" alt="PTIT Logo" />
           </div>
           <h2 className="b-sidebar-title">PTIT Admin</h2>
         </div>
