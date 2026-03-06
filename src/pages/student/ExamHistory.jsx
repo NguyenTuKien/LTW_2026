@@ -52,7 +52,6 @@ export default function ExamHistory() {
     { label: 'Lịch sử thi', path: '/student/history' },
   ];
 
-  // Close profile menu on outside click
   useEffect(() => {
     function handleClick(e) {
       if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
@@ -102,7 +101,6 @@ export default function ExamHistory() {
 
   return (
     <div className="eh-page">
-      {/* Student Navbar */}
       <header className="sd-navbar">
         <div className="sd-navbar-inner">
           <div className="sd-navbar-brand">
@@ -174,13 +172,11 @@ export default function ExamHistory() {
       </header>
 
       <main className="eh-main">
-        {/* Page Header */}
         <div className="eh-page-header eh-animate" style={{ animationDelay: '0ms' }}>
           <h1>Lịch sử thi</h1>
           <p>Xem lại tất cả bài thi bạn đã hoàn thành.</p>
         </div>
 
-        {/* Stats */}
         <div className="eh-stats">
           <div className="eh-stat-card eh-animate" style={{ animationDelay: '60ms' }}>
             <div className="eh-stat-icon blue">
@@ -244,7 +240,6 @@ export default function ExamHistory() {
           </div>
         </div>
 
-        {/* History Table */}
         <div className="eh-table-card eh-animate" style={{ animationDelay: '380ms' }}>
           {filteredHistory.length === 0 ? (
             <div className="eh-empty">

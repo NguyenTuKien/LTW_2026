@@ -54,7 +54,6 @@ const Exam = () => {
     navigate('/student/result');
   }, [isSubmitted, examData, examId, user, timeLeft, questions, answers, navigate]);
 
-  // Timer countdown effect
   useEffect(() => {
     if (!examData || isSubmitted) return;
 
@@ -72,7 +71,6 @@ const Exam = () => {
     return () => clearInterval(timer);
   }, [examData, isSubmitted, handleSubmit]);
 
-  // Format time as HH:MM:SS
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -80,7 +78,6 @@ const Exam = () => {
     return `${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(secs).padStart(2, '0')}`;
   };
 
-  // Navigation handlers
   const handlePrevious = () => {
     if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
   };
@@ -93,12 +90,10 @@ const Exam = () => {
     setCurrentIndex(index);
   };
 
-  // Answer selection handler
   const handleAnswerSelect = (optionLabel) => {
     setAnswers({ ...answers, [currentIndex]: optionLabel });
   };
 
-  // Flag toggle handler
   const handleToggleFlag = () => {
     const newFlagged = new Set(flagged);
     if (newFlagged.has(currentIndex)) {
@@ -109,13 +104,11 @@ const Exam = () => {
     setFlagged(newFlagged);
   };
 
-  // Calculate progress
   const answeredCount = Object.keys(answers).length;
   const progressPercentage = questions.length ? (answeredCount / questions.length) * 100 : 0;
   const unansweredCount = questions.length - answeredCount;
   const flaggedCount = flagged.size;
 
-  // Get question status for styling
   const getQuestionStatus = (index) => {
     if (index === currentIndex) return 'current';
     if (flagged.has(index) && answers[index]) return 'answered flagged';
@@ -124,7 +117,6 @@ const Exam = () => {
     return 'unanswered';
   };
 
-  // Handle not found
   if (!examData) {
     return (
       <div className="exam-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -141,7 +133,6 @@ const Exam = () => {
 
   const currentQuestion = questions[currentIndex];
 
-  // Timer warning colors
   const totalSeconds = examData.duration * 60;
   const timePercent = (timeLeft / totalSeconds) * 100;
   const isTimeLow = timePercent <= 10;
@@ -149,7 +140,6 @@ const Exam = () => {
 
   return (
     <div className="exam-container">
-      {/* Header */}
       <header className="exam-header">
         <div className="exam-header-left">
           <div className="exam-logo">
@@ -172,7 +162,6 @@ const Exam = () => {
       </header>
 
       <div className="exam-content">
-        {/* Sidebar */}
         <aside className="exam-sidebar">
           <div className="sidebar-profile">
             <div
@@ -234,7 +223,6 @@ const Exam = () => {
           </div>
         </aside>
 
-        {/* Main content */}
         <main className="exam-main">
           <div className="question-container">
             <div className="question-header">
@@ -292,7 +280,6 @@ const Exam = () => {
         </main>
       </div>
 
-      {/* Submit Confirmation Modal */}
       {showSubmitModal && (
         <div className="exam-modal-overlay" onClick={() => setShowSubmitModal(false)}>
           <div className="exam-modal" onClick={(e) => e.stopPropagation()}>

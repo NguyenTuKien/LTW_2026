@@ -17,14 +17,12 @@ import { StudentProvider } from '../contexts/StudentContext';
 import { getCurrentUser, isAuthenticated } from '../utils/auth';
 import '../styles/admin/AdminLayout.css';
 
-// ── Helpers ────────────────────────────────────────────────────────────────────
 
 function getRole() {
   const user = getCurrentUser();
   return user ? user.role : null;
 }
 
-// Redirect if already logged in
 function GuestRoute({ children }) {
   if (!isAuthenticated()) return children;
   return getRole() === 'admin'
@@ -32,21 +30,17 @@ function GuestRoute({ children }) {
     : <Navigate to="/student" replace />;
 }
 
-// Require login + admin role
 function AdminRoute({ children }) {
   if (!isAuthenticated()) return <Navigate to="/login" replace />;
   if (getRole() !== 'admin') return <Navigate to="/student" replace />;
   return children;
 }
 
-// Require login + student role
 function StudentRoute({ children }) {
   if (!isAuthenticated()) return <Navigate to="/login" replace />;
   if (getRole() !== 'student') return <Navigate to="/admin" replace />;
   return children;
 }
-
-// ── Admin layout with shared ExamProvider ──────────────────────────────────────
 
 function AdminLayout({ children }) {
   return (
@@ -58,16 +52,11 @@ function AdminLayout({ children }) {
   );
 }
 
-// ── Router ─────────────────────────────────────────────────────────────────────
-
 function AppRouter() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Root → /login */}
         <Route path="/" element={<Navigate to="/login" replace />} />
-
-        {/* Auth page – guests only */}
         <Route
           path="/login"
           element={
@@ -77,7 +66,6 @@ function AppRouter() {
           }
         />
 
-        {/* Admin – Tổng quan (Dashboard) */}
         <Route
           path="/admin"
           element={
@@ -87,7 +75,6 @@ function AppRouter() {
           }
         />
 
-        {/* Admin – Quản lý Kỳ thi */}
         <Route
           path="/admin/exams"
           element={
@@ -97,7 +84,6 @@ function AppRouter() {
           }
         />
 
-        {/* Admin – Quản lý sinh viên */}
         <Route
           path="/admin/students"
           element={
@@ -107,7 +93,6 @@ function AppRouter() {
           }
         />
 
-        {/* Admin – Báo cáo thống kê */}
         <Route
           path="/admin/statistics"
           element={
@@ -117,7 +102,6 @@ function AppRouter() {
           }
         />
 
-        {/* Admin – Ngân hàng đề */}
         <Route
           path="/admin/question-bank"
           element={
@@ -127,7 +111,6 @@ function AppRouter() {
           }
         />
 
-        {/* Student dashboard – student only */}
         <Route
           path="/student"
           element={
@@ -137,7 +120,6 @@ function AppRouter() {
           }
         />
 
-        {/* Student – Exam Info */}
         <Route
           path="/student/exam-info/:examId"
           element={
@@ -147,7 +129,6 @@ function AppRouter() {
           }
         />
 
-        {/* Student – Exam Taking */}
         <Route
           path="/student/exam/:examId"
           element={
@@ -157,7 +138,6 @@ function AppRouter() {
           }
         />
 
-        {/* Student – Exam History */}
         <Route
           path="/student/history"
           element={
@@ -167,7 +147,6 @@ function AppRouter() {
           }
         />
 
-        {/* Student – Exam Result */}
         <Route
           path="/student/result"
           element={
@@ -177,7 +156,6 @@ function AppRouter() {
           }
         />
 
-        {/* Profile page – student only */}
         <Route
           path="/profile"
           element={
@@ -187,7 +165,6 @@ function AppRouter() {
           }
         />
 
-        {/* Catch-all → /login */}
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </BrowserRouter>

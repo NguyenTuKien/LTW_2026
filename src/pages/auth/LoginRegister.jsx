@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { login, register } from '../../utils/auth';
 import '../../styles/loginRegister.css';
 
-// ─── SVG Icons ───────────────────────────────────────────────────────────────
 const IconUser = () => <ion-icon name="person" style={{ fontSize: 'inherit' }}></ion-icon>;
 const IconLock = () => <ion-icon name="lock-closed" style={{ fontSize: 'inherit' }}></ion-icon>;
 const IconMail = () => <ion-icon name="mail" style={{ fontSize: 'inherit' }}></ion-icon>;
@@ -13,7 +12,6 @@ const IconArrow = () => <ion-icon name="arrow-forward" style={{ fontSize: 'inher
 const IconAlert = () => <ion-icon name="alert-circle" style={{ fontSize: 'inherit' }}></ion-icon>;
 const IconCheck = () => <ion-icon name="checkmark" style={{ fontSize: 'inherit' }}></ion-icon>;
 
-// ─── Login Form ───────────────────────────────────────────────────────────────
 function LoginForm({ onSwitchToRegister }) {
   const navigate = useNavigate();
 
@@ -26,7 +24,6 @@ function LoginForm({ onSwitchToRegister }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
-    // Xóa lỗi của field khi user bắt đầu nhập lại
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: undefined }));
     }
@@ -39,7 +36,6 @@ function LoginForm({ onSwitchToRegister }) {
     e.preventDefault();
     setLoading(true);
 
-    // Giả lập delay nhỏ cho UX
     setTimeout(() => {
       const result = login({ username: form.username, password: form.password });
 
@@ -121,7 +117,6 @@ function LoginForm({ onSwitchToRegister }) {
         )}
       </div>
 
-      {/* Remember me + Forgot */}
       <div className="auth-row">
         <label className="auth-remember">
           <input
@@ -134,7 +129,6 @@ function LoginForm({ onSwitchToRegister }) {
         <button type="button" className="auth-forgot">Quên mật khẩu?</button>
       </div>
 
-      {/* Submit */}
       <button type="submit" className="auth-submit-btn" disabled={loading} id="login-submit-btn">
         {loading ? (
           <span className="auth-spinner" />
@@ -153,7 +147,6 @@ function LoginForm({ onSwitchToRegister }) {
   );
 }
 
-// ─── Register Form ────────────────────────────────────────────────────────────
 function RegisterForm({ onSwitchToLogin }) {
   const [form, setForm] = useState({
     username: '',
@@ -186,7 +179,6 @@ function RegisterForm({ onSwitchToLogin }) {
         setSuccess(true);
         setForm({ username: '', email: '', password: '', confirmPassword: '' });
         setErrors({});
-        // Tự động chuyển sang tab Login sau 2s
         setTimeout(() => {
           onSwitchToLogin();
           setSuccess(false);
@@ -212,7 +204,6 @@ function RegisterForm({ onSwitchToLogin }) {
         </div>
       )}
 
-      {/* Username */}
       <div className="auth-field">
         <label className="auth-label" htmlFor="reg-username">Tên đăng nhập</label>
         <div className="auth-input-wrap">
@@ -234,7 +225,6 @@ function RegisterForm({ onSwitchToLogin }) {
         )}
       </div>
 
-      {/* Email */}
       <div className="auth-field">
         <label className="auth-label" htmlFor="reg-email">Email</label>
         <div className="auth-input-wrap">
@@ -255,7 +245,6 @@ function RegisterForm({ onSwitchToLogin }) {
         )}
       </div>
 
-      {/* Password */}
       <div className="auth-field">
         <label className="auth-label" htmlFor="reg-password">Mật khẩu</label>
         <div className="auth-input-wrap">
@@ -284,7 +273,6 @@ function RegisterForm({ onSwitchToLogin }) {
         )}
       </div>
 
-      {/* Confirm Password */}
       <div className="auth-field">
         <label className="auth-label" htmlFor="reg-confirm">Xác nhận mật khẩu</label>
         <div className="auth-input-wrap">
@@ -313,7 +301,6 @@ function RegisterForm({ onSwitchToLogin }) {
         )}
       </div>
 
-      {/* Submit */}
       <button
         type="submit"
         className="auth-submit-btn"
@@ -338,14 +325,12 @@ function RegisterForm({ onSwitchToLogin }) {
   );
 }
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
 export default function LoginRegister() {
   const [activeTab, setActiveTab] = useState('login'); // 'login' | 'register'
 
   return (
     <div className="auth-page">
       <div className="auth-card">
-        {/* Brand / Logo Panel */}
         <div className="auth-brand">
           <div className="auth-logo-wrapper">
             <img src="/ptit-logo.png" alt="Logo PTIT" />
@@ -357,9 +342,7 @@ export default function LoginRegister() {
           <div className="auth-brand-badge">PTIT Online Exam System</div>
         </div>
 
-        {/* Form Panel */}
         <div className="auth-form-panel">
-          {/* Tabs */}
           <div className="auth-tabs" role="tablist">
             <button
               role="tab"
@@ -381,7 +364,6 @@ export default function LoginRegister() {
             </button>
           </div>
 
-          {/* Tab Panels */}
           {activeTab === 'login' ? (
             <LoginForm onSwitchToRegister={() => setActiveTab('register')} />
           ) : (

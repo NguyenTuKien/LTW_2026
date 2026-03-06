@@ -9,7 +9,6 @@ const IconLogout = () => <ion-icon name="log-out" style={{ fontSize: 'inherit' }
 const IconAccount = () => <ion-icon name="person" style={{ fontSize: 'inherit' }}></ion-icon>;
 const IconSettings = () => <ion-icon name="settings" style={{ fontSize: 'inherit' }}></ion-icon>;
 
-// ── Search data ─────────────────────────────────────────────────────────────────
 const ADMIN_PAGES = [
   { label: 'Tổng quan', path: '/admin', icon: 'dashboard' },
   { label: 'Quản lý Kỳ thi', path: '/admin/exams', icon: 'assignment' },
@@ -33,7 +32,6 @@ const Navbar = ({ onOpenSidebar }) => {
   const displayName = username.charAt(0).toUpperCase() + username.slice(1);
   const roleName = user?.role === 'admin' ? 'Quản trị viên' : 'Sinh viên';
 
-  // ── Search results ──────────────────────────────────────────────────────────
   const { students } = useStudents();
 
   const searchResults = useMemo(() => {
@@ -70,7 +68,6 @@ const Navbar = ({ onOpenSidebar }) => {
     searchResults.students.length > 0 ||
     searchResults.exams.length > 0;
 
-  // ── Close on outside click ──────────────────────────────────────────────────
   useEffect(() => {
     function handleClick(e) {
       if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
@@ -84,16 +81,13 @@ const Navbar = ({ onOpenSidebar }) => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);
 
-  // ── Keyboard shortcuts ──────────────────────────────────────────────────────
   useEffect(() => {
     function handleKeyDown(e) {
-      // Ctrl+K to focus search
       if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
         searchInputRef.current?.focus();
         setSearchOpen(true);
       }
-      // Escape to close search
       if (e.key === 'Escape') {
         setSearchOpen(false);
         searchInputRef.current?.blur();

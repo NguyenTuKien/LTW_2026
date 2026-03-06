@@ -10,7 +10,6 @@ function Result() {
   const [searchParams] = useSearchParams();
   const fromHistory = searchParams.get('from') === 'history';
 
-  // Navbar state (when from history)
   const user = getCurrentUser();
   const avatarUrl = getUserAvatar();
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
@@ -38,14 +37,12 @@ function Result() {
     navigate('/login');
   };
 
-  // Load result data
   let examResult = defaultExamResult;
   const storedResult = sessionStorage.getItem('lastExamResult');
   if (storedResult) {
     try {
       examResult = JSON.parse(storedResult);
     } catch (e) {
-      // fallback to default
     }
   }
 
@@ -57,7 +54,6 @@ function Result() {
   const score = Number(((correctCount / totalQuestions) * 10).toFixed(1));
   const isPassed = score >= examResult.passScore;
 
-  // Ring animation
   const ringRadius = 58;
   const ringCircumference = 2 * Math.PI * ringRadius;
   const targetOffset = ringCircumference - (correctCount / totalQuestions) * ringCircumference;
@@ -65,7 +61,6 @@ function Result() {
   const [ringOffset, setRingOffset] = useState(ringCircumference); // start empty
 
   useEffect(() => {
-    // Small delay to trigger CSS transition
     const timer = setTimeout(() => {
       setRingOffset(targetOffset);
     }, 100);
@@ -79,7 +74,6 @@ function Result() {
 
   return (
     <div className={`result-page${fromHistory ? ' with-navbar' : ''}`}>
-      {/* Student Navbar (when from history) */}
       {fromHistory && (
         <header className="sd-navbar">
           <div className="sd-navbar-inner">
@@ -153,7 +147,6 @@ function Result() {
       )}
 
       <main className="result-wrapper">
-        {/* Back button */}
         <div className="result-back-row">
           <button className="result-back-btn" onClick={handleBackToDashboard}>
             <ion-icon name="arrow-back"></ion-icon>
@@ -161,7 +154,6 @@ function Result() {
           </button>
         </div>
 
-        {/* Summary Card */}
         <section className="result-summary">
           <div className="result-summary-accent"></div>
           <div className="result-summary-body">
@@ -177,7 +169,6 @@ function Result() {
             </div>
 
             <div className="result-overview">
-              {/* Score Ring */}
               <div className="score-ring-card">
                 <div className="score-ring-wrap">
                   <svg viewBox="0 0 150 150" className="score-ring-svg">
@@ -238,7 +229,6 @@ function Result() {
           </div>
         </section>
 
-        {/* Review Section */}
         <section className="result-review">
           <div className="review-header">
             <h2>XEM LẠI BÀI LÀM</h2>
@@ -273,7 +263,6 @@ function Result() {
                     const isSelected = hasAnswer && option === question.selectedAnswer;
                     const isAnswer = option === question.correctAnswer;
 
-                    // Determine option style class
                     let optionClass = 'review-option';
                     if (isSelected && isCorrect) {
                       optionClass += ' user-correct';
@@ -283,7 +272,6 @@ function Result() {
                       optionClass += ' correct-answer';
                     }
 
-                    // Determine radio style
                     let radioClass = 'review-radio';
                     if (isSelected && isCorrect) {
                       radioClass += ' filled correct-radio';
@@ -293,7 +281,6 @@ function Result() {
                       radioClass += ' filled correct-radio';
                     }
 
-                    // Determine badge text
                     let badge = null;
                     if (isSelected && isCorrect) {
                       badge = (

@@ -38,7 +38,6 @@ function StudentResults() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const navigate = useNavigate();
 
-  // ─── Filtered student list ───
   const filteredStudents = useMemo(() => {
     const kw = keyword.trim().toLowerCase();
     if (!kw) return students;
@@ -51,7 +50,6 @@ function StudentResults() {
     );
   }, [students, keyword]);
 
-  // ─── Active student (detail view) ───
   const activeStudent = useMemo(() => {
     if (selectedStudentId === null) return null;
     return students.find((s) => s.id === selectedStudentId) || null;
@@ -82,7 +80,6 @@ function StudentResults() {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      // If searching and only one result, auto-select it
       if (filteredStudents.length === 1) {
         handleSelectStudent(filteredStudents[0].id);
       }
@@ -100,11 +97,8 @@ function StudentResults() {
           <Navbar onOpenSidebar={() => setSidebarOpen(true)} />
           <div className="sr-page">
             <div className="sr-wrapper">
-
-              {/* ═══ Phase 1: Student List ═══ */}
               {!activeStudent ? (
                 <>
-                  {/* ─── Page Header ─── */}
                   <div className="sr-page-header">
                     <div>
                       <h1>Tra cứu Kết quả Sinh viên</h1>
@@ -122,7 +116,6 @@ function StudentResults() {
                     </div>
                   </div>
 
-                  {/* ─── Search Panel ─── */}
                   <div className="sr-search-panel">
                     <span className="material-symbols-outlined search-icon">search</span>
                     <input
@@ -152,7 +145,6 @@ function StudentResults() {
                     </div>
                   </div>
 
-                  {/* ─── Student List Table ─── */}
                   <div className="sr-student-list">
                     <div className="sr-student-list-header">
                       <h3>
@@ -231,15 +223,12 @@ function StudentResults() {
                   </div>
                 </>
               ) : (
-                /* ═══ Phase 2: Student Detail ═══ */
                 <>
-                  {/* ─── Back Button ─── */}
                   <button type="button" className="sr-back-btn" onClick={handleBackToList}>
                     <span className="material-symbols-outlined">arrow_back</span>
                     Quay lại danh sách
                   </button>
 
-                  {/* ─── Page Header (detail) ─── */}
                   <div className="sr-page-header">
                     <div>
                       <h1>Chi tiết Kết quả Sinh viên</h1>
@@ -257,7 +246,6 @@ function StudentResults() {
                     </div>
                   </div>
 
-                  {/* ─── Student Profile Card ─── */}
                   <div className="sr-profile-card">
                     <div className="sr-avatar">{getInitials(activeStudent.fullName)}</div>
                     <div className="sr-profile-info">
@@ -284,7 +272,6 @@ function StudentResults() {
                     </div>
                   </div>
 
-                  {/* ─── Exam History Table ─── */}
                   {activeStudent.exams.length === 0 ? (
                     <div className="sr-empty-state">
                       <span className="material-symbols-outlined">quiz</span>
@@ -352,7 +339,6 @@ function StudentResults() {
                     </div>
                   )}
 
-                  {/* ─── Exam Detail Panel ─── */}
                   {activeExam && (
                     <div className="sr-exam-detail">
                       <div className="sr-detail-header">

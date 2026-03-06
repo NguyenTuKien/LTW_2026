@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 
-// ── Unified initial student data ───────────────────────────────────────────────
 const initialStudents = [
   {
     id: 1,
@@ -137,7 +136,6 @@ const initialStudents = [
   },
 ];
 
-// ── Context ────────────────────────────────────────────────────────────────────
 const StudentContext = createContext(null);
 
 const getNextId = (items) =>

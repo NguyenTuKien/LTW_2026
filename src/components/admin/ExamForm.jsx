@@ -3,9 +3,6 @@ import * as XLSX from 'xlsx';
 import { useExams } from '../../contexts/ExamContext';
 import '../../styles/admin/ExamForm.css';
 
-/* ════════════════════════════════════════════════════════
-   Constants & helpers
-   ════════════════════════════════════════════════════════ */
 const EXAM_STATUS_OPTIONS = ['Sắp diễn ra', 'Đang diễn ra', 'Đã hoàn thành'];
 const EXAM_TYPE_OPTIONS = ['Tự do', 'Thời gian cụ thể'];
 
@@ -16,17 +13,12 @@ const STATUS_CLASS_MAP = {
 };
 const getStatusClass = (status) => STATUS_CLASS_MAP[status] || 'muted';
 
-/* ════════════════════════════════════════════════════════
-   ExamForm  –  main component
-   ════════════════════════════════════════════════════════ */
 const ExamForm = () => {
   const { exams, addExam, updateExam, deleteExam, bankExams } = useExams();
 
-  // ── view: 'list' | 'create' | 'edit'
   const [view, setView] = useState('list');
   const [editExamId, setEditExamId] = useState(null);
 
-  // ── exam form state (for create / edit)
   const [activeTab, setActiveTab] = useState(1);
   const [examInfo, setExamInfo] = useState({
     code: '',
@@ -42,16 +34,12 @@ const ExamForm = () => {
   const fileInputRef = useRef(null);
   const [questions, setQuestions] = useState([]);
 
-  // ── question bank import modal
   const [showBankModal, setShowBankModal] = useState(false);
 
-  // ── edit modal for inline quick edit from list
   const [quickEdit, setQuickEdit] = useState({ open: false, id: null, form: {} });
 
-  // ── search on list view
   const [listSearch, setListSearch] = useState('');
 
-  /* ─── Filtered exams for list view ────────────────── */
   const filteredExams = useMemo(() => {
     const kw = listSearch.trim().toLowerCase();
     if (!kw) return exams;
@@ -64,7 +52,6 @@ const ExamForm = () => {
     );
   }, [exams, listSearch]);
 
-  /* ─── Helpers ─────────────────────────────────────── */
   const resetForm = () => {
     setExamInfo({
       code: '', name: '', description: '', subject: '',
@@ -105,7 +92,6 @@ const ExamForm = () => {
     resetForm();
   };
 
-  /* ─── Form handlers ───────────────────────────────── */
   const handleInputInfoChange = (e) => {
     const { name, value } = e.target;
     setExamInfo((prev) => ({ ...prev, [name]: value }));
@@ -132,7 +118,6 @@ const ExamForm = () => {
   const toggleEditMode = (qId) =>
     setQuestions((prev) => prev.map((q) => (q.id === qId ? { ...q, isEditMode: !q.isEditMode } : q)));
 
-  /* ─── Excel upload ────────────────────────────────── */
   const parseExcelToQuestions = (data) => {
     const parsed = [];
     for (let i = 1; i < data.length; i++) {
@@ -187,7 +172,6 @@ const ExamForm = () => {
 
   const handleImportClick = () => fileInputRef.current?.click();
 
-  /* ─── Import from Question Bank ───────────────────── */
   const importFromBank = (bankExam) => {
     const converted = bankExam.questions.map((q, idx) => ({
       id: Date.now() + idx,
@@ -205,13 +189,11 @@ const ExamForm = () => {
     alert(`Đã nhập ${converted.length} câu hỏi từ "${bankExam.title}"`);
   };
 
-  /* ─── Save / Publish ──────────────────────────────── */
   const handleComplete = () => {
     if (activeTab < 3) {
       setActiveTab((prev) => prev + 1);
       return;
     }
-    // Save to context
     const payload = {
       code: examInfo.code.trim() || `EXAM-${Date.now()}`,
       title: examInfo.name.trim() || 'Kỳ thi mới',
@@ -234,7 +216,6 @@ const ExamForm = () => {
 
   const handleReturn = () => setActiveTab((prev) => prev - 1);
 
-  /* ─── Quick Edit Modal (from list) ────────────────── */
   const openQuickEdit = (exam) => {
     setQuickEdit({
       open: true,
@@ -276,9 +257,7 @@ const ExamForm = () => {
     deleteExam(id);
   };
 
-  /* ════════════════════════════════════════════════════
-        RENDER – LIST VIEW
-     ════════════════════════════════════════════════════ */
+
   if (view === 'list') {
     return (
       <>
@@ -406,12 +385,8 @@ const ExamForm = () => {
     );
   }
 
-  /* ════════════════════════════════════════════════════
-        RENDER – CREATE / EDIT VIEW (3-tab form)
-     ════════════════════════════════════════════════════ */
   return (
     <>
-      {/* Hidden file input for Excel */}
       <input ref={fileInputRef} type="file" accept=".xlsx,.xls" style={{ display: 'none' }} onChange={handleExcelUpload} />
 
       <div className="exam-form-container">
@@ -448,7 +423,6 @@ const ExamForm = () => {
             </div>
           </div>
 
-          {/* Tab 1: Thông tin chung */}
           {activeTab === 1 && (
             <div className="exam-content-card">
               <h2 className="exam-content-title">Thông tin chung</h2>
@@ -503,7 +477,6 @@ const ExamForm = () => {
             </div>
           )}
 
-          {/* Tab 2: Nội dung câu hỏi */}
           {activeTab === 2 && (
             <>
               <div className="questions-header">
@@ -600,7 +573,6 @@ const ExamForm = () => {
             </>
           )}
 
-          {/* Tab 3: Thiết lập & Xuất bản */}
           {activeTab === 3 && (
             <div className="exam-content-card">
               <h2 className="exam-content-title">Thiết lập &amp; Xuất bản</h2>
@@ -682,7 +654,6 @@ const ExamForm = () => {
         </div>
       </div>
 
-      {/* Fixed Bottom Action Bar */}
       <div className="exam-action-bar">
         <button className="btn-back" onClick={activeTab === 1 ? backToList : handleReturn}>
           <span className="material-symbols-outlined">arrow_back</span>
@@ -698,7 +669,6 @@ const ExamForm = () => {
         </div>
       </div>
 
-      {/* ── Question Bank Import Modal ─────────────── */}
       {showBankModal && (
         <div className="exam-modal-overlay" onClick={() => setShowBankModal(false)}>
           <div className="exam-modal exam-modal-bank" onClick={(e) => e.stopPropagation()}>

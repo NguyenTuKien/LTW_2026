@@ -5,7 +5,6 @@ import '../../styles/admin/QuestionBankPanel.css';
 const QuestionBankPanel = () => {
   const { bankExams, addBankExam, updateBankExam, deleteBankExam } = useExams();
   
-  // view: 'list' | 'edit'
   const [view, setView] = useState('list');
   const [expandedId, setExpandedId] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -50,7 +49,6 @@ const QuestionBankPanel = () => {
     }
   };
 
-  /* ─── Editor Actions ─── */
   const openCreate = () => {
     setEditId(null);
     setFormParams({ title: '', duration: 60 });
@@ -240,7 +238,6 @@ const QuestionBankPanel = () => {
     );
   }
 
-  /* ─── List View ─── */
   return (
     <div className="qbank-page">
       {/* Heading */}
@@ -275,7 +272,6 @@ const QuestionBankPanel = () => {
         </div>
       </div>
 
-      {/* Search */}
       <div className="qbank-search-bar">
         <span className="material-symbols-outlined">search</span>
         <input
@@ -286,7 +282,6 @@ const QuestionBankPanel = () => {
         />
       </div>
 
-      {/* Set list */}
       <div className="qbank-set-list">
         {filteredExams.length === 0 && (
           <div className="qbank-empty-state">
@@ -339,7 +334,6 @@ const QuestionBankPanel = () => {
                 </div>
               </div>
 
-              {/* Questions detail */}
               {isExpanded && (
                 <div className="qbank-questions">
                   <div className="qbank-questions-head">

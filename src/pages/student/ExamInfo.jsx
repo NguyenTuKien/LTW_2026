@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { getCurrentUser } from '../../utils/auth';
 import '../../styles/student/ExamInfo.css';
 
-// Exam data mapping (matching MOCK_EXAMS in Dashboard)
 const EXAM_INFO_DATA = {
   'dsa-practice-1': {
     title: 'Cấu trúc dữ liệu và Giải thuật - Bài luyện tập 1',
@@ -76,7 +75,6 @@ export default function ExamInfo() {
 
   return (
     <div className="ei-root">
-      {/* Header */}
       <header className="ei-header">
         <div className="ei-header-left">
           <img src="/ptit-logo.png" alt="PTIT Logo" className="ei-logo" />
@@ -90,9 +88,7 @@ export default function ExamInfo() {
         </div>
       </header>
 
-      {/* Main Content */}
       <main className="ei-main">
-        {/* Exam Title Section */}
         <section className="ei-hero">
           <div className="ei-hero-badge">{examInfo.category}</div>
           <h1 className="ei-hero-title">{examInfo.title}</h1>
@@ -102,7 +98,6 @@ export default function ExamInfo() {
         <div className="ei-content-grid">
           {/* Left Column */}
           <div className="ei-left-col">
-            {/* Basic Info Card */}
             <div className="ei-card ei-info-card">
               <h2 className="ei-card-title">
                 <ion-icon name="information-circle"></ion-icon>
@@ -166,7 +161,6 @@ export default function ExamInfo() {
               </div>
             </div>
 
-            {/* Rules Card */}
             <div className="ei-card ei-rules-card">
               <h2 className="ei-card-title">
                 <ion-icon name="shield-checkmark"></ion-icon>
@@ -195,9 +189,7 @@ export default function ExamInfo() {
             </div>
           </div>
 
-          {/* Right Column */}
           <div className="ei-right-col">
-            {/* Instructions Card */}
             <div className="ei-card ei-guide-card">
               <h2 className="ei-card-title">
                 <ion-icon name="document-text"></ion-icon>
@@ -242,7 +234,6 @@ export default function ExamInfo() {
               </div>
             </div>
 
-            {/* Start Card */}
             <div className="ei-card ei-start-card">
               <div className="ei-agree-row">
                 <label className="ei-checkbox-label">

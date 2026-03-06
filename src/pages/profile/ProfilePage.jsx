@@ -19,9 +19,8 @@ export default function ProfilePage() {
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [avatarData, setAvatarData] = useState(null);
   const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState(null); // { type: 'success' | 'error', text: '' }
+  const [message, setMessage] = useState(null); 
 
-  // Load current data
   useEffect(() => {
     if (user) {
       setFullName(user.fullName || '');
@@ -39,13 +38,11 @@ export default function ProfilePage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Validate file type
     if (!file.type.startsWith('image/')) {
       setMessage({ type: 'error', text: 'Vui lòng chọn file ảnh (jpg, png, gif...)' });
       return;
     }
 
-    // Validate file size (max 2MB)
     if (file.size > 2 * 1024 * 1024) {
       setMessage({ type: 'error', text: 'Kích thước ảnh tối đa là 2MB.' });
       return;
@@ -76,7 +73,7 @@ export default function ProfilePage() {
       setSaving(false);
       if (result.success) {
         setMessage({ type: 'success', text: 'Cập nhật thành công!' });
-        setAvatarData(null); // Reset pending avatar
+        setAvatarData(null); 
       } else {
         setMessage({ type: 'error', text: result.error || 'Có lỗi xảy ra.' });
       }
@@ -105,13 +102,11 @@ export default function ProfilePage() {
         </div>
       </header>
 
-      {/* Main */}
       <main className="pp-main">
         <div className="pp-card animate-in">
           <h1 className="pp-title">Thông tin cá nhân</h1>
           <p className="pp-subtitle">Quản lý thông tin hồ sơ của bạn</p>
 
-          {/* Avatar */}
           <div className="pp-avatar-section">
             <div className="pp-avatar-wrap" onClick={handleAvatarClick} title="Nhấn để thay đổi ảnh đại diện">
               {avatarPreview ? (
@@ -136,7 +131,6 @@ export default function ProfilePage() {
             <p className="pp-avatar-hint">Nhấn vào ảnh để thay đổi • Tối đa 2MB</p>
           </div>
 
-          {/* Form */}
           <div className="pp-form">
             <div className="pp-field">
               <label className="pp-label">Tên đăng nhập</label>
@@ -173,14 +167,12 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          {/* Message */}
           {message && (
             <div className={`pp-message pp-message--${message.type}`}>
               {message.text}
             </div>
           )}
 
-          {/* Actions */}
           <div className="pp-actions">
             <button className="pp-btn pp-btn--secondary" onClick={() => navigate('/student')}>
               Hủy

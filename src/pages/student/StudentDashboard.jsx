@@ -3,9 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, logout, getUserAvatar } from '../../utils/auth';
 import '../../styles/student/studentDashboard.css';
 
-// ─── Mock Data ─────────────────────────────────────────────────────────────────
-
-// Status keys: 'ready' | 'notStarted' | 'inactive' | 'expired'
 const STATUS_MAP = {
   ready:      { label: 'Sẵn sàng',       className: 'status-ready' },
   notStarted: { label: 'Chưa bắt đầu',   className: 'status-not-started' },
@@ -182,7 +179,6 @@ export default function StudentDashboard() {
     navigate('/login');
   };
 
-  // Filter logic
   const filteredExams = MOCK_EXAMS.filter((exam) => {
     const matchesSearch = exam.title.toLowerCase().includes(search.toLowerCase());
     const matchesCategory = categoryFilter === 'all' || exam.category === categoryFilter;
@@ -214,7 +210,6 @@ export default function StudentDashboard() {
 
   return (
     <div className="sd-root">
-      {/* ── Navbar ─────────────────────────────────────────────── */}
       <header className="sd-navbar">
         <div className="sd-navbar-inner">
           {/* Logo */}
@@ -223,7 +218,6 @@ export default function StudentDashboard() {
             <span className="sd-brand-name">Hệ thống thi trực tuyến PTIT</span>
           </div>
 
-          {/* Nav links */}
             <nav className="sd-nav-links">
               {navLinks.map((link) => (
                 <button
@@ -239,14 +233,12 @@ export default function StudentDashboard() {
               ))}
             </nav>
 
-          {/* Right side */}
           <div className="sd-navbar-right">
             <button className="sd-icon-btn" aria-label="Thông báo">
               <IconBell />
               <span className="sd-badge">3</span>
             </button>
 
-            {/* Profile menu */}
             <div className="sd-profile-wrap" ref={profileMenuRef}>
               <button
                 className="sd-profile-btn"
@@ -296,9 +288,7 @@ export default function StudentDashboard() {
         </div>
       </header>
 
-      {/* ── Page Body ───────────────────────────────────────────── */}
       <main className="sd-main">
-        {/* Welcome */}
         <section className="sd-welcome">
           <div>
             <h1 className="sd-welcome-title">Xin chào, {displayName}!</h1>
@@ -306,7 +296,6 @@ export default function StudentDashboard() {
           <p className="sd-welcome-sub">Tổng quan tiến độ học tập của bạn.</p>
         </section>
 
-        {/* Stats */}
         <div className="sd-stats">
           <div className="sd-stat-card animate-in" style={{ animationDelay: '0ms' }}>
             <div className="sd-stat-icon"><IconDoc /></div>
@@ -331,7 +320,6 @@ export default function StudentDashboard() {
           </div>
         </div>
 
-        {/* Search & Filter */}
         <div className="sd-filter-bar animate-in" style={{ animationDelay: '220ms' }}>
           <div className="sd-search-wrap">
             <IconSearch />
@@ -382,9 +370,7 @@ export default function StudentDashboard() {
           </div>
         </div>
 
-        {/* Content: Exams + Sidebar */}
         <div className="sd-content-layout">
-          {/* Exams Section */}
           <section className="sd-exams-section">
             <h2 className="sd-section-title">Danh sách bài thi</h2>
 
@@ -407,9 +393,7 @@ export default function StudentDashboard() {
             )}
           </section>
 
-          {/* Sidebar */}
           <aside className="sd-sidebar">
-            {/* Hạn chót sắp tới */}
             <div className="sd-sidebar-card animate-in" style={{ animationDelay: '100ms' }}>
               <h3 className="sd-sidebar-title">
                 <span className="sd-sidebar-title-icon"><IconCalendar /></span>
@@ -431,7 +415,6 @@ export default function StudentDashboard() {
               </div>
             </div>
 
-            {/* Bài thi gần đây */}
             <div className="sd-sidebar-card animate-in" style={{ animationDelay: '200ms' }}>
               <h3 className="sd-sidebar-title">
                 <span className="sd-sidebar-title-icon"><IconHistory /></span>
