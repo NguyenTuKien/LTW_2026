@@ -1,7 +1,7 @@
 ﻿import { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Sidebar from '../../components/layout/Sidebar';
-import Navbar from '../../components/layout/Navbar';
+import Sidebar from '../../components/admin/Sidebar';
+import Navbar from '../../components/admin/Navbar';
 import { useStudents } from '../../contexts/StudentContext';
 import '../../styles/admin/StudentResults.css';
 

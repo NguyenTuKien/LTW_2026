@@ -15,7 +15,7 @@ import ProfilePage from '../pages/profile/ProfilePage';
 import { ExamProvider } from '../contexts/ExamContext';
 import { StudentProvider } from '../contexts/StudentContext';
 import { getCurrentUser, isAuthenticated } from '../utils/auth';
-import './App.css';
+import '../styles/admin/AdminLayout.css';
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
 

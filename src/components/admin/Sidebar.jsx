@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import './Sidebar.css';
+import '../../styles/admin/Sidebar.css';
 
 const NAV_ITEMS = [
   { path: '/admin', icon: 'dashboard', label: 'Tổng quan' },

@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom';
 import { getCurrentUser, logout, getUserAvatar } from '../../utils/auth';
 import { useStudents } from '../../contexts/StudentContext';
-import './Navbar.css';
+import '../../styles/admin/Navbar.css';
 
 const IconUser = () => <ion-icon name="person-circle" style={{ fontSize: 'inherit' }}></ion-icon>;
 const IconLogout = () => <ion-icon name="log-out" style={{ fontSize: 'inherit' }}></ion-icon>;

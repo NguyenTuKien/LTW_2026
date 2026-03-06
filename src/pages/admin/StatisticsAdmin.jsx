@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Sidebar from '../../components/layout/Sidebar';
-import Navbar from '../../components/layout/Navbar';
+import Sidebar from '../../components/admin/Sidebar';
+import Navbar from '../../components/admin/Navbar';
 import StatisticsPanel from '../../components/admin/StatisticsPanel';
 
 const StatisticsAdmin = () => {
