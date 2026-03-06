@@ -22,27 +22,33 @@ const CATEGORY_MAP = {
 const MOCK_EXAMS = [
   {
     id: 1, title: 'Cấu trúc dữ liệu và Giải thuật - Bài luyện tập 1',
-    category: 'PRACTICE', status: 'ready', duration: 60, questions: 40, openDate: null,
+    category: 'PRACTICE', status: 'ready', duration: 60, questions: 30, openDate: null,
+    examDataId: 'dsa-practice-1',
   },
   {
     id: 2, title: 'Hệ quản trị Cơ sở dữ liệu - Thi giữa kỳ',
     category: 'MIDTERM', status: 'notStarted', duration: 90, questions: 60, openDate: '15/10/2023 08:00',
+    examDataId: null,
   },
   {
     id: 3, title: 'Mạng máy tính - Thi cuối kỳ',
-    category: 'FINAL', status: 'ready', duration: 120, questions: 100, openDate: null,
+    category: 'FINAL', status: 'ready', duration: 90, questions: 30, openDate: null,
+    examDataId: 'network-final',
   },
   {
-    id: 4, title: 'Công nghệ phần mềm - Bài kiểm tra thử',
-    category: 'PRACTICE', status: 'ready', duration: 45, questions: 30, openDate: null,
+    id: 4, title: 'Công nghệ phần mềm - Bài kiểm tra',
+    category: 'PRACTICE', status: 'ready', duration: 75, questions: 30, openDate: null,
+    examDataId: 'software-engineering-test',
   },
   {
     id: 5, title: 'Hệ điều hành - Bài luyện tập',
     category: 'PRACTICE', status: 'inactive', duration: 30, questions: 20, openDate: '20/10/2023 10:00',
+    examDataId: null,
   },
   {
     id: 6, title: 'An toàn thông tin - Thi giữa kỳ',
     category: 'MIDTERM', status: 'expired', duration: 75, questions: 50, openDate: '01/09/2023 08:00',
+    examDataId: null,
   },
 ];
 
@@ -79,6 +85,7 @@ const IconDeadlineCalendar = () => <ion-icon name="calendar" style={{ fontSize: 
 
 function ExamCard({ exam }) {
   const [hovered, setHovered] = useState(false);
+  const navigate = useNavigate();
 
   const categoryClass = {
     PRACTICE: 'badge-practice',
@@ -87,7 +94,7 @@ function ExamCard({ exam }) {
   }[exam.category] || 'badge-practice';
 
   const statusInfo = STATUS_MAP[exam.status] || STATUS_MAP.ready;
-  const canStart = exam.status === 'ready';
+  const canStart = exam.status === 'ready' && exam.examDataId;
 
   const statusIcon = {
     ready: <IconUnlock />,
@@ -95,6 +102,12 @@ function ExamCard({ exam }) {
     inactive: <IconLock />,
     expired: <IconLock />,
   }[exam.status];
+
+  const handleStartExam = () => {
+    if (exam.examDataId) {
+      navigate(`/student/exam-info/${exam.examDataId}`);
+    }
+  };
 
   return (
     <div
@@ -120,7 +133,7 @@ function ExamCard({ exam }) {
       {canStart ? (
         <button
           className="btn-start-exam"
-          onClick={() => alert(`Bắt đầu bài thi: ${exam.title}`)}
+          onClick={handleStartExam}
         >
           Bắt đầu thi
         </button>
@@ -180,7 +193,10 @@ export default function StudentDashboard() {
   const username = user?.username || 'Student';
   const displayName = username.charAt(0).toUpperCase() + username.slice(1);
 
-  const navLinks = ['Trang chủ', 'Bài thi', 'Kết quả'];
+  const navLinks = [
+    { label: 'Trang chủ', path: '/student' },
+    { label: 'Lịch sử thi', path: '/student/history' },
+  ];
   const categories = [
     { key: 'all', label: 'Tất cả' },
     { key: 'PRACTICE', label: 'Luyện tập' },
@@ -208,17 +224,20 @@ export default function StudentDashboard() {
           </div>
 
           {/* Nav links */}
-          <nav className="sd-nav-links">
-            {navLinks.map((label) => (
-              <button
-                key={label}
-                className={`sd-nav-link${activeNav === label ? ' active' : ''}`}
-                onClick={() => setActiveNav(label)}
-              >
-                {label}
-              </button>
-            ))}
-          </nav>
+            <nav className="sd-nav-links">
+              {navLinks.map((link) => (
+                <button
+                  key={link.label}
+                  className={`sd-nav-link${activeNav === link.label ? ' active' : ''}`}
+                  onClick={() => {
+                    setActiveNav(link.label);
+                    navigate(link.path);
+                  }}
+                >
+                  {link.label}
+                </button>
+              ))}
+            </nav>
 
           {/* Right side */}
           <div className="sd-navbar-right">

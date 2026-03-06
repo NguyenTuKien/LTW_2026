@@ -7,6 +7,10 @@ import StudentResults from '../pages/admin/StudentResults';
 import StatisticsAdmin from '../pages/admin/StatisticsAdmin';
 import QuestionBank from '../pages/admin/QuestionBank';
 import StudentDashboard from '../pages/student/StudentDashboard';
+import ExamInfo from '../pages/student/ExamInfo';
+import Exam from '../pages/student/Exam';
+import Result from '../pages/student/Result';
+import ExamHistory from '../pages/student/ExamHistory';
 import ProfilePage from '../pages/profile/ProfilePage';
 import { ExamProvider } from '../contexts/ExamContext';
 import { StudentProvider } from '../contexts/StudentContext';
@@ -129,6 +133,46 @@ function AppRouter() {
           element={
             <StudentRoute>
               <StudentDashboard />
+            </StudentRoute>
+          }
+        />
+
+        {/* Student – Exam Info */}
+        <Route
+          path="/student/exam-info/:examId"
+          element={
+            <StudentRoute>
+              <ExamInfo />
+            </StudentRoute>
+          }
+        />
+
+        {/* Student – Exam Taking */}
+        <Route
+          path="/student/exam/:examId"
+          element={
+            <StudentRoute>
+              <Exam />
+            </StudentRoute>
+          }
+        />
+
+        {/* Student – Exam History */}
+        <Route
+          path="/student/history"
+          element={
+            <StudentRoute>
+              <ExamHistory />
+            </StudentRoute>
+          }
+        />
+
+        {/* Student – Exam Result */}
+        <Route
+          path="/student/result"
+          element={
+            <StudentRoute>
+              <Result />
             </StudentRoute>
           }
         />

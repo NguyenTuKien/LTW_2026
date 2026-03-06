@@ -1,219 +1,338 @@
-﻿import { examResult } from '../../data/studentExamResultData';
+﻿import { useState, useEffect, useRef } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { examResult as defaultExamResult } from '../../data/studentExamResultData';
+import { getCurrentUser, logout, getUserAvatar } from '../../utils/auth';
+import '../../styles/studentDashboard.css';
 import './Result.css';
 
-const formatDateTime = (isoDate) => {
-  const date = new Date(isoDate);
-  return `${date.toLocaleDateString('vi-VN')} ${date.toLocaleTimeString('vi-VN', {
-    hour: '2-digit',
-    minute: '2-digit',
-  })}`;
-};
-
 function Result() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const fromHistory = searchParams.get('from') === 'history';
+
+  // Navbar state (when from history)
+  const user = getCurrentUser();
+  const avatarUrl = getUserAvatar();
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef(null);
+  const username = user?.username || 'Student';
+  const displayName = username.charAt(0).toUpperCase() + username.slice(1);
+
+  const navLinks = [
+    { label: 'Trang chủ', path: '/student' },
+    { label: 'Lịch sử thi', path: '/student/history' },
+  ];
+
+  useEffect(() => {
+    function handleClick(e) {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
+        setProfileMenuOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClick);
+    return () => document.removeEventListener('mousedown', handleClick);
+  }, []);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
+
+  // Load result data
+  let examResult = defaultExamResult;
+  const storedResult = sessionStorage.getItem('lastExamResult');
+  if (storedResult) {
+    try {
+      examResult = JSON.parse(storedResult);
+    } catch (e) {
+      // fallback to default
+    }
+  }
+
   const totalQuestions = examResult.questions.length;
   const correctCount = examResult.questions.filter(
-    (question) => question.selectedAnswer === question.correctAnswer
+    (q) => q.selectedAnswer === q.correctAnswer
   ).length;
-  const answeredCount = examResult.questions.filter((question) => question.selectedAnswer).length;
-  const unansweredCount = totalQuestions - answeredCount;
-  const wrongCount = answeredCount - correctCount;
+  const wrongCount = totalQuestions - correctCount;
+  const score = Number(((correctCount / totalQuestions) * 10).toFixed(1));
+  const isPassed = score >= examResult.passScore;
 
-  const score = Number(((correctCount / totalQuestions) * 10).toFixed(2));
-  const accuracy = Number(((correctCount / totalQuestions) * 100).toFixed(1));
-  const wrongRate = Number(((wrongCount / totalQuestions) * 100).toFixed(1));
-  const emptyRate = Number(((unansweredCount / totalQuestions) * 100).toFixed(1));
-  const passStatus = score >= examResult.passScore ? 'Đạt' : 'Không đạt';
-
-  const ringRadius = 54;
+  // Ring animation
+  const ringRadius = 58;
   const ringCircumference = 2 * Math.PI * ringRadius;
-  const ringOffset = ringCircumference - (accuracy / 100) * ringCircumference;
+  const targetOffset = ringCircumference - (correctCount / totalQuestions) * ringCircumference;
 
-  const topicStats = Object.values(
-    examResult.questions.reduce((accumulator, question) => {
-      if (!accumulator[question.topic]) {
-        accumulator[question.topic] = {
-          topic: question.topic,
-          total: 0,
-          correct: 0,
-        };
-      }
-      accumulator[question.topic].total += 1;
-      if (question.selectedAnswer === question.correctAnswer) {
-        accumulator[question.topic].correct += 1;
-      }
-      return accumulator;
-    }, {})
-  ).map((topic) => ({
-    ...topic,
-    accuracy: Number(((topic.correct / topic.total) * 100).toFixed(1)),
-  }));
+  const [ringOffset, setRingOffset] = useState(ringCircumference); // start empty
+
+  useEffect(() => {
+    // Small delay to trigger CSS transition
+    const timer = setTimeout(() => {
+      setRingOffset(targetOffset);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [targetOffset]);
+
+  const handleBackToDashboard = () => {
+    sessionStorage.removeItem('lastExamResult');
+    navigate(fromHistory ? '/student/history' : '/student');
+  };
 
   return (
-    <div className="result-page">
+    <div className={`result-page${fromHistory ? ' with-navbar' : ''}`}>
+      {/* Student Navbar (when from history) */}
+      {fromHistory && (
+        <header className="sd-navbar">
+          <div className="sd-navbar-inner">
+            <div className="sd-navbar-brand">
+              <img src="/ptit-logo.png" alt="PTIT Logo" style={{ height: '32px', width: 'auto' }} />
+              <span className="sd-brand-name">Hệ thống thi trực tuyến PTIT</span>
+            </div>
+            <nav className="sd-nav-links">
+              {navLinks.map((link) => (
+                <button
+                  key={link.label}
+                  className={`sd-nav-link${link.label === 'Lịch sử thi' ? ' active' : ''}`}
+                  onClick={() => navigate(link.path)}
+                >
+                  {link.label}
+                </button>
+              ))}
+            </nav>
+            <div className="sd-navbar-right">
+              <button className="sd-icon-btn" aria-label="Thông báo">
+                <ion-icon name="notifications" style={{ fontSize: 'inherit' }}></ion-icon>
+                <span className="sd-badge">3</span>
+              </button>
+              <div className="sd-profile-wrap" ref={profileMenuRef}>
+                <button
+                  className="sd-profile-btn"
+                  onClick={() => setProfileMenuOpen((v) => !v)}
+                  aria-expanded={profileMenuOpen}
+                  aria-label="Tài khoản"
+                >
+                  <div className="sd-avatar">
+                    {avatarUrl ? (
+                      <img src={avatarUrl} alt="Avatar" className="sd-avatar-img" />
+                    ) : (
+                      <ion-icon name="person-circle" style={{ fontSize: 'inherit' }}></ion-icon>
+                    )}
+                  </div>
+                </button>
+                {profileMenuOpen && (
+                  <div className="sd-dropdown">
+                    <div className="sd-dropdown-user">
+                      <div className="sd-dropdown-avatar">
+                        {avatarUrl ? (
+                          <img src={avatarUrl} alt="Avatar" className="sd-dropdown-avatar-img" />
+                        ) : (
+                          <ion-icon name="person-circle" style={{ fontSize: 'inherit' }}></ion-icon>
+                        )}
+                      </div>
+                      <div>
+                        <div className="sd-dropdown-name">{displayName}</div>
+                        <div className="sd-dropdown-role">Sinh viên</div>
+                      </div>
+                    </div>
+                    <div className="sd-dropdown-divider" />
+                    <button className="sd-dropdown-item" onClick={() => { setProfileMenuOpen(false); navigate('/profile'); }}>
+                      <ion-icon name="person" style={{ fontSize: 'inherit' }}></ion-icon> Tài khoản
+                    </button>
+                    <button className="sd-dropdown-item sd-dropdown-item--disabled" disabled>
+                      <ion-icon name="settings" style={{ fontSize: 'inherit' }}></ion-icon> Cài đặt
+                    </button>
+                    <div className="sd-dropdown-divider" />
+                    <button className="sd-dropdown-logout" onClick={handleLogout}>
+                      <ion-icon name="log-out" style={{ fontSize: 'inherit' }}></ion-icon> Đăng xuất
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </header>
+      )}
+
       <main className="result-wrapper">
+        {/* Back button */}
+        <div className="result-back-row">
+          <button className="result-back-btn" onClick={handleBackToDashboard}>
+            <ion-icon name="arrow-back"></ion-icon>
+            Quay lại Trang chủ
+          </button>
+        </div>
+
+        {/* Summary Card */}
         <section className="result-summary">
-          <div className="summary-header">
-            <div>
-              <h1>Kết quả bài thi</h1>
-              <p>
-                {examResult.studentName} - {examResult.studentCode}
-              </p>
-              <p>
-                {examResult.examName} ({examResult.examCode})
-              </p>
-              <p>Thời điểm nộp: {formatDateTime(examResult.submittedAt)}</p>
+          <div className="result-summary-accent"></div>
+          <div className="result-summary-body">
+            <div className="summary-header">
+              <div>
+                <h1>KẾT QUẢ BÀI THI</h1>
+                <p>Bạn đã hoàn thành bài thi {examResult.examName}.</p>
+              </div>
+              <div className={`result-status ${isPassed ? 'pass' : 'fail'}`}>
+                <span className="status-icon">{isPassed ? '✓' : '✕'}</span>
+                <span>{isPassed ? 'Đạt' : 'Không đạt'}</span>
+              </div>
             </div>
-            <div className={`result-status ${score >= examResult.passScore ? 'pass' : 'fail'}`}>
-              <span className="status-icon">{score >= examResult.passScore ? '✓' : '✕'}</span>
-              <span>{passStatus}</span>
-            </div>
-          </div>
 
-          <div className="result-overview">
-            <div className="score-ring-card">
-              <div className="score-ring-wrap">
-                <svg viewBox="0 0 140 140" className="score-ring-svg">
-                  <circle cx="70" cy="70" r={ringRadius} className="score-ring-track" />
-                  <circle
-                    cx="70"
-                    cy="70"
-                    r={ringRadius}
-                    className="score-ring-fill"
-                    style={{
-                      strokeDasharray: ringCircumference,
-                      strokeDashoffset: ringOffset,
-                    }}
-                  />
-                </svg>
-                <div className="score-ring-center">
-                  <strong>{score}</strong>
-                  <span>trên 10</span>
+            <div className="result-overview">
+              {/* Score Ring */}
+              <div className="score-ring-card">
+                <div className="score-ring-wrap">
+                  <svg viewBox="0 0 150 150" className="score-ring-svg">
+                    <circle cx="75" cy="75" r={ringRadius} className="score-ring-track" />
+                    <circle
+                      cx="75"
+                      cy="75"
+                      r={ringRadius}
+                      className={`score-ring-fill${!isPassed ? ' fail-color' : ''}`}
+                      style={{
+                        strokeDasharray: ringCircumference,
+                        strokeDashoffset: ringOffset,
+                      }}
+                    />
+                  </svg>
+                  <div className="score-ring-center">
+                    <strong className={!isPassed ? 'fail-color' : ''}>{score}</strong>
+                    <span>trên 10</span>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="result-stats-grid">
-              <div className="result-card success">
-                <span>Số câu đúng / tổng</span>
-                <strong>
-                  {correctCount}/{totalQuestions}
-                </strong>
-              </div>
-              <div className="result-card danger">
-                <span>Số câu sai</span>
-                <strong>{wrongCount}</strong>
-              </div>
-              <div className="result-card info">
-                <span>Thời gian làm bài</span>
-                <strong>{examResult.durationMinutes} phút</strong>
-              </div>
-              <div className="result-card neutral">
-                <span>Câu bỏ trống</span>
-                <strong>{unansweredCount}</strong>
+              {/* Stats Grid */}
+              <div className="result-stats-grid">
+                <div className="result-stat-item">
+                  <div className="stat-label success">
+                    <span className="stat-dot"></span>
+                    SỐ CÂU ĐÚNG
+                  </div>
+                  <div className="stat-value">{correctCount}</div>
+                </div>
+                <div className="result-stat-item">
+                  <div className="stat-label danger">
+                    <span className="stat-dot"></span>
+                    SỐ CÂU SAI
+                  </div>
+                  <div className="stat-value">{wrongCount}</div>
+                </div>
+                <div className="result-stat-item">
+                  <div className="stat-label info">
+                    <ion-icon name="time-outline"></ion-icon>
+                    THỜI GIAN LÀM BÀI
+                  </div>
+                  <div className="stat-value">
+                    {examResult.durationMinutes}
+                    <small>phút</small>
+                  </div>
+                </div>
+                <div className="result-stat-item">
+                  <div className="stat-label neutral">
+                    <ion-icon name="list-outline"></ion-icon>
+                    TỔNG SỐ CÂU
+                  </div>
+                  <div className="stat-value">{totalQuestions}</div>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section className="result-analytics">
-          <h2>Thống kê</h2>
-
-          <div className="analytics-item">
-            <div className="analytics-label">
-              <span>Tỷ lệ đúng</span>
-              <strong>{accuracy}%</strong>
-            </div>
-            <div className="progress-track">
-              <div className="progress-fill success" style={{ width: `${accuracy}%` }} />
-            </div>
-          </div>
-
-          <div className="analytics-item">
-            <div className="analytics-label">
-              <span>Tỷ lệ sai</span>
-              <strong>{wrongRate}%</strong>
-            </div>
-            <div className="progress-track">
-              <div className="progress-fill danger" style={{ width: `${wrongRate}%` }} />
-            </div>
-          </div>
-
-          <div className="analytics-item">
-            <div className="analytics-label">
-              <span>Tỷ lệ bỏ trống</span>
-              <strong>{emptyRate}%</strong>
-            </div>
-            <div className="progress-track">
-              <div className="progress-fill neutral" style={{ width: `${emptyRate}%` }} />
-            </div>
-          </div>
-
-          <div className="analytics-row">
-            <div>
-              <span>Điểm tối thiểu để đạt</span>
-              <strong>{examResult.passScore}/10</strong>
-            </div>
-            <div>
-              <span>Tỷ lệ đã trả lời</span>
-              <strong>{((answeredCount / totalQuestions) * 100).toFixed(1)}%</strong>
-            </div>
-          </div>
-
-          <h3>Hiệu quả theo chủ đề</h3>
-          <div className="topic-list">
-            {topicStats.map((topic) => (
-              <div key={topic.topic} className="topic-item">
-                <div className="topic-head">
-                  <span>{topic.topic}</span>
-                  <strong>
-                    {topic.correct}/{topic.total} ({topic.accuracy}%)
-                  </strong>
-                </div>
-                <div className="progress-track">
-                  <div className="progress-fill info" style={{ width: `${topic.accuracy}%` }} />
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
+        {/* Review Section */}
         <section className="result-review">
-          <h2>Xem lại bài làm chi tiết</h2>
+          <div className="review-header">
+            <h2>XEM LẠI BÀI LÀM</h2>
+            <div className="review-legend">
+              <div className="review-legend-item">
+                <span className="review-legend-dot correct"></span>
+                <span>Đúng</span>
+              </div>
+              <div className="review-legend-item">
+                <span className="review-legend-dot wrong"></span>
+                <span>Sai</span>
+              </div>
+            </div>
+          </div>
+
           {examResult.questions.map((question) => {
-            const isCorrect = question.selectedAnswer === question.correctAnswer;
+            const hasAnswer = question.selectedAnswer && question.selectedAnswer !== '';
+            const isCorrect = hasAnswer && question.selectedAnswer === question.correctAnswer;
+            const status = isCorrect ? 'correct' : 'wrong';
+
             return (
-              <article
-                key={question.id}
-                className={`review-question ${
-                  !question.selectedAnswer ? 'empty' : isCorrect ? 'correct' : 'wrong'
-                }`}
-              >
+              <article key={question.id} className={`review-question ${status}`}>
                 <header>
-                  <span>Câu {question.id}</span>
-                  <strong>{!question.selectedAnswer ? 'Bỏ trống' : isCorrect ? 'Đúng' : 'Sai'}</strong>
+                  <span className="question-label">Câu hỏi {question.id}</span>
+                  <span className="review-status-icon">
+                    {isCorrect ? '✓' : '✕'}
+                  </span>
                 </header>
                 <p className="review-text">{question.text}</p>
                 <div className="review-options">
                   {question.options.map((option) => {
-                    const isSelected = option === question.selectedAnswer;
+                    const isSelected = hasAnswer && option === question.selectedAnswer;
                     const isAnswer = option === question.correctAnswer;
+
+                    // Determine option style class
+                    let optionClass = 'review-option';
+                    if (isSelected && isCorrect) {
+                      optionClass += ' user-correct';
+                    } else if (isSelected && !isCorrect) {
+                      optionClass += ' user-wrong';
+                    } else if (isAnswer && !isCorrect) {
+                      optionClass += ' correct-answer';
+                    }
+
+                    // Determine radio style
+                    let radioClass = 'review-radio';
+                    if (isSelected && isCorrect) {
+                      radioClass += ' filled correct-radio';
+                    } else if (isSelected && !isCorrect) {
+                      radioClass += ' filled wrong-radio';
+                    } else if (isAnswer && !isCorrect) {
+                      radioClass += ' filled correct-radio';
+                    }
+
+                    // Determine badge text
+                    let badge = null;
+                    if (isSelected && isCorrect) {
+                      badge = (
+                        <span className="review-option-badge">
+                          <ion-icon name="checkmark-outline"></ion-icon>
+                          ĐÁP ÁN CỦA BẠN
+                        </span>
+                      );
+                    } else if (isSelected && !isCorrect) {
+                      badge = (
+                        <span className="review-option-badge">
+                          <ion-icon name="close-outline"></ion-icon>
+                          ĐÁP ÁN CỦA BẠN
+                        </span>
+                      );
+                    } else if (isAnswer && !isCorrect) {
+                      badge = (
+                        <span className="review-option-badge">
+                          <ion-icon name="checkmark-outline"></ion-icon>
+                          ĐÁP ÁN ĐÚNG
+                        </span>
+                      );
+                    }
+
                     return (
-                      <div
-                        key={`${question.id}-${option}`}
-                        className={`review-option ${isAnswer ? 'answer' : isSelected ? 'selected' : ''}`}
-                      >
-                        <span>{option}</span>
-                        <small>{isAnswer ? 'Đáp án đúng' : isSelected ? 'Bạn đã chọn' : ''}</small>
+                      <div key={`${question.id}-${option}`} className={optionClass}>
+                        <div className="review-option-left">
+                          <span className={radioClass}>
+                            {radioClass.includes('filled') && (
+                              <ion-icon name={radioClass.includes('wrong') ? 'close' : 'checkmark'}></ion-icon>
+                            )}
+                          </span>
+                          <span className="review-option-text">{option}</span>
+                        </div>
+                        {badge}
                       </div>
                     );
                   })}
                 </div>
-                {question.explanation && (
-                  <div className="review-explanation">
-                    <span>Giải thích</span>
-                    <p>{question.explanation}</p>
-                  </div>
-                )}
               </article>
             );
           })}

@@ -1,56 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { EXAMS_BY_ID } from '../../data/examQuestionsData';
+import { getCurrentUser } from '../../utils/auth';
 import './Exam.css';
 
 const Exam = () => {
-  // Mock questions data - detailed for first 2, dummy for rest
-  const [questions] = useState([
-    {
-      id: 1,
-      text: 'In Java, which of the following keywords is used to prevent a method from being overridden by a subclass?',
-      options: [
-        { label: 'A', text: 'static' },
-        { label: 'B', text: 'const' },
-        { label: 'C', text: 'final' },
-        { label: 'D', text: 'abstract' }
-      ]
-    },
-    {
-      id: 2,
-      text: 'What is the main principle of Object-Oriented Programming that allows a subclass to provide a specific implementation of a method already defined in its superclass?',
-      options: [
-        { label: 'A', text: 'Encapsulation' },
-        { label: 'B', text: 'Polymorphism' },
-        { label: 'C', text: 'Inheritance' },
-        { label: 'D', text: 'Abstraction' }
-      ]
-    },
-    ...Array.from({ length: 28 }, (_, i) => ({
-      id: i + 3,
-      text: `Câu hỏi ${i + 3}: Lorem ipsum dolor sit amet, consectetur adipiscing elit?`,
-      options: [
-        { label: 'A', text: 'Đáp án A' },
-        { label: 'B', text: 'Đáp án B' },
-        { label: 'C', text: 'Đáp án C' },
-        { label: 'D', text: 'Đáp án D' }
-      ]
-    }))
-  ]);
+  const { examId } = useParams();
+  const navigate = useNavigate();
+  const user = getCurrentUser();
 
-  const [currentIndex, setCurrentIndex] = useState(4); // Starting at question 5 (index 4)
-  const [answers, setAnswers] = useState({
-    0: 'C',
-    1: 'A',
-    2: 'B',
-    3: 'D'
-  }); // Mock some answered questions
-  const [flagged, setFlagged] = useState(new Set([2])); // Question 3 (index 2) is flagged
-  const [timeLeft, setTimeLeft] = useState(90 * 60); // 90 minutes in seconds (01:30:00)
+  const examData = EXAMS_BY_ID[examId];
+
+  const [questions] = useState(examData ? examData.questions : []);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [flagged, setFlagged] = useState(new Set());
+  const [timeLeft, setTimeLeft] = useState(examData ? examData.duration * 60 : 0);
+  const [showSubmitModal, setShowSubmitModal] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  // Submit handler
+  const handleSubmit = useCallback(() => {
+    if (isSubmitted) return;
+    setIsSubmitted(true);
+
+    // Build result data matching studentExamResultData format
+    const resultData = {
+      examName: examData.title,
+      examCode: examId.toUpperCase(),
+      studentName: user?.username ? user.username.charAt(0).toUpperCase() + user.username.slice(1) : 'Student',
+      studentCode: 'B20DCCN123',
+      submittedAt: new Date().toISOString(),
+      durationMinutes: Math.ceil((examData.duration * 60 - timeLeft) / 60),
+      passScore: 5,
+      questions: questions.map((q, i) => {
+        const selectedLabel = answers[i] || null;
+        const selectedOption = selectedLabel ? q.options.find(o => o.label === selectedLabel) : null;
+        const correctOption = q.options.find(o => o.label === q.correctAnswer);
+        return {
+          id: i + 1,
+          topic: examData.title.split(' - ')[0],
+          text: q.text,
+          options: q.options.map(o => o.text),
+          selectedAnswer: selectedOption ? selectedOption.text : '',
+          correctAnswer: correctOption ? correctOption.text : '',
+          explanation: '',
+        };
+      }),
+    };
+
+    // Store result in sessionStorage for Result page to consume
+    sessionStorage.setItem('lastExamResult', JSON.stringify(resultData));
+    navigate('/student/result');
+  }, [isSubmitted, examData, examId, user, timeLeft, questions, answers, navigate]);
 
   // Timer countdown effect
   useEffect(() => {
+    if (!examData || isSubmitted) return;
+
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
-        if (prevTime <= 0) {
+        if (prevTime <= 1) {
           clearInterval(timer);
           handleSubmit();
           return 0;
@@ -60,27 +70,23 @@ const Exam = () => {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [examData, isSubmitted, handleSubmit]);
 
   // Format time as HH:MM:SS
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    return `${String(hours).padStart(2, '0')} : ${String(minutes).padStart(2, '0')} : ${String(secs).padStart(2, '0')}`;
   };
 
   // Navigation handlers
   const handlePrevious = () => {
-    if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
-    }
+    if (currentIndex > 0) setCurrentIndex(currentIndex - 1);
   };
 
   const handleNext = () => {
-    if (currentIndex < questions.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-    }
+    if (currentIndex < questions.length - 1) setCurrentIndex(currentIndex + 1);
   };
 
   const handleJumpToQuestion = (index) => {
@@ -103,31 +109,43 @@ const Exam = () => {
     setFlagged(newFlagged);
   };
 
-  // Submit handler
-  const handleSubmit = () => {
-    const answeredCount = Object.keys(answers).length;
-    const confirmed = window.confirm(
-      `Bạn đã hoàn thành ${answeredCount}/${questions.length} câu hỏi.\nBạn có chắc chắn muốn nộp bài?`
-    );
-    if (confirmed) {
-      alert('Đã nộp bài thành công!');
-      // Here you would typically send the answers to the backend
-    }
-  };
-
   // Calculate progress
   const answeredCount = Object.keys(answers).length;
-  const progressPercentage = (answeredCount / questions.length) * 100;
+  const progressPercentage = questions.length ? (answeredCount / questions.length) * 100 : 0;
+  const unansweredCount = questions.length - answeredCount;
+  const flaggedCount = flagged.size;
 
   // Get question status for styling
   const getQuestionStatus = (index) => {
     if (index === currentIndex) return 'current';
+    if (flagged.has(index) && answers[index]) return 'answered flagged';
     if (answers[index]) return 'answered';
     if (flagged.has(index)) return 'flagged';
     return 'unanswered';
   };
 
+  // Handle not found
+  if (!examData) {
+    return (
+      <div className="exam-container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ textAlign: 'center' }}>
+          <h2>Không tìm thấy bài thi</h2>
+          <p>Bài thi bạn đang tìm không tồn tại.</p>
+          <button onClick={() => navigate('/student')} style={{ marginTop: '16px', padding: '10px 24px', cursor: 'pointer' }}>
+            Quay lại
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   const currentQuestion = questions[currentIndex];
+
+  // Timer warning colors
+  const totalSeconds = examData.duration * 60;
+  const timePercent = (timeLeft / totalSeconds) * 100;
+  const isTimeLow = timePercent <= 10;
+  const isTimeMed = timePercent <= 25 && !isTimeLow;
 
   return (
     <div className="exam-container">
@@ -140,14 +158,14 @@ const Exam = () => {
           <h1 className="exam-header-title">Hệ thống thi trực tuyến PTIT</h1>
         </div>
         <div className="exam-header-center">
-          <h2 className="exam-title">Thi giữa kỳ Lập trình hướng đối tượng</h2>
+          <h2 className="exam-title">{examData.title}</h2>
         </div>
         <div className="exam-header-right">
-          <div className="exam-timer">
+          <div className={`exam-timer${isTimeLow ? ' timer-danger' : isTimeMed ? ' timer-warning' : ''}`}>
             <span className="material-symbols-outlined">timer</span>
             <span className="timer-display">{formatTime(timeLeft)}</span>
           </div>
-          <button className="exam-submit-btn" onClick={handleSubmit}>
+          <button className="exam-submit-btn" onClick={() => setShowSubmitModal(true)}>
             Nộp bài
           </button>
         </div>
@@ -157,16 +175,16 @@ const Exam = () => {
         {/* Sidebar */}
         <aside className="exam-sidebar">
           <div className="sidebar-profile">
-            <div 
+            <div
               className="profile-avatar"
               style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuACWa1C7EZ7cdqZtutPr1BwnaOyPtPaCM1PnigzZVrR23Zs_WxNyweUvkl3UUlsiV09qoNsoM659MXQ1tcjQi3EJENqUL-QmSOMhVDAqCudKSdY_CxgKohzzI6PP8HmBljQzvmhrOIkQvDQiaWp9s7igOgFtJYT-Gnpv7sfMVOCQe_mdrxcjfmDf_me8HU3W-5JnyyqAuivxS2d6DTMKGJuTt7PNminRXUU-czPd3vno-3lVZ-AMap-3NWFn_Up-jkAK32tD6AmOoY")' }}
             ></div>
             <div className="profile-info">
-              <h3 className="profile-name">Jane Student</h3>
+              <h3 className="profile-name">{user?.username ? user.username.charAt(0).toUpperCase() + user.username.slice(1) : 'Student'}</h3>
               <p className="profile-code">Mã SV: B20DCCN123</p>
             </div>
           </div>
-          
+
           <div className="sidebar-progress">
             <div className="progress-header">
               <span>Tiến độ</span>
@@ -179,7 +197,7 @@ const Exam = () => {
 
           <div className="sidebar-questions">
             <h3 className="questions-title">DANH SÁCH CÂU HỎI</h3>
-            
+
             <div className="questions-legend">
               <div className="legend-item">
                 <span className="legend-icon answered"></span>
@@ -221,7 +239,7 @@ const Exam = () => {
           <div className="question-container">
             <div className="question-header">
               <h2 className="question-number-title">Câu hỏi {currentIndex + 1}</h2>
-              <button 
+              <button
                 className={`flag-btn ${flagged.has(currentIndex) ? 'flagged' : ''}`}
                 onClick={handleToggleFlag}
               >
@@ -254,7 +272,7 @@ const Exam = () => {
           </div>
 
           <div className="navigation-buttons">
-            <button 
+            <button
               className="nav-btn prev-btn"
               onClick={handlePrevious}
               disabled={currentIndex === 0}
@@ -262,7 +280,7 @@ const Exam = () => {
               <span className="material-symbols-outlined">arrow_back</span>
               Quay lại
             </button>
-            <button 
+            <button
               className="nav-btn next-btn"
               onClick={handleNext}
               disabled={currentIndex === questions.length - 1}
@@ -273,6 +291,54 @@ const Exam = () => {
           </div>
         </main>
       </div>
+
+      {/* Submit Confirmation Modal */}
+      {showSubmitModal && (
+        <div className="exam-modal-overlay" onClick={() => setShowSubmitModal(false)}>
+          <div className="exam-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="exam-modal-icon">
+              <span className="material-symbols-outlined">assignment_turned_in</span>
+            </div>
+            <h3>Xác nhận nộp bài</h3>
+
+            <div className="exam-modal-stats">
+              <div className="exam-modal-stat">
+                <span className="modal-stat-value answered-val">{answeredCount}</span>
+                <span className="modal-stat-label">Đã làm</span>
+              </div>
+              <div className="exam-modal-stat">
+                <span className="modal-stat-value unanswered-val">{unansweredCount}</span>
+                <span className="modal-stat-label">Chưa làm</span>
+              </div>
+              <div className="exam-modal-stat">
+                <span className="modal-stat-value flagged-val">{flaggedCount}</span>
+                <span className="modal-stat-label">Đánh dấu</span>
+              </div>
+            </div>
+
+            <p className="exam-modal-total">
+              Tổng: <strong>{answeredCount}/{questions.length}</strong> câu đã trả lời
+            </p>
+
+            {unansweredCount > 0 && (
+              <div className="exam-modal-warning">
+                <span className="material-symbols-outlined">warning</span>
+                <span>Bạn còn <strong>{unansweredCount} câu</strong> chưa trả lời. Bạn có chắc chắn muốn nộp?</span>
+              </div>
+            )}
+
+            <div className="exam-modal-actions">
+              <button className="exam-modal-cancel" onClick={() => setShowSubmitModal(false)}>
+                Tiếp tục làm bài
+              </button>
+              <button className="exam-modal-confirm" onClick={handleSubmit}>
+                <span className="material-symbols-outlined">send</span>
+                Nộp bài
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
