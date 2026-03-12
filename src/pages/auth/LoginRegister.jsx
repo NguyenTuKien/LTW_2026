@@ -213,7 +213,7 @@ function RegisterForm({ onSwitchToLogin }) {
             name="username"
             type="text"
             className={`auth-input${errors.username ? ' error' : ''}`}
-            placeholder="4–30 ký tự, chữ/số/gạch dưới"
+            placeholder="Nhập tên đăng nhập"
             value={form.username}
             onChange={handleChange}
             autoComplete="username"
@@ -234,7 +234,7 @@ function RegisterForm({ onSwitchToLogin }) {
             name="email"
             type="email"
             className={`auth-input${errors.email ? ' error' : ''}`}
-            placeholder="example@email.com"
+            placeholder="Nhập email"
             value={form.email}
             onChange={handleChange}
             autoComplete="email"
@@ -254,7 +254,7 @@ function RegisterForm({ onSwitchToLogin }) {
             name="password"
             type={showPassword ? 'text' : 'password'}
             className={`auth-input${errors.password ? ' error' : ''}`}
-            placeholder="Ít nhất 6 ký tự, gồm chữ và số"
+            placeholder="Nhập mật khẩu"
             value={form.password}
             onChange={handleChange}
             autoComplete="new-password"

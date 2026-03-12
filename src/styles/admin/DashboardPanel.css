@@ -373,6 +373,8 @@
   transition:
     box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.35s ease;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .dashboard-card:hover {
@@ -554,7 +556,7 @@
 .dashboard-management-grid {
   display: grid;
   gap: 1.5rem;
-  grid-template-columns: repeat(auto-fit, minmax(560px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(560px, 100%), 1fr));
 }
 
 .dashboard-bottom-grid {
@@ -575,6 +577,18 @@
 
 .dashboard-table-wrap {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 -0.25rem;
+  padding: 0 0.25rem;
+  /* Scroll hint shadow on right edge */
+  background:
+    linear-gradient(to right, #fff 30%, rgba(255,255,255,0)) left center,
+    linear-gradient(to left, #fff 30%, rgba(255,255,255,0)) right center,
+    radial-gradient(farthest-side at 0% 50%, rgba(0,0,0,.08), transparent) left center,
+    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.08), transparent) right center;
+  background-repeat: no-repeat;
+  background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+  background-attachment: local, local, scroll, scroll;
 }
 
 .dashboard-table {
@@ -874,6 +888,11 @@
   .dashboard-chart-card .dashboard-card-header > div h2 {
     font-size: 1.35rem;
   }
+
+  /* Management grid: single column on tablet */
+  .dashboard-management-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 767px) {
@@ -906,7 +925,23 @@
   }
 
   .dashboard-table {
-    min-width: 700px;
+    min-width: 560px;
+  }
+
+  .dashboard-table th,
+  .dashboard-table td {
+    padding: 0.6rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .dashboard-row-actions {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .dashboard-row-actions button {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
   }
 
   .dashboard-list-item {
@@ -918,6 +953,25 @@
     height: auto;
     padding-top: 0.35rem;
     padding-bottom: 0.35rem;
+  }
+
+  /* Card header buttons stack on mobile */
+  .dashboard-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .dashboard-card-header > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .dashboard-card-header .dashboard-btn {
+    font-size: 0.78rem;
+    padding: 0.4rem 0.75rem;
+    height: auto;
   }
 }
 
@@ -965,6 +1019,16 @@
 
   .dashboard-management-grid {
     grid-template-columns: 1fr;
+  }
+
+  .dashboard-table {
+    min-width: 480px;
+  }
+
+  .dashboard-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 
   .dashboard-modal {

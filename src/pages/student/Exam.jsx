@@ -21,6 +21,22 @@ const Exam = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mobileQuestionPopupOpen, setMobileQuestionPopupOpen] = useState(false);
 
+  // Viewport sync: ensure only one question list (sidebar OR popup) is visible
+  useEffect(() => {
+    const mql = window.matchMedia('(min-width: 1025px)');
+    const handleChange = (e) => {
+      if (e.matches) {
+        // Entering desktop
+        setMobileQuestionPopupOpen(false);
+      } else {
+        // Entering mobile/tablet
+        setSidebarOpen(false);
+      }
+    };
+    mql.addEventListener('change', handleChange);
+    return () => mql.removeEventListener('change', handleChange);
+  }, []);
+
   // Submit handler
   const handleSubmit = useCallback(() => {
     if (isSubmitted) return;
@@ -174,6 +190,10 @@ const Exam = () => {
             Nộp bài
           </button>
         </div>
+        <div className="exam-header-student-info">
+          <div className="student-info-name">{user?.username ? user.username.charAt(0).toUpperCase() + user.username.slice(1) : 'Student'}</div>
+          <div className="student-info-code">Mã SV: B20DCCN123</div>
+        </div>
       </header>
 
       <div className="exam-content">
@@ -277,12 +297,13 @@ const Exam = () => {
 
           <div className="exam-bottom-bar">
             <button
-              className="bottom-bar-arrow bottom-bar-prev"
+              className="bottom-bar-btn bottom-bar-prev"
               onClick={handlePrevious}
               disabled={currentIndex === 0}
               aria-label="Câu trước"
             >
               <span className="material-symbols-outlined">chevron_left</span>
+              <span className="bottom-bar-label">Quay lại</span>
             </button>
 
             <button
@@ -306,11 +327,12 @@ const Exam = () => {
             </button>
 
             <button
-              className="bottom-bar-arrow bottom-bar-next"
+              className="bottom-bar-btn bottom-bar-next"
               onClick={handleNext}
               disabled={currentIndex === questions.length - 1}
               aria-label="Câu tiếp theo"
             >
+              <span className="bottom-bar-label">Tiếp theo</span>
               <span className="material-symbols-outlined">chevron_right</span>
             </button>
           </div>

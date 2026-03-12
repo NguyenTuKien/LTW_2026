@@ -958,6 +958,19 @@
 /* ═══════════════════════════════════════════════════════
    Responsive
    ═══════════════════════════════════════════════════════ */
+
+/* ── Tablet (iPad) ──────────────────────────────────── */
+@media (max-width: 1024px) {
+  .exam-form-grid-double {
+    grid-template-columns: 1fr;
+  }
+
+  .exam-bank-card {
+    padding: 0.85rem 1rem;
+  }
+}
+
+/* ── Mobile ─────────────────────────────────────────── */
 @media (max-width: 767px) {
   .exam-form-container {
     padding: 1rem 0.75rem 5rem;
@@ -976,6 +989,95 @@
     border-radius: 10px;
   }
 
+  /* Tabs: scrollable on mobile */
+  .exam-tabs-list {
+    gap: 0.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.25rem;
+    flex-wrap: nowrap;
+  }
+
+  .exam-tab {
+    padding: 0.75rem 0.6rem 0.625rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .exam-tab-text {
+    font-size: 0.78rem;
+    gap: 0.35rem;
+  }
+
+  .exam-tab-text .material-symbols-outlined {
+    font-size: 1rem;
+  }
+
+  /* Form grid: single column */
+  .exam-form-grid-double {
+    grid-template-columns: 1fr;
+  }
+
+  /* Questions header: stack vertically */
+  .questions-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .questions-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .questions-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Question card */
+  .question-card {
+    padding: 1rem;
+  }
+
+  .question-header {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .question-text {
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Options */
+  .option-view {
+    padding: 0.75rem;
+  }
+
+  .option-text {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    margin-left: 0.5rem;
+    font-size: 0.88rem;
+  }
+
+  .option-check-icon {
+    right: 0.5rem;
+  }
+
+  /* Review info */
+  .review-info-label {
+    min-width: 120px;
+    font-size: 0.85rem;
+  }
+
+  .review-info-value {
+    font-size: 0.88rem;
+  }
+
+  /* Modals */
   .exam-modal {
     padding: 1.25rem;
   }
@@ -988,12 +1090,30 @@
     max-width: calc(100vw - 2rem);
   }
 
+  /* Bank import modal: card layout */
   .exam-bank-card {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.75rem;
   }
 
+  .exam-bank-card-info {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .exam-bank-card h4 {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+
+  .exam-bank-card .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Bottom action bar */
   .exam-action-bar {
     flex-direction: column;
     gap: 0.75rem;
@@ -1008,40 +1128,99 @@
   .exam-action-bar-right {
     width: 100%;
   }
-
-  .exam-form-grid-double {
-    grid-template-columns: 1fr;
-  }
-
-  .questions-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 
+/* ── Small mobile ───────────────────────────────────── */
 @media (max-width: 480px) {
+  .exam-form-container {
+    padding: 0.75rem 0.5rem 5rem;
+  }
+
   .exam-form-title {
-    font-size: 1.2rem;
+    font-size: 1.15rem;
   }
 
   .exam-content-card {
-    padding: 1rem;
+    padding: 0.85rem;
   }
 
   .question-card {
-    padding: 1rem;
+    padding: 0.85rem;
   }
 
+  /* Tabs: even more compact */
   .exam-tab {
-    padding: 0.75rem 0.5rem;
+    padding: 0.6rem 0.4rem;
   }
 
   .exam-tab-text {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
   }
 
+  /* Modal */
+  .exam-modal-bank-header h3 {
+    font-size: 1rem;
+  }
+
+  .exam-modal-bank-desc {
+    font-size: 0.82rem;
+  }
+
+  .exam-bank-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .exam-bank-icon .material-symbols-outlined {
+    font-size: 1.1rem;
+  }
+
+  .exam-bank-card h4 {
+    font-size: 0.85rem;
+  }
+
+  .exam-bank-meta {
+    font-size: 0.72rem;
+  }
+
+  /* Buttons */
+  .btn {
+    font-size: 0.8rem;
+    padding: 0.45rem 0.85rem;
+  }
+
+  .btn .material-symbols-outlined {
+    font-size: 1.1rem;
+  }
+
+  /* Row actions */
   .exam-row-actions {
     flex-direction: column;
     gap: 0.25rem;
   }
+
+  /* Question number & badge */
+  .question-number {
+    font-size: 1rem;
+  }
+
+  .question-badge {
+    font-size: 0.68rem;
+    padding: 0.2rem 0.4rem;
+  }
+
+  /* Review info compact */
+  .review-info-grid {
+    padding: 0.75rem 0.85rem;
+  }
+
+  .review-info-label {
+    min-width: 100px;
+    font-size: 0.8rem;
+  }
+
+  .review-info-value {
+    font-size: 0.82rem;
+  }
 }
+
