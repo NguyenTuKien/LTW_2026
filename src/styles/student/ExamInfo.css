@@ -698,7 +698,11 @@
     padding: 20px;
   }
   .ei-brand {
-    display: none;
+    font-size: 0.8rem;
+    max-width: 190px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
 
@@ -766,5 +770,15 @@
     width: 28px;
     height: 28px;
     font-size: 0.75rem;
+  }
+
+  .ei-brand {
+    max-width: 120px;
+    font-size: 0.74rem;
+  }
+
+  .ei-btn-back-header {
+    padding: 6px 10px;
+    font-size: 0.8rem;
   }
 }

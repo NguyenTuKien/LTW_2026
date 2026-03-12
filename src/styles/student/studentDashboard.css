@@ -940,16 +940,93 @@
 }
 
 @media (max-width: 768px) {
-  .sd-navbar-inner { padding: 0 16px; }
+  .sd-navbar-inner {
+    height: auto;
+    padding: 10px 16px;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .sd-navbar-brand {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .sd-brand-name {
+    font-size: 0.82rem;
+    white-space: normal;
+    line-height: 1.2;
+  }
+
+  .sd-navbar-right {
+    margin-left: auto;
+  }
+
+  .sd-nav-links {
+    order: 3;
+    width: 100%;
+    margin-left: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .sd-nav-link {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--sd-border);
+    background: var(--sd-white);
+    border-radius: 10px;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  .sd-nav-link::after {
+    display: none;
+  }
+
+  .sd-nav-link.active {
+    border-color: var(--sd-red);
+    background: var(--sd-red-light);
+  }
+
   .sd-main { padding: 20px 16px 40px; }
 
   .sd-stats { grid-template-columns: 1fr; }
   .sd-exams-grid { grid-template-columns: 1fr; }
 
-  .sd-nav-links { display: none; }
-
   .sd-filter-bar { flex-direction: column; align-items: stretch; }
-  .sd-filter-right { flex-wrap: wrap; }
+  .sd-filter-right {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .sd-category-tabs {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .sd-cat-btn {
+    white-space: nowrap;
+  }
+
+  .sd-status-dropdown {
+    width: 100%;
+  }
+
+  .sd-status-btn {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .sd-status-menu {
+    left: 0;
+    right: 0;
+    min-width: 0;
+  }
 
   .sd-welcome { flex-direction: column; align-items: flex-start; gap: 4px; }
 
@@ -979,13 +1056,26 @@
     font-size: 1.5rem;
   }
 
+  .sd-navbar-inner {
+    padding: 8px 12px;
+  }
+
+  .sd-brand-name {
+    font-size: 0.74rem;
+  }
+
+  .sd-nav-links {
+    gap: 6px;
+  }
+
   .sd-category-tabs {
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    padding: 3px;
   }
 
   .sd-cat-btn {
     font-size: 0.78rem;
-    padding: 5px 10px;
+    padding: 5px 9px;
   }
 
   .sd-status-btn {

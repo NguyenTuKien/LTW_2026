@@ -19,6 +19,7 @@ const Exam = () => {
   const [showSubmitModal, setShowSubmitModal] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [mobileQuestionPopupOpen, setMobileQuestionPopupOpen] = useState(false);
 
   // Submit handler
   const handleSubmit = useCallback(() => {
@@ -90,6 +91,7 @@ const Exam = () => {
   const handleJumpToQuestion = (index) => {
     setCurrentIndex(index);
     setSidebarOpen(false);
+    setMobileQuestionPopupOpen(false);
   };
 
   const handleAnswerSelect = (optionLabel) => {
@@ -112,10 +114,18 @@ const Exam = () => {
   const flaggedCount = flagged.size;
 
   const getQuestionStatus = (index) => {
-    if (index === currentIndex) return 'current';
-    if (flagged.has(index) && answers[index]) return 'answered flagged';
-    if (answers[index]) return 'answered';
-    if (flagged.has(index)) return 'flagged';
+    const isCurrent = index === currentIndex;
+    const isAnswered = Boolean(answers[index]);
+    const isFlagged = flagged.has(index);
+
+    if (isCurrent && isAnswered && isFlagged) return 'current answered flagged';
+    if (isCurrent && isAnswered) return 'current answered';
+    if (isCurrent && isFlagged) return 'current flagged';
+    if (isCurrent) return 'current';
+
+    if (isFlagged && isAnswered) return 'answered flagged';
+    if (isAnswered) return 'answered';
+    if (isFlagged) return 'flagged';
     return 'unanswered';
   };
 
@@ -265,26 +275,109 @@ const Exam = () => {
             </div>
           </div>
 
-          <div className="navigation-buttons">
+          <div className="exam-bottom-bar">
             <button
-              className="nav-btn prev-btn"
+              className="bottom-bar-arrow bottom-bar-prev"
               onClick={handlePrevious}
               disabled={currentIndex === 0}
+              aria-label="Câu trước"
             >
-              <span className="material-symbols-outlined">arrow_back</span>
-              Quay lại
+              <span className="material-symbols-outlined">chevron_left</span>
             </button>
+
             <button
-              className="nav-btn next-btn"
+              type="button"
+              className={`bottom-bar-progress${mobileQuestionPopupOpen ? ' active' : ''}`}
+              onClick={() => setMobileQuestionPopupOpen(true)}
+              aria-label="Mở danh sách câu hỏi"
+              aria-haspopup="dialog"
+              aria-expanded={mobileQuestionPopupOpen}
+            >
+              <span className="bottom-bar-progress-info">
+                <span className="bottom-bar-progress-label">
+                  <span className="material-symbols-outlined">check_circle</span>
+                  {answeredCount}/{questions.length}
+                </span>
+                <span className="bottom-bar-progress-current">Câu {currentIndex + 1}</span>
+              </span>
+              <span className="bottom-bar-progress-track" aria-hidden="true">
+                <span className="bottom-bar-progress-fill" style={{ width: `${progressPercentage}%` }}></span>
+              </span>
+            </button>
+
+            <button
+              className="bottom-bar-arrow bottom-bar-next"
               onClick={handleNext}
               disabled={currentIndex === questions.length - 1}
+              aria-label="Câu tiếp theo"
             >
-              Tiếp theo
-              <span className="material-symbols-outlined">arrow_forward</span>
+              <span className="material-symbols-outlined">chevron_right</span>
             </button>
           </div>
         </main>
       </div>
+
+      {mobileQuestionPopupOpen && (
+        <div className="exam-question-popup-overlay" onClick={() => setMobileQuestionPopupOpen(false)}>
+          <div className="exam-question-popup" onClick={(e) => e.stopPropagation()}>
+            <div className="exam-question-popup-header">
+              <h3>Danh sách câu hỏi</h3>
+              <button
+                type="button"
+                className="exam-question-popup-close"
+                onClick={() => setMobileQuestionPopupOpen(false)}
+                aria-label="Đóng danh sách câu hỏi"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            </div>
+
+            <div className="exam-question-popup-progress">
+              <div className="progress-header">
+                <span>Tiến độ</span>
+                <span className="progress-count">Câu hỏi {answeredCount} / {questions.length}</span>
+              </div>
+              <div className="progress-bar">
+                <div className="progress-bar-fill" style={{ width: `${progressPercentage}%` }}></div>
+              </div>
+            </div>
+
+            <div className="questions-legend">
+              <div className="legend-item">
+                <span className="legend-icon answered"></span>
+                <span>Đã làm</span>
+              </div>
+              <div className="legend-item">
+                <span className="legend-icon flagged"></span>
+                <span>Đã đánh dấu</span>
+              </div>
+              <div className="legend-item">
+                <span className="legend-icon current"></span>
+                <span>Đang chọn</span>
+              </div>
+              <div className="legend-item">
+                <span className="legend-icon unanswered"></span>
+                <span>Chưa làm</span>
+              </div>
+            </div>
+
+            <div className="questions-grid exam-question-popup-grid">
+              {questions.map((_, index) => (
+                <button
+                  key={index}
+                  className={`question-number ${getQuestionStatus(index)}`}
+                  onClick={() => handleJumpToQuestion(index)}
+                >
+                  {index + 1}
+                  {flagged.has(index) && (
+                    <span className="flag-icon material-symbols-outlined">flag</span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {showSubmitModal && (
         <div className="exam-modal-overlay" onClick={() => setShowSubmitModal(false)}>
