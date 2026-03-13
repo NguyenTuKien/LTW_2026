@@ -20,7 +20,7 @@ services:
   
   backend:
     build: ./backend
-    image: ${DOCKER_REGISTRY:-ngtukien218}/unipoint-backend:${TAG:-latest}
+    image: ${DOCKER_REGISTRY:-ngtukien218}/ltw-backend:${TAG:-latest}
     restart: always
     # ports:
     #   - "8080:8080"
@@ -44,7 +44,7 @@ services:
 
   frontend:
     build: ./frontend
-    image: ${DOCKER_REGISTRY:-ngtukien218}/unipoint-frontend:${TAG:-latest}
+    image: ${DOCKER_REGISTRY:-ngtukien218}/ltw-frontend:${TAG:-latest}
     restart: always
     ports:
       - "80:80"
