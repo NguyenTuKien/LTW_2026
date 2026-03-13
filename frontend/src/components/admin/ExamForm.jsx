@@ -686,14 +686,17 @@ const ExamForm = () => {
                     <div className={`exam-bank-icon accent-${idx % 3}`}>
                       <span className="material-symbols-outlined">quiz</span>
                     </div>
-                    <div>
+                    <div className="exam-bank-card-text">
                       <h4>{bankExam.title}</h4>
                       <span className="exam-bank-meta">
                         {bankExam.questions.length} câu hỏi • {bankExam.duration} phút
                       </span>
                     </div>
                   </div>
-                  <button className="btn btn-primary-light" onClick={() => importFromBank(bankExam)}>
+                  <button
+                    className="btn btn-primary-light exam-bank-import-btn"
+                    onClick={() => importFromBank(bankExam)}
+                  >
                     <span className="material-symbols-outlined">add</span>
                     Nhập
                   </button>
