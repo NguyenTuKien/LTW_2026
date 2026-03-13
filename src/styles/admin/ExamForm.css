@@ -886,7 +886,11 @@
 
 /* Bank Import Modal (wider) */
 .exam-modal-bank {
+  display: flex;
+  flex-direction: column;
   max-width: 640px;
+  max-height: min(720px, calc(100vh - 2rem));
+  overflow: hidden;
 }
 .exam-modal-bank-header {
   display: flex;
@@ -910,10 +914,14 @@
   display: flex;
   flex-direction: column;
   gap: .75rem;
+  min-height: 0;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: .25rem;
 }
 .exam-bank-card {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
   padding: 1rem 1.15rem;
   background: #f8fafc;
@@ -932,6 +940,10 @@
   gap: .85rem;
   min-width: 0;
 }
+.exam-bank-card-text {
+  min-width: 0;
+  flex: 1;
+}
 .exam-bank-icon {
   width: 42px; height: 42px;
   display: flex; align-items: center; justify-content: center;
@@ -946,13 +958,19 @@
   font-size: .92rem;
   font-weight: 600;
   color: #1e293b;
-  white-space: nowrap;
+  white-space: normal;
   overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .exam-bank-meta {
+  display: inline-block;
   font-size: .78rem;
   color: #94a3b8;
+}
+.exam-bank-import-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 /* ═══════════════════════════════════════════════════════
@@ -1092,8 +1110,8 @@
 
   /* Bank import modal: card layout */
   .exam-bank-card {
-    flex-direction: column;
-    align-items: flex-start;
+    grid-template-columns: 1fr;
+    align-items: stretch;
     gap: 0.75rem;
   }
 
